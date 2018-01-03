@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="yfiles-for-javafx">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/yfiles-for-javafx.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
