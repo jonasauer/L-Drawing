@@ -8,8 +8,6 @@ import main.java.decomposition.graph.Edge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.graph.MultiGraph;
 import main.java.decomposition.graph.abs.AbstractEdge;
-import main.java.decomposition.graph.abs.IEdge;
-import main.java.decomposition.hyperGraph.IVertex;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
@@ -252,17 +250,12 @@ public class TCTreeTest{
         g.addEdge(t4, t8);
         g.addEdge(t8, t9);
         g.addEdge(t9, t5);
-        DirectedEdge backEdge = g.addEdge(t5, t1);
+        DirectedEdge backEdge = g.addEdge(t1, t5);
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<DirectedEdge, Vertex>(g, backEdge);
 
         TCTreeNode root = tctree.getRoot();
         dfs(tctree, root);
-
-        for(Object e : tctree.getChildren(tctree.getRoot())) {
-            TCTreeNode node = (TCTreeNode)e;
-            System.out.println(node.getType());
-        }
 
 
     }
@@ -271,9 +264,34 @@ public class TCTreeTest{
 
     private static void dfs(TCTree tcTree, TCTreeNode node){
         dfsDepth++;
+
         for(int i = 0; i < dfsDepth; i++)
             System.out.print("    ");
         System.out.println(node.getType() +  "    Skeleton: " + node.getSkeleton());
+
+
+        if(node.getSkeleton().getVirtualEdges().iterator().hasNext()) {
+            for(int i = 0; i < dfsDepth; i++)
+                System.out.print("    ");
+            System.out.print(" AbstractEdges:     ");
+            for(Object o : node.getSkeleton().getVirtualEdges()){
+                AbstractEdge e = (AbstractEdge)o;
+                System.out.print("" + e + "  ");
+            }
+            System.out.println();
+        }
+
+        if(node.getSkeleton().getOriginalEdges().iterator().hasNext()) {
+            for(int i = 0; i < dfsDepth; i++)
+                System.out.print("    ");
+            System.out.print(" OriginalEdges:     ");
+            for(Object o : node.getSkeleton().getOriginalEdges()){
+                DirectedEdge e = (DirectedEdge) o;
+                System.out.print("" + e + "  ");
+            }
+            System.out.println();
+        }
+
         for(Object o : tcTree.getChildren(node)){
             TCTreeNode n = (TCTreeNode)o;
             dfs(tcTree, n);
@@ -285,7 +303,8 @@ public class TCTreeTest{
 
 
     public static void main(String [] args){
-        /*System.out.println("Test WSFM");
+        /*
+        System.out.println("Test WSFM");
         testWSFM();
         System.out.println("Test Null");
         testNULL();
