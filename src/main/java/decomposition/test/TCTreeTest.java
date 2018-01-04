@@ -12,6 +12,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.decomposition.spqrTree.TCTree;
+import main.java.typeDetermination.PertinentGraphHelper;
 
 public class TCTreeTest{
 
@@ -252,12 +253,10 @@ public class TCTreeTest{
         g.addEdge(t9, t5);
         DirectedEdge backEdge = g.addEdge(t1, t5);
 
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<DirectedEdge, Vertex>(g, backEdge);
+        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(g, backEdge);
 
         TCTreeNode root = tctree.getRoot();
         dfs(tctree, root);
-
-
     }
 
     private static int dfsDepth = -1;
