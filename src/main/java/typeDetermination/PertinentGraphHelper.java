@@ -12,14 +12,18 @@ import java.util.*;
 public class PertinentGraphHelper {
 
     private TCTree<DirectedEdge, Vertex> tcTree;
-
-    private List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = new ArrayList<>();
-    private Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = new HashMap<>();
+    private List<TCTreeNode<DirectedEdge, Vertex>> postOrderList;
+    private Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs;
 
     public PertinentGraphHelper(TCTree<DirectedEdge, Vertex> tcTree){
         this.tcTree = tcTree;
-        TCTreeNode<DirectedEdge, Vertex> root = tcTree.getRoot();
+        this.postOrderList = new ArrayList<>();
+        this.pertinentGraphs = new HashMap<>();
 
+        if(tcTree.getTCTreeNodes().size() <= 0)
+            return;
+
+        TCTreeNode<DirectedEdge, Vertex> root = tcTree.getRoot();
         postOrderNodes(root);
 
         for(TCTreeNode<DirectedEdge, Vertex> tcTreeNode : postOrderList)

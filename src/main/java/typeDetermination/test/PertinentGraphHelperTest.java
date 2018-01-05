@@ -6,14 +6,72 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.typeDetermination.PertinentGraphHelper;
-import main.java.typeDetermination.SourceSinkHelper;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
 
 public class PertinentGraphHelperTest {
 
-    public static void main(String[] args){
+    private MultiDirectedGraph simpleGraph;
+    private DirectedEdge simpleGraphBackEdge;
+
+    @Before
+    public void simpleGraphSetup(){
+
+        //		  --- t3 --- t4 ---
+        //		  |				  |
+        // t1 -- s2 ------------ j5 -- t9
+        //	.	  |				  |		.
+        //	.	  |_ s6 ---- j7 __|		.
+        // 	.		  |_ t8 _|			.
+        //	.............................
+
+        simpleGraph = new MultiDirectedGraph();
+
+        Vertex t1 = new Vertex("1");
+        Vertex t3 = new Vertex("3");
+        Vertex t4 = new Vertex("4");
+        Vertex t8 = new Vertex("8");
+        Vertex t9 = new Vertex("9");
+
+        Vertex s2 = new Vertex("2");
+        Vertex s6 = new Vertex("6");
+        Vertex j7 = new Vertex("7");
+        Vertex j5 = new Vertex("5");
+
+        simpleGraph.addEdge(t1, s2);
+        simpleGraph.addEdge(s2, t3);
+        simpleGraph.addEdge(s2, s6);
+        simpleGraph.addEdge(s2, j5);
+        simpleGraph.addEdge(t3, t4);
+        simpleGraph.addEdge(t4, j5);
+        simpleGraph.addEdge(s6, j7);
+        simpleGraph.addEdge(s6, t8);
+        simpleGraph.addEdge(t8, j7);
+        simpleGraph.addEdge(j7, j5);
+        simpleGraph.addEdge(j5, t9);
+        simpleGraphBackEdge = simpleGraph.addEdge(t9, t1);
+    }
+
+    @Test
+    public void testSimpleGraph(){
+
+        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
+        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
+
+
+    }
+
+
+
+
+
+    public void printPertinentGraphsAndSkeletons(){
+
+        simpleGraphSetup();
+
         //		  --- t2 --- t3 ---
         //		  |				  |
         //  t1 -- t6 ------------ t9 -- t5
@@ -22,33 +80,7 @@ public class PertinentGraphHelperTest {
         // 	.		  |_ t4 _|			.
         //	.............................
 
-        MultiDirectedGraph g = new MultiDirectedGraph();
-
-        Vertex t1 = new Vertex("t1");
-        Vertex t2 = new Vertex("t2");
-        Vertex t3 = new Vertex("t3");
-        Vertex t4 = new Vertex("t4");
-        Vertex t5 = new Vertex("t5");
-
-        Vertex t6 = new Vertex("t6");
-        Vertex t7 = new Vertex("t7");
-        Vertex t8 = new Vertex("t8");
-        Vertex t9 = new Vertex("t9");
-
-        g.addEdge(t1, t6);
-        g.addEdge(t6, t2);
-        g.addEdge(t6, t7);
-        g.addEdge(t6, t9);
-        g.addEdge(t2, t3);
-        g.addEdge(t3, t9);
-        g.addEdge(t7, t8);
-        g.addEdge(t7, t4);
-        g.addEdge(t4, t8);
-        g.addEdge(t8, t9);
-        g.addEdge(t9, t5);
-        DirectedEdge backEdge = g.addEdge(t1, t5);
-
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(g, backEdge);
+        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
 
         PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
         List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = pertinentGraphHelper.getPostOrderList();
@@ -57,9 +89,8 @@ public class PertinentGraphHelperTest {
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 
             System.out.println(node.getType());
-            System.out.println("    " + node.getSkeleton());
-            System.out.println("    " + pertinentGraphs.get(node));
+            System.out.println("    Skeleton: " + node.getSkeleton().toString().replace("-", "->"));
+            System.out.println("    Pert    : " + pertinentGraphs.get(node));
         }
-        new SourceSinkHelper(tctree, pertinentGraphHelper);
     }
 }
