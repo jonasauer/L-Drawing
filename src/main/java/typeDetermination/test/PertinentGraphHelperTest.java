@@ -6,6 +6,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.typeDetermination.PertinentGraphHelper;
+import main.java.typeDetermination.SourceSinkHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -49,9 +50,9 @@ public class PertinentGraphHelperTest {
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(g, backEdge);
 
-        PertinentGraphHelper helper = new PertinentGraphHelper(tctree);
-        List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = helper.getPostOrderList();
-        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = helper.getPertinentGraphs();
+        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
+        List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = pertinentGraphHelper.getPostOrderList();
+        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 
@@ -59,5 +60,6 @@ public class PertinentGraphHelperTest {
             System.out.println("    " + node.getSkeleton());
             System.out.println("    " + pertinentGraphs.get(node));
         }
+        new SourceSinkHelper(tctree, pertinentGraphHelper);
     }
 }
