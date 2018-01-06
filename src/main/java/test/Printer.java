@@ -1,4 +1,4 @@
-package main.java.typeDetermination.test;
+package main.java.test;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;

@@ -1,4 +1,4 @@
-package main.java.typeDetermination.test;
+package main.java.test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,6 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.Edge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.graph.MultiGraph;
-import main.java.decomposition.graph.abs.AbstractEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;

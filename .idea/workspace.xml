@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/decomposition/test/TCTreeTest.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/test/TCTreeTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/PertinentGraphHelper.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/PertinentGraphHelper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/SourceSinkHelper.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SourceSinkHelper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/SuccessorPathType.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SuccessorPathType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/PertinentGraphHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/test/PertinentGraphHelperTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/SourceSinkHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/test/SourceSinkHelperTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/PertinentGraphHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/PertinentGraphHelperTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/Printer.java" afterPath="$PROJECT_DIR$/src/main/java/test/Printer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/SourceSinkHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/SourceSinkHelperTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/test/TCTreeTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/TCTreeTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,14 +18,14 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Printer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/Printer.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/test/Printer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="493">
               <caret line="135" column="16" lean-forward="true" selection-start-line="135" selection-start-column="16" selection-end-line="135" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5157#5158#0" expanded="true" />
-                <element signature="e#5192#5193#0" expanded="true" />
+                <element signature="e#5139#5140#0" expanded="true" />
+                <element signature="e#5174#5175#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -268,6 +265,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="L-Drawing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="L-Drawing" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="typeDetermination" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -328,15 +333,15 @@
     <configuration name="PertinentGraphHelperTest.testSimpleGraph" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="main.java.typeDetermination.test.*" />
+          <option name="PATTERN" value="main.java.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="L-Drawing" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="main.java.typeDetermination.test" />
-      <option name="MAIN_CLASS_NAME" value="main.java.typeDetermination.test.PertinentGraphHelperTest" />
+      <option name="PACKAGE_NAME" value="main.java.test" />
+      <option name="MAIN_CLASS_NAME" value="main.java.test.PertinentGraphHelperTest" />
       <option name="METHOD_NAME" value="testSimpleGraph" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -353,11 +358,11 @@
     <configuration name="Printer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="main.java.typeDetermination.test.*" />
+          <option name="PATTERN" value="main.java.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="main.java.typeDetermination.test.Printer" />
+      <option name="MAIN_CLASS_NAME" value="main.java.test.Printer" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -372,15 +377,15 @@
     <configuration name="SourceSinkHelperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="main.java.typeDetermination.test.*" />
+          <option name="PATTERN" value="main.java.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="L-Drawing" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="main.java.typeDetermination.test" />
-      <option name="MAIN_CLASS_NAME" value="main.java.typeDetermination.test.SourceSinkHelperTest" />
+      <option name="PACKAGE_NAME" value="main.java.test" />
+      <option name="MAIN_CLASS_NAME" value="main.java.test.SourceSinkHelperTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -397,15 +402,15 @@
     <configuration name="TCTreeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="main.java.typeDetermination.test.*" />
+          <option name="PATTERN" value="main.java.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="L-Drawing" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="main.java.typeDetermination.test" />
-      <option name="MAIN_CLASS_NAME" value="main.java.typeDetermination.test.TCTreeTest" />
+      <option name="PACKAGE_NAME" value="main.java.test" />
+      <option name="MAIN_CLASS_NAME" value="main.java.test.TCTreeTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -422,15 +427,15 @@
     <configuration name="TCTreeTest.testSimpleGraph" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="main.java.typeDetermination.test.*" />
+          <option name="PATTERN" value="main.java.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="L-Drawing" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="main.java.typeDetermination.test" />
-      <option name="MAIN_CLASS_NAME" value="main.java.typeDetermination.test.TCTreeTest" />
+      <option name="PACKAGE_NAME" value="main.java.test" />
+      <option name="MAIN_CLASS_NAME" value="main.java.test.TCTreeTest" />
       <option name="METHOD_NAME" value="testSimpleGraph" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -558,7 +563,7 @@
       <workItem from="1515103996581" duration="2218000" />
       <workItem from="1515144992565" duration="9207000" />
       <workItem from="1515174907954" duration="4240000" />
-      <workItem from="1515271996711" duration="5522000" />
+      <workItem from="1515271996711" duration="5691000" />
     </task>
     <servers />
   </component>
@@ -595,7 +600,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30120000" />
+    <option name="totallyTimeSpent" value="30289000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -682,7 +687,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/TCTreeTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/TCTreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -822,7 +827,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/TCTreeTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/TCTreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
           <caret line="301" column="8" lean-forward="true" selection-start-line="301" selection-start-column="8" selection-end-line="301" selection-end-column="8" />
@@ -948,7 +953,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/SourceSinkHelperTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/SourceSinkHelperTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="873">
           <caret line="68" column="22" lean-forward="false" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="22" />
@@ -958,7 +963,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/PertinentGraphHelperTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/PertinentGraphHelperTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="67" column="5" lean-forward="false" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
@@ -968,7 +973,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/TCTreeTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/TCTreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="29" column="45" lean-forward="false" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
@@ -996,14 +1001,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/test/Printer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/Printer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="135" column="16" lean-forward="true" selection-start-line="135" selection-start-column="16" selection-end-line="135" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5157#5158#0" expanded="true" />
-            <element signature="e#5192#5193#0" expanded="true" />
+            <element signature="e#5139#5140#0" expanded="true" />
+            <element signature="e#5174#5175#0" expanded="true" />
           </folding>
         </state>
       </provider>
