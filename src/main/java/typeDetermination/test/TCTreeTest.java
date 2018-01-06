@@ -1,4 +1,4 @@
-package main.java.decomposition.test;
+package main.java.typeDetermination.test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,8 +28,6 @@ public class TCTreeTest {
 
     private MultiDirectedGraph simpleGraph;
     private DirectedEdge simpleGraphBackEdge;
-
-    private static int dfsDepth = -1;
 
     @Before
     public void WSFM10Setup(){
@@ -229,61 +227,5 @@ public class TCTreeTest {
         assertTrue(2  == tctree.getTCTreeNodes(TCTreeNodeType.TYPE_P).size());
         assertTrue(0  == tctree.getTCTreeNodes(TCTreeNodeType.TYPE_R).size());
         assertTrue(4  == tctree.getTCTreeNodes(TCTreeNodeType.TYPE_S).size());
-    }
-
-
-    private void printTreePreOrder(){
-
-        simpleGraphSetup();
-
-        //		  --- t2 --- t3 ---
-        //		  |				  |
-        //  t1 -- t6 ------------ t9 -- t5
-        //	.	  |				  |		.
-        //	.	  |_ t7 ---- t8 __|		.
-        // 	.		  |_ t4 _|			.
-        //	.............................
-
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
-
-        TCTreeNode root = tctree.getRoot();
-        dfs(tctree, root);
-    }
-
-    private static void dfs(TCTree tcTree, TCTreeNode node){
-        dfsDepth++;
-
-        for(int i = 0; i < dfsDepth; i++)
-            System.out.print("    ");
-        System.out.println(node.getType() +  "    Skeleton: " + node.getSkeleton().toString().replace(",", "").replace("-", "->"));
-
-
-        if(node.getSkeleton().getVirtualEdges().iterator().hasNext()) {
-            for(int i = 0; i < dfsDepth; i++)
-                System.out.print("    ");
-            System.out.print(" AbstractEdges:     ");
-            for(Object o : node.getSkeleton().getVirtualEdges()){
-                AbstractEdge e = (AbstractEdge)o;
-                System.out.print(e.toString().replace("-", "->") + " ");
-            }
-            System.out.println();
-        }
-
-        if(node.getSkeleton().getOriginalEdges().iterator().hasNext()) {
-            for(int i = 0; i < dfsDepth; i++)
-                System.out.print("    ");
-            System.out.print(" OriginalEdges:     ");
-            for(Object o : node.getSkeleton().getOriginalEdges()){
-                DirectedEdge e = (DirectedEdge) o;
-                System.out.print(e + " ");
-            }
-            System.out.println();
-        }
-
-        for(Object o : tcTree.getChildren(node)){
-            TCTreeNode n = (TCTreeNode)o;
-            dfs(tcTree, n);
-        }
-        dfsDepth--;
     }
 }

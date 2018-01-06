@@ -5,13 +5,11 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
-import main.java.typeDetermination.PertinentGraphHelper;
+import main.java.typeDetermination.utils.PertinentGraphHelper;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
 import java.util.Map;
 
 public class PertinentGraphHelperTest {
@@ -67,35 +65,5 @@ public class PertinentGraphHelperTest {
 
         assertTrue(pertinentGraphs.get(tctree.getRoot()).getVertices().containsAll(simpleGraph.getVertices()));
         assertTrue(simpleGraph.getVertices().containsAll(pertinentGraphs.get(tctree.getRoot()).getVertices()));
-    }
-
-
-
-
-
-    public void printPertinentGraphsAndSkeletons(){
-
-        simpleGraphSetup();
-
-        //		  --- t2 --- t3 ---
-        //		  |				  |
-        //  t1 -- t6 ------------ t9 -- t5
-        //	.	  |				  |		.
-        //	.	  |_ t7 ---- t8 __|		.
-        // 	.		  |_ t4 _|			.
-        //	.............................
-
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
-
-        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
-        List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = pertinentGraphHelper.getPostOrderList();
-        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
-
-        for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
-
-            System.out.println(node.getType());
-            System.out.println("    Skeleton: " + node.getSkeleton().toString().replace("-", "->"));
-            System.out.println("    Pert    : " + pertinentGraphs.get(node));
-        }
     }
 }

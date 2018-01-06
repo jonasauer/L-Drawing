@@ -4,8 +4,8 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
-import main.java.typeDetermination.PertinentGraphHelper;
-import main.java.typeDetermination.SourceSinkHelper;
+import main.java.typeDetermination.utils.PertinentGraphHelper;
+import main.java.typeDetermination.utils.SourceSinkHelper;
 import org.junit.Before;
 import org.junit.Test;
 

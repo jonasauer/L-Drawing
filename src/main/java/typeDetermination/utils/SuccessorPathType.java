@@ -1,4 +1,4 @@
-package main.java.typeDetermination;
+package main.java.typeDetermination.utils;
 
 
 /**
