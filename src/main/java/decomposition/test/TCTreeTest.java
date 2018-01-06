@@ -94,7 +94,7 @@ public class TCTreeTest {
         simpleGraph.addEdge(t8, j7);
         simpleGraph.addEdge(j7, j5);
         simpleGraph.addEdge(j5, t9);
-        simpleGraphBackEdge = simpleGraph.addEdge(t9, t1);
+        simpleGraphBackEdge = simpleGraph.addEdge(t1, t9);
     }
 
     @Test

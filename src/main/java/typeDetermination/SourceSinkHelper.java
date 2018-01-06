@@ -31,8 +31,6 @@ public class SourceSinkHelper {
 
     private void determineNodes(){
 
-        int counter = 1;
-
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 
             if(node.getType().equals(TCTreeNodeType.TYPE_Q)){
@@ -64,5 +62,13 @@ public class SourceSinkHelper {
                 sinkNodes.put(node, potentialSinks.iterator().next());
             }
         }
+    }
+
+    public Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> getSourceNodes() {
+        return sourceNodes;
+    }
+
+    public Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> getSinkNodes() {
+        return sinkNodes;
     }
 }

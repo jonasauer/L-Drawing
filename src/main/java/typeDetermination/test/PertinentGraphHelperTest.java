@@ -5,9 +5,11 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
+import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.typeDetermination.PertinentGraphHelper;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,7 @@ public class PertinentGraphHelperTest {
         simpleGraph.addEdge(t8, j7);
         simpleGraph.addEdge(j7, j5);
         simpleGraph.addEdge(j5, t9);
-        simpleGraphBackEdge = simpleGraph.addEdge(t9, t1);
+        simpleGraphBackEdge = simpleGraph.addEdge(t1, t9);
     }
 
     @Test
@@ -61,7 +63,10 @@ public class PertinentGraphHelperTest {
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
         PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
 
+        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
 
+        assertTrue(pertinentGraphs.get(tctree.getRoot()).getVertices().containsAll(simpleGraph.getVertices()));
+        assertTrue(simpleGraph.getVertices().containsAll(pertinentGraphs.get(tctree.getRoot()).getVertices()));
     }
 
 
