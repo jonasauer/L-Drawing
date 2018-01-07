@@ -4,29 +4,33 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SourceSinkGraphHelper {
 
     private MultiDirectedGraph graph;
-    private List<Vertex> sourceNodes;
-    private List<Vertex> sinkNodes;
+    private Set<Vertex> sourceNodes;
+    private Set<Vertex> sinkNodes;
 
     public SourceSinkGraphHelper(MultiDirectedGraph graph){
 
         this.graph = graph;
 
-        this.sourceNodes = new ArrayList<>();
-        this.sinkNodes = new ArrayList<>();
+        this.sourceNodes = new HashSet<>();
+        this.sinkNodes = new HashSet<>();
 
         determineSourcesAndSinks();
     }
 
     private void determineSourcesAndSinks(){
 
-        sourceNodes.addAll(graph.getVertices());
-        sinkNodes.addAll(graph.getVertices());
+        for(DirectedEdge edge : graph.getEdges()){
+            if(!sourceNodes.contains(edge.getSource()))
+                sourceNodes.add(edge.getSource());
+            if(!sinkNodes.contains(edge.getTarget()))
+                sinkNodes.add(edge.getTarget());
+        }
 
         for(DirectedEdge edge : graph.getEdges()){
 
@@ -41,11 +45,11 @@ public class SourceSinkGraphHelper {
         }
     }
 
-    public List<Vertex> getSourceNodes() {
+    public Set<Vertex> getSourceNodes() {
         return sourceNodes;
     }
 
-    public List<Vertex> getSinkNodes() {
+    public Set<Vertex> getSinkNodes() {
         return sinkNodes;
     }
 }

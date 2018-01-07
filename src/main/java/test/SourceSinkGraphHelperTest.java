@@ -70,8 +70,8 @@ public class SourceSinkGraphHelperTest {
         assertTrue(sourceSinkGraphHelper.getSourceNodes().size() == 1);
         assertTrue(sourceSinkGraphHelper.getSinkNodes().size() == 1);
 
-        assertTrue(sourceSinkGraphHelper.getSourceNodes().get(0).equals(t1));
-        assertTrue(sourceSinkGraphHelper.getSinkNodes().get(0).equals(t9));
+        assertTrue(sourceSinkGraphHelper.getSourceNodes().iterator().next().equals(t1));
+        assertTrue(sourceSinkGraphHelper.getSinkNodes().iterator().next().equals(t9));
     }
 
     @Test
@@ -85,6 +85,32 @@ public class SourceSinkGraphHelperTest {
         cycle.addEdge(c2, c3);
         cycle.addEdge(c3, c1);
         SourceSinkGraphHelper sourceSinkGraphHelper = new SourceSinkGraphHelper(cycle);
+
+        assertTrue(sourceSinkGraphHelper.getSourceNodes().isEmpty());
+        assertTrue(sourceSinkGraphHelper.getSinkNodes().isEmpty());
+    }
+
+    @Test
+    public void testUnconnectedGraph(){
+
+        MultiDirectedGraph unconnected = new MultiDirectedGraph();
+        Vertex u1 = new Vertex("1");
+        Vertex u2 = new Vertex("2");
+        Vertex u3 = new Vertex("3");
+        unconnected.addVertex(u1);
+        unconnected.addVertex(u2);
+        unconnected.addVertex(u3);
+        SourceSinkGraphHelper sourceSinkGraphHelper = new SourceSinkGraphHelper(unconnected);
+
+        assertTrue(sourceSinkGraphHelper.getSourceNodes().isEmpty());
+        assertTrue(sourceSinkGraphHelper.getSinkNodes().isEmpty());
+    }
+
+    @Test
+    public void testEmptyGraph(){
+
+        MultiDirectedGraph empty = new MultiDirectedGraph();
+        SourceSinkGraphHelper sourceSinkGraphHelper = new SourceSinkGraphHelper(empty);
 
         assertTrue(sourceSinkGraphHelper.getSourceNodes().isEmpty());
         assertTrue(sourceSinkGraphHelper.getSinkNodes().isEmpty());
