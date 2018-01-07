@@ -9,7 +9,7 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
-public class SourceSinkHelper {
+public class SourceSinkPertinentGraphsHelper {
 
     private TCTree<DirectedEdge, Vertex> tcTree;
     private List<TCTreeNode<DirectedEdge, Vertex>> postOrderList;
@@ -18,7 +18,7 @@ public class SourceSinkHelper {
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> sourceNodes;
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> sinkNodes;
 
-    public SourceSinkHelper(TCTree<DirectedEdge, Vertex> tcTree, PertinentGraphHelper pertinentGraphHelper){
+    public SourceSinkPertinentGraphsHelper(TCTree<DirectedEdge, Vertex> tcTree, PertinentGraphHelper pertinentGraphHelper){
         this.tcTree = tcTree;
         this.postOrderList = pertinentGraphHelper.getPostOrderList();
         this.pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
@@ -26,10 +26,10 @@ public class SourceSinkHelper {
         this.sourceNodes = new HashMap<>();
         this.sinkNodes = new HashMap<>();
 
-        determineNodes();
+        determineSourcesAndSinks();
     }
 
-    private void determineNodes(){
+    private void determineSourcesAndSinks(){
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 
