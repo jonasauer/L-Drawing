@@ -8,9 +8,6 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 public class STypeDetermination implements ITypeDetermination{
 
-
-
-
     @Override
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 

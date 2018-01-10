@@ -14,6 +14,6 @@ public class QTypeDetermination implements ITypeDetermination{
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_Q)) return;
-        HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, Type.TYPE_M);
+        HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, SuccessorPathType.TYPE_M);
     }
 }

@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SuccessorPathType.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/test/PertinentGraphHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/PertinentGraphHolderTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/test/SourceSinkGraphHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/SourceSinkGraphHolderTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/test/SourceSinkPertinentGraphsHelperTest.java" afterPath="$PROJECT_DIR$/src/main/java/test/SourceSinkPertinentGraphsHolderTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/TypeHolder.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/PertinentGraphHelper.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SourceSinkGraphHelper.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkGraphHolder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SourceSinkPertinentGraphsHelper.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkPertinentGraphsHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/test/Printer.java" afterPath="$PROJECT_DIR$/src/main/java/test/Printer.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java" />
     </list>
@@ -25,18 +17,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SourceSinkPertinentGraphsHolderTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/test/SourceSinkPertinentGraphsHolderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="75" column="112" lean-forward="true" selection-start-line="75" selection-start-column="112" selection-end-line="75" selection-end-column="112" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SourceSinkGraphHolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkGraphHolder.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -80,6 +60,28 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ITypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/ITypeDetermination.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STypeDetermination.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="PertinentGraphHolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -104,38 +106,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SuccessorPathTypeHolder.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java">
+      <file leaf-file-name="PTypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/PTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#456#457#0" expanded="true" />
-                <element signature="e#504#505#0" expanded="true" />
-                <element signature="e#576#577#0" expanded="true" />
-                <element signature="e#608#609#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PertinentGraphHolderTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/test/PertinentGraphHolderTest.java">
+      <file leaf-file-name="RTypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/RTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="66" column="124" lean-forward="false" selection-start-line="66" selection-start-column="124" selection-end-line="66" selection-end-column="124" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SourceSinkGraphHolderTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/test/SourceSinkGraphHolderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-74">
-              <caret line="65" column="8" lean-forward="false" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
-              <folding />
+            <state relative-caret-position="221">
+              <caret line="13" column="8" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -144,7 +134,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="16" column="51" lean-forward="false" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+              <caret line="16" column="100" lean-forward="false" selection-start-line="16" selection-start-column="100" selection-end-line="16" selection-end-column="100" />
               <folding />
             </state>
           </provider>
@@ -194,7 +184,6 @@
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/utils/PertinentGraphHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/TypeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/ITypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/TypeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/PertinentGraphHelperTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/TCTreeTest.java" />
@@ -205,21 +194,22 @@
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SourceSinkPertinentGraphsHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/RTypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/PTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/HolderProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/SuccessorPathType.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/utils/SuccessorPathTypeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/PostOrderNodeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/PostOrderNodesHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/HolderProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/PertinentGraphHolderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/Printer.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/SourceSinkGraphHolderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/SourceSinkPertinentGraphsHolderTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkPertinentGraphsHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java" />
+        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java" />
       </list>
     </option>
   </component>
@@ -625,7 +615,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39753000" />
+    <option name="totallyTimeSpent" value="39906000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -921,20 +911,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/ITypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/decomposition/spqrTree/TCTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -949,44 +925,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="17" column="24" lean-forward="false" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/RTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="8" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/PTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/SuccessorPathType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="59" lean-forward="true" selection-start-line="0" selection-start-column="59" selection-end-line="0" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1026,19 +964,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="16" column="51" lean-forward="false" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/test/PertinentGraphHolderTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="66" column="124" lean-forward="false" selection-start-line="66" selection-start-column="124" selection-end-line="66" selection-end-column="124" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/SuccessorPathType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#483#484#0" expanded="true" />
+            <element signature="e#531#532#0" expanded="true" />
+            <element signature="e#616#617#0" expanded="true" />
+            <element signature="e#648#649#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkPertinentGraphsHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-235">
+          <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkGraphHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-65">
+          <caret line="15" column="59" lean-forward="true" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PostOrderNodesHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="24" column="26" lean-forward="false" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="39" column="54" lean-forward="false" selection-start-line="39" selection-start-column="54" selection-end-line="39" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1059,56 +1059,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/ITypeDetermination.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="39" column="54" lean-forward="false" selection-start-line="39" selection-start-column="54" selection-end-line="39" selection-end-column="54" />
+        <state relative-caret-position="119">
+          <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/PTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PostOrderNodesHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="24" column="26" lean-forward="false" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+        <state relative-caret-position="170">
+          <caret line="16" column="100" lean-forward="false" selection-start-line="16" selection-start-column="100" selection-end-line="16" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/RTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="8" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkGraphHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-65">
-          <caret line="15" column="59" lean-forward="true" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="59" />
+        <state relative-caret-position="187">
+          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkPertinentGraphsHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-235">
-          <caret line="18" column="41" lean-forward="false" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#456#457#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-            <element signature="e#576#577#0" expanded="true" />
-            <element signature="e#608#609#0" expanded="true" />
           </folding>
         </state>
       </provider>
