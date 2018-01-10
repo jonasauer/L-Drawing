@@ -1,4 +1,4 @@
-package main.java.typeDetermination.utils;
+package main.java.typeDetermination.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -7,13 +7,13 @@ import main.java.decomposition.hyperGraph.Vertex;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SourceSinkGraphHelper {
+public class SourceSinkGraphHolder {
 
     private MultiDirectedGraph graph;
     private Set<Vertex> sourceNodes;
     private Set<Vertex> sinkNodes;
 
-    public SourceSinkGraphHelper(MultiDirectedGraph graph){
+    public SourceSinkGraphHolder(MultiDirectedGraph graph){
 
         this.graph = graph;
 

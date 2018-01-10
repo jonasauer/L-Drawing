@@ -5,14 +5,16 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.typeDetermination.utils.PertinentGraphHelper;
+import main.java.typeDetermination.holder.HolderProvider;
+import main.java.typeDetermination.holder.PertinentGraphHolder;
+import main.java.typeDetermination.holder.PostOrderNodesHolder;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-public class PertinentGraphHelperTest {
+public class PertinentGraphHolderTest {
 
     private MultiDirectedGraph simpleGraph;
     private DirectedEdge simpleGraphBackEdge;
@@ -59,9 +61,10 @@ public class PertinentGraphHelperTest {
     public void testSimpleGraph(){
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
-        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
+        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
+        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
 
-        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
+        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = HolderProvider.getPertinentGraphHolder().getPertinentGraphs();
 
         assertTrue(pertinentGraphs.get(tctree.getRoot()).getVertices().containsAll(simpleGraph.getVertices()));
         assertTrue(simpleGraph.getVertices().containsAll(pertinentGraphs.get(tctree.getRoot()).getVertices()));

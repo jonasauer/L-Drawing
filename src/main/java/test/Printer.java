@@ -7,7 +7,9 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
-import main.java.typeDetermination.utils.PertinentGraphHelper;
+import main.java.typeDetermination.holder.HolderProvider;
+import main.java.typeDetermination.holder.PertinentGraphHolder;
+import main.java.typeDetermination.holder.PostOrderNodesHolder;
 
 import java.util.List;
 import java.util.Map;
@@ -70,9 +72,10 @@ public class Printer {
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
 
-        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
-        List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = pertinentGraphHelper.getPostOrderList();
-        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
+        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
+        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
+        List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = HolderProvider.getPostOrderNodesHolder().getPostOrderNodes();
+        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = HolderProvider.getPertinentGraphHolder().getPertinentGraphs();
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 

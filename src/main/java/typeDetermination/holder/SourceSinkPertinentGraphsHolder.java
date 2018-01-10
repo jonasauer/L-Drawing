@@ -1,27 +1,19 @@
-package main.java.typeDetermination.utils;
+package main.java.typeDetermination.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
-public class SourceSinkPertinentGraphsHelper {
-
-    private TCTree<DirectedEdge, Vertex> tcTree;
-    private List<TCTreeNode<DirectedEdge, Vertex>> postOrderList;
-    private Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs;
+public class SourceSinkPertinentGraphsHolder {
 
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> sourceNodes;
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> sinkNodes;
 
-    public SourceSinkPertinentGraphsHelper(TCTree<DirectedEdge, Vertex> tcTree, PertinentGraphHelper pertinentGraphHelper){
-        this.tcTree = tcTree;
-        this.postOrderList = pertinentGraphHelper.getPostOrderList();
-        this.pertinentGraphs = pertinentGraphHelper.getPertinentGraphs();
+    public SourceSinkPertinentGraphsHolder(){
 
         this.sourceNodes = new HashMap<>();
         this.sinkNodes = new HashMap<>();
@@ -31,7 +23,9 @@ public class SourceSinkPertinentGraphsHelper {
 
     private void determineSourcesAndSinks(){
 
-        for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
+        List<TCTreeNode<DirectedEdge, Vertex>> postOrderNodes = HolderProvider.getPostOrderNodesHolder().getPostOrderNodes();
+
+        for(TCTreeNode<DirectedEdge, Vertex> node : postOrderNodes){
 
             if(node.getType().equals(TCTreeNodeType.TYPE_Q)){
 
@@ -41,7 +35,7 @@ public class SourceSinkPertinentGraphsHelper {
 
             }else {
 
-                MultiDirectedGraph pert = pertinentGraphs.get(node);
+                MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node);
                 Collection<Vertex> pertVertices = pert.getVertices();
                 Collection<DirectedEdge> pertEdges = pert.getEdges();
                 Collection<Vertex> potentialSources = new HashSet<>(pertVertices);

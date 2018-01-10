@@ -4,15 +4,17 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
-import main.java.typeDetermination.utils.PertinentGraphHelper;
-import main.java.typeDetermination.utils.SourceSinkPertinentGraphsHelper;
+import main.java.typeDetermination.holder.HolderProvider;
+import main.java.typeDetermination.holder.PertinentGraphHolder;
+import main.java.typeDetermination.holder.PostOrderNodesHolder;
+import main.java.typeDetermination.holder.SourceSinkPertinentGraphsHolder;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class SourceSinkPertinentGraphsHelperTest {
+public class SourceSinkPertinentGraphsHolderTest {
 
     private MultiDirectedGraph simpleGraph;
     private DirectedEdge simpleGraphBackEdge;
@@ -69,13 +71,14 @@ public class SourceSinkPertinentGraphsHelperTest {
     public void testSimpleGraph(){
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
-        PertinentGraphHelper pertinentGraphHelper = new PertinentGraphHelper(tctree);
-        SourceSinkPertinentGraphsHelper sourceSinkPertinentGraphsHelper = new SourceSinkPertinentGraphsHelper(tctree, pertinentGraphHelper);
+        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
+        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
+        SourceSinkPertinentGraphsHolder sourceSinkPertinentGraphsHolder = new SourceSinkPertinentGraphsHolder();
 
-        assertTrue(sourceSinkPertinentGraphsHelper.getSourceNodes().get(tctree.getRoot()).equals(t1));
-        assertTrue(sourceSinkPertinentGraphsHelper.getSinkNodes().get(tctree.getRoot()).equals(t9));
+        assertTrue(sourceSinkPertinentGraphsHolder.getSourceNodes().get(tctree.getRoot()).equals(t1));
+        assertTrue(sourceSinkPertinentGraphsHolder.getSinkNodes().get(tctree.getRoot()).equals(t9));
 
-        assertFalse(sourceSinkPertinentGraphsHelper.getSourceNodes().containsValue(t9));
-        assertFalse(sourceSinkPertinentGraphsHelper.getSinkNodes().containsValue(t1));
+        assertFalse(sourceSinkPertinentGraphsHolder.getSourceNodes().containsValue(t9));
+        assertFalse(sourceSinkPertinentGraphsHolder.getSinkNodes().containsValue(t1));
     }
 }

@@ -1,4 +1,4 @@
-package main.java.typeDetermination.utils;
+package main.java.typeDetermination.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -9,34 +9,21 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
-public class PertinentGraphHelper {
+public class PertinentGraphHolder {
 
     private TCTree<DirectedEdge, Vertex> tcTree;
-    private List<TCTreeNode<DirectedEdge, Vertex>> postOrderList;
     private Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs;
 
-    public PertinentGraphHelper(TCTree<DirectedEdge, Vertex> tcTree){
+
+    public PertinentGraphHolder(TCTree<DirectedEdge, Vertex> tcTree){
         this.tcTree = tcTree;
-        this.postOrderList = new ArrayList<>();
         this.pertinentGraphs = new HashMap<>();
 
         if(tcTree.getTCTreeNodes().size() <= 0)
             return;
 
-        TCTreeNode<DirectedEdge, Vertex> root = tcTree.getRoot();
-        postOrderNodes(root);
-
-        for(TCTreeNode<DirectedEdge, Vertex> tcTreeNode : postOrderList)
+        for(TCTreeNode<DirectedEdge, Vertex> tcTreeNode : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes())
             constructPertinentGraph(tcTreeNode);
-    }
-
-
-    private void postOrderNodes(TCTreeNode<DirectedEdge, Vertex> node){
-
-        for(TCTreeNode<DirectedEdge, Vertex> child : this.tcTree.getChildren(node)){
-            postOrderNodes(child);
-        }
-        postOrderList.add(node);
     }
 
 
@@ -48,9 +35,9 @@ public class PertinentGraphHelper {
             DirectedEdge e = tcTreeNode.getSkeleton().getOriginalEdges().iterator().next();
             pert.addEdge(e.getSource(), e.getTarget());
         }else{
-            //kinder abfragen
-            //deren pertinent graph abfragen
-            //alle kanten der graphen zum neuen graphen hinzufügen.
+            //getChildren
+            //get children pertinent graph
+            //add all edges of these to the pert graph
             Set<TCTreeNode<DirectedEdge, Vertex>> children = tcTree.getChildren(tcTreeNode);
             for(TCTreeNode<DirectedEdge, Vertex> child : children){
 
@@ -63,9 +50,6 @@ public class PertinentGraphHelper {
         pertinentGraphs.put(tcTreeNode, pert);
     }
 
-    public List<TCTreeNode<DirectedEdge, Vertex>> getPostOrderList(){
-        return postOrderList;
-    }
 
     public Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> getPertinentGraphs(){
         return pertinentGraphs;

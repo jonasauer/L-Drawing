@@ -5,6 +5,8 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.typeDetermination.holder.HolderProvider;
+import main.java.typeDetermination.holder.SuccessorPathTypeHolder;
 
 public class QTypeDetermination implements ITypeDetermination{
 
@@ -12,6 +14,6 @@ public class QTypeDetermination implements ITypeDetermination{
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_Q)) return;
-        TypeHolder.getInstance().getNodeTypes().put(tcTreeNode, Type.TYPE_M);
+        HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, Type.TYPE_M);
     }
 }
