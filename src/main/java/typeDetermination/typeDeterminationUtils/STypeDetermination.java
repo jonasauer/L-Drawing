@@ -5,6 +5,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.typeDetermination.holder.HolderProvider;
 
 public class STypeDetermination implements ITypeDetermination{
 
@@ -13,5 +14,16 @@ public class STypeDetermination implements ITypeDetermination{
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_S)) return;
 
+        Vertex source = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
+
+        for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+
+            Vertex childSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(child);
+            if(source.equals(childSource)){
+                SuccessorPathType type = HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child);
+                HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, type);
+                return;
+            }
+        }
     }
 }

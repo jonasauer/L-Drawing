@@ -1,7 +1,6 @@
 package main.java.test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.Edge;
