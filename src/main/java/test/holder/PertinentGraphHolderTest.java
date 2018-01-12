@@ -60,14 +60,14 @@ public class PertinentGraphHolderTest {
     @Test
     public void testComplexGraph(){
 
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(ComplexGraphProvider.getComplexGraph(), ComplexGraphProvider.backEdge);
-        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
-        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
+        TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(ComplexGraphProvider.getComplexGraph(), ComplexGraphProvider.backEdge);
+        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));
+        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tcTree));
 
         Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = HolderProvider.getPertinentGraphHolder().getPertinentGraphs();
 
-        assertTrue(pertinentGraphs.get(tctree.getRoot()).getVertices().containsAll(ComplexGraphProvider.getComplexGraph().getVertices()));
-        assertTrue(ComplexGraphProvider.getComplexGraph().getVertices().containsAll(pertinentGraphs.get(tctree.getRoot()).getVertices()));
+        assertTrue(pertinentGraphs.get(tcTree.getRoot()).getVertices().containsAll(ComplexGraphProvider.getComplexGraph().getVertices()));
+        assertTrue(ComplexGraphProvider.getComplexGraph().getVertices().containsAll(pertinentGraphs.get(tcTree.getRoot()).getVertices()));
 
         List<Integer> possibleSNodeEdges = new ArrayList<>();
         possibleSNodeEdges.add(17);
@@ -75,7 +75,7 @@ public class PertinentGraphHolderTest {
         List<Integer> possibleRNodeEdges = new ArrayList<>();
         possibleRNodeEdges.add(14);
 
-        for(TCTreeNode<DirectedEdge, Vertex> node : tctree.getTCTreeNodes()){
+        for(TCTreeNode<DirectedEdge, Vertex> node : tcTree.getTCTreeNodes()){
 
             if(node.getType().equals(TCTreeNodeType.TYPE_S)){
                 int edges = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node).getEdges().size();
