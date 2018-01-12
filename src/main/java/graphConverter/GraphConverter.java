@@ -15,7 +15,7 @@ public class GraphConverter {
         Map<INode, Vertex> vertexMap = new HashMap<>();
 
         for(INode node : graph.getNodes()){
-            vertexMap.put(node, new Vertex(node.getLabels().first().toString()));
+            vertexMap.put(node, new Vertex(node.getLabels().first().getText()));
         }
 
         for(IEdge edge : graph.getEdges()){

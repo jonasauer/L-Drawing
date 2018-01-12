@@ -12,7 +12,7 @@ public class SuccessorPathTypeHolder {
 
     private Map<TCTreeNode<DirectedEdge, Vertex>, SuccessorPathType> nodeTypes;
 
-    private SuccessorPathTypeHolder(){
+    public SuccessorPathTypeHolder(){
         this.nodeTypes = new HashMap<>();
     }
 

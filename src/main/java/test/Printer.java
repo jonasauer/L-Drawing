@@ -20,7 +20,7 @@ public class Printer {
 
     private static int dfsDepth;
 
-    private static void printPertinentGraphsAndSkeletons(MultiDirectedGraph graph, DirectedEdge backEdge){
+    public static void printPertinentGraphsAndSkeletons(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
 
@@ -37,14 +37,22 @@ public class Printer {
         }
     }
 
-    private static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
+    public static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         dfsDepth = -1;
 
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
+        TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(graph, backEdge);
 
-        TCTreeNode root = tctree.getRoot();
-        dfs(tctree, root);
+        TCTreeNode root = tcTree.getRoot();
+        dfs(tcTree, root);
+    }
+
+    public static void printTreePreOrder(TCTree<DirectedEdge, Vertex> tcTree){
+
+        dfsDepth = -1;
+
+        TCTreeNode root = tcTree.getRoot();
+        dfs(tcTree, root);
     }
 
     private static void dfs(TCTree tcTree, TCTreeNode node){

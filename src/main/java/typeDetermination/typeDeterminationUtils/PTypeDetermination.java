@@ -7,11 +7,9 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.typeDetermination.holder.HolderProvider;
 
-public class PTypeDetermination implements ITypeDetermination{
+public class PTypeDetermination{
 
-
-    @Override
-    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public static void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;

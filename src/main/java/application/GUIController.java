@@ -36,6 +36,8 @@ public class GUIController {
     private GraphSnapContext graphSnapContext;
     private LabelSnapContext labelSnapContext;
 
+    private static int nodes = 1;
+
 
     @FXML
     void initialize(){
@@ -63,7 +65,7 @@ public class GUIController {
         GraphEditorInputMode graphEditorInputMode = new GraphEditorInputMode();
         graphEditorInputMode.setGroupingOperationsAllowed(true);
         graphEditorInputMode.addNodeCreatedListener((source, args) -> {
-            graph.addLabel(args.getItem(), "Vertex");
+            graph.addLabel(args.getItem(), "" + nodes++);
         });
 
         graphControl.setInputMode(graphEditorInputMode);

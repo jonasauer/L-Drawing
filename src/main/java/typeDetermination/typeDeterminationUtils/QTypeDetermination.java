@@ -8,10 +8,9 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.typeDetermination.holder.HolderProvider;
 import main.java.typeDetermination.holder.SuccessorPathTypeHolder;
 
-public class QTypeDetermination implements ITypeDetermination{
+public class QTypeDetermination{
 
-    @Override
-    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public static void determineType(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_Q)) return;
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, SuccessorPathType.TYPE_M);
