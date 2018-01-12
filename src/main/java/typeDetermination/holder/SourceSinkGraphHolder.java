@@ -38,6 +38,7 @@ public class SourceSinkGraphHolder {
 
                 if(edge.getSource().equals(vertex))
                     sinkNodes.remove(vertex);
+                //TODO:graph.getEdgesWithTarget()
 
                 if(edge.getTarget().equals(vertex))
                     sourceNodes.remove(vertex);

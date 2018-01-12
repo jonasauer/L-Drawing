@@ -28,30 +28,6 @@ public class MainApplication  extends Application {
         stage.getIcons().add(new Image("/main/resources/icons/applicationIcon.png"));
         stage.setScene(scene);
 
-        Graph g = new Graph();
-        Vertex v1 = new Vertex("1");
-        Vertex v2 = new Vertex("2");
-        Vertex v3 = new Vertex("3");
-        Vertex v4 = new Vertex("4");
-        g.addVertex(v1);
-        g.addVertex(v2);
-        g.addVertex(v3);
-        g.addVertex(v4);
-        g.addEdge(v1, v4);
-        g.addEdge(v1, v2);
-        g.addEdge(v1, v3);
-        g.addEdge(v2, v3);
-        g.addEdge(v2, v4);
-        g.addEdge(v3, v4);
-
-        System.out.println(g.getVertices().size());
-
-        TCTree spqrTree = new TCTree(g);
-
-        System.out.println(spqrTree.getTCTreeNodes().size());
-        System.out.println(g.toDOT());
-        System.out.println(spqrTree.getGraph().toDOT());
-
         stage.show();
     }
 

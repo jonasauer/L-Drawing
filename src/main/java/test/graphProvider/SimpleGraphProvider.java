@@ -55,6 +55,7 @@ public class SimpleGraphProvider{
         simpleGraph.addEdge(s8, s7);
         simpleGraph.addEdge(s7, s5);
         simpleGraph.addEdge(s5, s9);
+        simpleGraph.addEdge(s1, s9);
         backEdge = simpleGraph.addEdge(s1, s9);
 
         return simpleGraph;

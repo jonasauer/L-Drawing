@@ -7,6 +7,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.test.graphProvider.ComplexGraphProvider;
 import main.java.test.graphProvider.SimpleGraphProvider;
 import main.java.typeDetermination.holder.HolderProvider;
 import main.java.typeDetermination.holder.PertinentGraphHolder;
@@ -95,7 +96,7 @@ public class Printer {
 
     public static void main(String[] args){
 
-        printTreePreOrder(SimpleGraphProvider.getSimpleGraph(), SimpleGraphProvider.backEdge);
+        printTreePreOrder(ComplexGraphProvider.getComplexGraph(), ComplexGraphProvider.backEdge);
     }
 
 

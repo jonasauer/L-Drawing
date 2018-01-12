@@ -27,6 +27,8 @@ public class GUIController {
     private ToggleButton toggleButton_Snapping;
     @FXML
     private ToggleButton toggleButton_orthogonalEdges;
+    @FXML
+    private ToggleButton toggleButton_LDrawing;
 
     private IGraph graph;
 
@@ -131,6 +133,12 @@ public class GUIController {
             graphSnapContext.setGridSnapType(visible ? GridSnapTypes.ALL : GridSnapTypes.NONE);
 
         graphControl.invalidate();
+    }
+
+    @FXML
+    public void handleLDrawing(){
+
+
     }
 
     @FXML
