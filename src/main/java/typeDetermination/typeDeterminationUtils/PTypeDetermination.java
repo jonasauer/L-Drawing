@@ -7,9 +7,6 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.typeDetermination.holder.HolderProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PTypeDetermination implements ITypeDetermination{
 
 

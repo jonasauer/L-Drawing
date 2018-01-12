@@ -7,6 +7,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.test.graphProvider.SimpleGraphProvider;
 import main.java.typeDetermination.holder.HolderProvider;
 import main.java.typeDetermination.holder.PertinentGraphHolder;
 import main.java.typeDetermination.holder.PostOrderNodesHolder;
@@ -16,51 +17,9 @@ import java.util.Map;
 
 public class Printer {
 
-    private static MultiDirectedGraph simpleGraph;
-    private static DirectedEdge simpleGraphBackEdge;
     private static int dfsDepth;
 
-
-    private static void simpleGraphSetup(){
-
-        //		  --- t3 --- t4 ---
-        //		  |				  |
-        // t1 -- t2 ------------ t5 -- t9
-        //	.	  |				  |		.
-        //	.	  |_ t6 ---- t7 __|		.
-        // 	.		  |_ t8 _|			.
-        //	.............................
-
-        simpleGraph = new MultiDirectedGraph();
-
-        Vertex t1 = new Vertex("1");
-        Vertex t2 = new Vertex("2");
-        Vertex t3 = new Vertex("3");
-        Vertex t4 = new Vertex("4");
-        Vertex t5 = new Vertex("5");
-        Vertex t6 = new Vertex("6");
-        Vertex t7 = new Vertex("7");
-        Vertex t8 = new Vertex("8");
-        Vertex t9 = new Vertex("9");
-
-        simpleGraph.addEdge(t1, t2);
-        simpleGraph.addEdge(t2, t3);
-        simpleGraph.addEdge(t2, t6);
-        simpleGraph.addEdge(t2, t5);
-        simpleGraph.addEdge(t3, t4);
-        simpleGraph.addEdge(t4, t5);
-        simpleGraph.addEdge(t6, t7);
-        simpleGraph.addEdge(t6, t8);
-        simpleGraph.addEdge(t8, t7);
-        simpleGraph.addEdge(t7, t5);
-        simpleGraph.addEdge(t5, t9);
-        simpleGraph.addEdge(t1, t9);
-        simpleGraphBackEdge = simpleGraph.addEdge(t1, t9);
-    }
-
-    private static void printPertinentGraphsAndSkeletons(){
-
-        simpleGraphSetup();
+    private static void printPertinentGraphsAndSkeletons(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         //		  --- t3 --- t4 ---
         //		  |				  |
@@ -70,7 +29,7 @@ public class Printer {
         // 	.		  |_ t8 _|			.
         //	.............................
 
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
+        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
 
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
         HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
@@ -85,11 +44,9 @@ public class Printer {
         }
     }
 
-    private static void printTreePreOrder(){
+    private static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         dfsDepth = -1;
-
-        simpleGraphSetup();
 
         //		  --- t3 --- t4 ---
         //		  |				  |
@@ -99,7 +56,7 @@ public class Printer {
         // 	.		  |_ t8 _|			.
         //	.............................
 
-        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(simpleGraph, simpleGraphBackEdge);
+        TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
 
         TCTreeNode root = tctree.getRoot();
         dfs(tctree, root);
@@ -153,7 +110,8 @@ public class Printer {
     }
 
     public static void main(String[] args){
-        printTreePreOrder();
+
+        printTreePreOrder(SimpleGraphProvider.getSimpleGraph(), SimpleGraphProvider.backEdge);
     }
 
 
