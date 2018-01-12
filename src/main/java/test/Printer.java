@@ -21,14 +21,6 @@ public class Printer {
 
     private static void printPertinentGraphsAndSkeletons(MultiDirectedGraph graph, DirectedEdge backEdge){
 
-        //		  --- t3 --- t4 ---
-        //		  |				  |
-        // t1 -- t2 ------------ t5 -- t9
-        //	.	  |				  |		.
-        //	.	  |_ t6 ---- t7 __|		.
-        // 	.		  |_ t8 _|			.
-        //	.............................
-
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
 
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
@@ -47,14 +39,6 @@ public class Printer {
     private static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         dfsDepth = -1;
-
-        //		  --- t3 --- t4 ---
-        //		  |				  |
-        // t1 -- t2 ------------ t5 -- t9
-        //	.	  |				  |		.
-        //	.	  |_ t6 ---- t7 __|		.
-        // 	.		  |_ t8 _|			.
-        //	.............................
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
 

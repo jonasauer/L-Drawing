@@ -12,7 +12,6 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.test.graphProvider.SimpleGraphProvider;
 import main.java.test.graphProvider.WSDM10GraphProvider;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 

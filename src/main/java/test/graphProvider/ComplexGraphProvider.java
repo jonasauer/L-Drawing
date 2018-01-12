@@ -19,7 +19,25 @@ public class ComplexGraphProvider {
     public static Vertex c10;
     public static DirectedEdge backEdge;
 
-    public static MultiDirectedGraph complexGraphSetup(){
+    public static MultiDirectedGraph getComplexGraph(){
+
+        //
+        //
+        //        |---->c3---->c7------|
+        //        |     |      |       |
+        //        |     ∨      |      ∨
+        //        |---->c4-----|      c9----->c10
+        //        |     |      |      ∧       ∧
+        //        |     ∨      ∨      |       |
+        // c1----c2---->c5---->c8------|       |
+        //  |     |     ∧      ∧              |
+        //  |     |     |      |               |
+        //  |     |---->c6-----|               |
+        //  |                                  |
+        //  |-----------------------------------
+        //
+        //
+        //
 
         if(complexGraph != null)
             return complexGraph;
