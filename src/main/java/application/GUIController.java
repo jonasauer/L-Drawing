@@ -138,7 +138,7 @@ public class GUIController {
     @FXML
     public void handleLDrawing(){
 
-
+        LDrawing.lDrawing(graph);
     }
 
     @FXML
