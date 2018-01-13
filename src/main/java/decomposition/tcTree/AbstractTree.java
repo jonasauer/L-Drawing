@@ -1,4 +1,4 @@
-package main.java.decomposition.spqrTree;
+package main.java.decomposition.tcTree;
 
 import main.java.decomposition.graph.abs.ITree;
 import main.java.decomposition.utils.DotSerializer;

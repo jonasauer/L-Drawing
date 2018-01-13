@@ -1,6 +1,6 @@
-package main.java.decomposition.spqrTree.dfs;
+package main.java.decomposition.tcTree.dfs;
 
-import main.java.decomposition.spqrTree.container.*;
+import main.java.decomposition.tcTree.container.*;
 import main.java.decomposition.graph.abs.IEdge;
 import main.java.decomposition.graph.abs.IGraph;
 import main.java.decomposition.hyperGraph.IVertex;

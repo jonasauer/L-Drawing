@@ -1,4 +1,4 @@
-package main.java.decomposition.spqrTree;
+package main.java.decomposition.tcTree;
 
 /**
  * Enumeration of structural types of the triconnected components.<br/><br/>

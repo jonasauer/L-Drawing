@@ -1,9 +1,8 @@
 package main.java.test.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
-import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCTree;
+import main.java.decomposition.tcTree.TCTree;
 import main.java.test.graphProvider.SimpleGraphProvider;
 import main.java.typeDetermination.holder.HolderProvider;
 import main.java.typeDetermination.holder.PertinentGraphHolder;

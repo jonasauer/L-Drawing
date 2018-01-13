@@ -1,4 +1,4 @@
-package main.java.decomposition.spqrTree.container;
+package main.java.decomposition.tcTree.container;
 
 import main.java.decomposition.hyperGraph.IVertex;
 

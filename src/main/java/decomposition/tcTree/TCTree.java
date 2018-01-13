@@ -1,11 +1,11 @@
-package main.java.decomposition.spqrTree;
+package main.java.decomposition.tcTree;
 
 import main.java.decomposition.hyperGraph.IVertex;
-import main.java.decomposition.spqrTree.container.*;
-import main.java.decomposition.spqrTree.dfs.AbstractDFS;
-import main.java.decomposition.spqrTree.dfs.LowAndDescDFS;
-import main.java.decomposition.spqrTree.dfs.NumberDFS;
-import main.java.decomposition.spqrTree.dfs.SplitCompDFS;
+import main.java.decomposition.tcTree.container.*;
+import main.java.decomposition.tcTree.dfs.AbstractDFS;
+import main.java.decomposition.tcTree.dfs.LowAndDescDFS;
+import main.java.decomposition.tcTree.dfs.NumberDFS;
+import main.java.decomposition.tcTree.dfs.SplitCompDFS;
 import main.java.decomposition.graph.abs.IEdge;
 import main.java.decomposition.graph.abs.IGraph;
 import main.java.decomposition.utils.BiconnectivityCheck;

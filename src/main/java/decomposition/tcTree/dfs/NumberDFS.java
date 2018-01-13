@@ -1,10 +1,10 @@
-package main.java.decomposition.spqrTree.dfs;
+package main.java.decomposition.tcTree.dfs;
 
 import main.java.decomposition.hyperGraph.IVertex;
-import main.java.decomposition.spqrTree.container.MetaInfo;
-import main.java.decomposition.spqrTree.container.MetaInfoContainer;
-import main.java.decomposition.spqrTree.container.NodeList;
-import main.java.decomposition.spqrTree.container.NodeMap;
+import main.java.decomposition.tcTree.container.MetaInfo;
+import main.java.decomposition.tcTree.container.MetaInfoContainer;
+import main.java.decomposition.tcTree.container.NodeList;
+import main.java.decomposition.tcTree.container.NodeMap;
 import main.java.decomposition.graph.abs.IEdge;
 import main.java.decomposition.graph.abs.IGraph;
 

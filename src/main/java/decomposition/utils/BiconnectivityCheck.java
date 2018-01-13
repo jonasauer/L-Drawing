@@ -1,6 +1,6 @@
 package main.java.decomposition.utils;
 
-import main.java.decomposition.spqrTree.container.EdgeList;
+import main.java.decomposition.tcTree.container.EdgeList;
 import main.java.decomposition.graph.abs.IEdge;
 import main.java.decomposition.graph.abs.IGraph;
 import main.java.decomposition.hyperGraph.IVertex;

@@ -2,8 +2,8 @@ package main.java.typeDetermination.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCTree;
-import main.java.decomposition.spqrTree.TCTreeNode;
+import main.java.decomposition.tcTree.TCTree;
+import main.java.decomposition.tcTree.TCTreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
