@@ -140,7 +140,7 @@ public class GUIController {
     @FXML
     public void handleLDrawing(){
 
-        LDrawing.lDrawing(graph);
+        new LDrawing().startAlgortihm(graph);
     }
 
     @FXML

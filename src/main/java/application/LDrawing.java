@@ -17,7 +17,9 @@ import main.java.typeDetermination.typeDeterminationUtils.STypeDetermination;
 
 public class LDrawing {
 
-    public static void lDrawing(IGraph graph){
+
+
+    public void startAlgortihm(IGraph graph){
 
         GraphValidator.checkIfLDrawingPossible(graph);
         MultiDirectedGraph multiDirectedGraph = GraphConverter.convert(graph);

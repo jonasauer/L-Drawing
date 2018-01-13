@@ -7,6 +7,7 @@ public class HolderProvider {
     private static SourceSinkPertinentGraphsHolder sourceSinkPertinentGraphsHolder;
     private static SuccessorPathTypeHolder successorPathTypeHolder;
     private static PostOrderNodesHolder postOrderNodesHolder;
+    private static AugmentationHolder augmentationHolder;
 
 
 
@@ -30,6 +31,10 @@ public class HolderProvider {
         return postOrderNodesHolder;
     }
 
+    public static AugmentationHolder getAugmentationHolder(){
+        return augmentationHolder;
+    }
+
 
 
 
@@ -51,5 +56,9 @@ public class HolderProvider {
 
     public static void setPostOrderNodesHolder(PostOrderNodesHolder postOrderNodesHolder){
         HolderProvider.postOrderNodesHolder = postOrderNodesHolder;
+    }
+
+    public static void setAugmentationHolder(AugmentationHolder augmentationHolder){
+        HolderProvider.augmentationHolder = augmentationHolder;
     }
 }
