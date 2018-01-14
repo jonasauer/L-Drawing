@@ -2,12 +2,12 @@ package main.java.test.holder;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.tcTree.TCTree;
+import main.java.decomposition.spqrTree.TCTree;
 import main.java.test.graphProvider.SimpleGraphProvider;
-import main.java.typeDetermination.holder.HolderProvider;
-import main.java.typeDetermination.holder.PertinentGraphHolder;
-import main.java.typeDetermination.holder.PostOrderNodesHolder;
-import main.java.typeDetermination.holder.SourceSinkPertinentGraphsHolder;
+import main.java.algorithm.holder.HolderProvider;
+import main.java.algorithm.holder.PertinentGraphHolder;
+import main.java.algorithm.holder.PostOrderNodesHolder;
+import main.java.algorithm.holder.SourceSinkPertinentGraphsHolder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import main.java.algorithm.LDrawing;
 
 public class GUIController {
 
@@ -140,7 +141,7 @@ public class GUIController {
     @FXML
     public void handleLDrawing(){
 
-        new LDrawing().startAlgortihm(graph);
+        new LDrawing().lDrawing(graph);
     }
 
     @FXML

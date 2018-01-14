@@ -3,7 +3,7 @@ package main.java.test.holder;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.test.graphProvider.SimpleGraphProvider;
-import main.java.typeDetermination.holder.SourceSinkGraphHolder;
+import main.java.algorithm.holder.SourceSinkGraphHolder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

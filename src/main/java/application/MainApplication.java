@@ -6,6 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.java.decomposition.graph.Graph;
+import main.java.decomposition.hyperGraph.Vertex;
+import main.java.decomposition.spqrTree.TCTree;
 
 public class MainApplication  extends Application {
 
