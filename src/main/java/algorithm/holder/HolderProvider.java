@@ -8,6 +8,7 @@ public class HolderProvider {
     private static SuccessorPathTypeHolder successorPathTypeHolder;
     private static PostOrderNodesHolder postOrderNodesHolder;
     private static AugmentationHolder augmentationHolder;
+    private static EmbeddingHolder embeddingHolder;
 
 
 
@@ -35,6 +36,10 @@ public class HolderProvider {
         return augmentationHolder;
     }
 
+    public static EmbeddingHolder getEmbeddingHolder(){
+        return embeddingHolder;
+    }
+
 
 
 
@@ -60,5 +65,9 @@ public class HolderProvider {
 
     public static void setAugmentationHolder(AugmentationHolder augmentationHolder){
         HolderProvider.augmentationHolder = augmentationHolder;
+    }
+
+    public static void setEmbeddingHolder(EmbeddingHolder embeddingHolder){
+        HolderProvider.embeddingHolder = embeddingHolder;
     }
 }

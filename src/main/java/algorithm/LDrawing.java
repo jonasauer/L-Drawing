@@ -36,6 +36,7 @@ public class LDrawing {
         HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tcTree));
         HolderProvider.setSourceSinkPertinentGraphsHolder(new SourceSinkPertinentGraphsHolder());
         HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
+        HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
 
         for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes()){
             switch (node.getType()){
@@ -53,9 +54,6 @@ public class LDrawing {
                     break;
             }
         }
-        Embedding embedding = new Embedding(convertedGraph);
-        for(Vertex v : convertedGraph.getVertices())
-            embedding.getEdgesCircular(v);
     }
 
 
