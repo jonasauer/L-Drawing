@@ -15,8 +15,8 @@ public class AugmentationHolder {
         this.augmentedEdges = new HashSet<>();
     }
 
-    public void setAugmentedSource(Set<DirectedEdge> augmentedEdges){
-        this.augmentedEdges = augmentedEdges;
+    public void setAugmentedSource(Vertex augmentedSource){
+        this.augmentedSource = augmentedSource;
     }
 
     public Vertex getAugmentedSource() {

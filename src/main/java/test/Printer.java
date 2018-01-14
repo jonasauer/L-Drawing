@@ -19,6 +19,10 @@ public class Printer {
 
     private static int dfsDepth;
 
+
+
+
+
     public static void printPertinentGraphsAndSkeletons(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(graph, backEdge);
@@ -36,6 +40,10 @@ public class Printer {
         }
     }
 
+
+
+
+
     public static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
 
         dfsDepth = -1;
@@ -43,7 +51,7 @@ public class Printer {
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(graph, backEdge);
 
         TCTreeNode root = tcTree.getRoot();
-        dfs(tcTree, root);
+        treePreOrderDFS(tcTree, root);
     }
 
     public static void printTreePreOrder(TCTree<DirectedEdge, Vertex> tcTree){
@@ -51,10 +59,10 @@ public class Printer {
         dfsDepth = -1;
 
         TCTreeNode root = tcTree.getRoot();
-        dfs(tcTree, root);
+        treePreOrderDFS(tcTree, root);
     }
 
-    private static void dfs(TCTree tcTree, TCTreeNode node){
+    private static void treePreOrderDFS(TCTree tcTree, TCTreeNode node){
         dfsDepth++;
 
         for(int i = 0; i < dfsDepth; i++) {
@@ -96,10 +104,47 @@ public class Printer {
 
         for(Object o : tcTree.getChildren(node)){
             TCTreeNode n = (TCTreeNode)o;
-            dfs(tcTree, n);
+            treePreOrderDFS(tcTree, n);
         }
         dfsDepth--;
     }
+
+
+
+
+    public static void printSuccessorTypes(TCTree<DirectedEdge, Vertex> tcTree){
+
+        dfsDepth = -1;
+
+        if(HolderProvider.getSuccessorPathTypeHolder() == null)
+            return;
+
+        TCTreeNode root = tcTree.getRoot();
+        successorTypesDFS(tcTree, root);
+    }
+
+    private static void successorTypesDFS(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> node){
+
+        dfsDepth++;
+
+        for(int i = 0; i < dfsDepth; i++) {
+            if(i < dfsDepth-1)
+                System.out.print("|   ");
+            else
+                System.out.print("|-> ");
+        }
+        System.out.println(node.getType() +  "    " + HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(node));
+
+        for(Object o : tcTree.getChildren(node)){
+            TCTreeNode n = (TCTreeNode)o;
+            successorTypesDFS(tcTree, n);
+        }
+        dfsDepth--;
+    }
+
+
+
+
 
     public static void main(String[] args){
 

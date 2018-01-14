@@ -55,11 +55,6 @@ public class LDrawing {
             }
         }
 
-        /**for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().keySet()){
-            System.out.println(node.getType() + "      " + HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(node));
-        }
-        System.out.println();**/
-
         Printer.printTreePreOrder(tcTree);
         System.out.println();
         System.out.println();
@@ -89,9 +84,13 @@ public class LDrawing {
         if(!convertedGraph.getEdges(source, target).isEmpty()){
             backEdge = convertedGraph.getEdge(source, target);
         }else{
-            Vertex newSource = convertedGraph.addVertex(new Vertex());
+            Vertex newSource = convertedGraph.addVertex(new Vertex("s'"));
             DirectedEdge augmentedE1 = convertedGraph.addEdge(newSource, source);
             DirectedEdge augmentedE2 = backEdge = convertedGraph.addEdge(newSource, target);
+
+            HolderProvider.getAugmentationHolder().setAugmentedSource(newSource);
+            HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE1);
+            HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE2);
         }
     }
 }
