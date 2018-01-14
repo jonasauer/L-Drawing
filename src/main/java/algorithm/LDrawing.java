@@ -8,7 +8,6 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.test.Printer;
 import main.java.algorithm.holder.*;
 import main.java.algorithm.typeDeterminationUtils.PTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.QTypeDetermination;
@@ -54,10 +53,9 @@ public class LDrawing {
                     break;
             }
         }
-
-        Printer.printTreePreOrder(tcTree);
-        System.out.println();
-        System.out.println();
+        Embedding embedding = new Embedding(convertedGraph);
+        for(Vertex v : convertedGraph.getVertices())
+            embedding.getEdgesCircular(v);
     }
 
 
