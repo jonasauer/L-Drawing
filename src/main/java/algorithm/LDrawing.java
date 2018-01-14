@@ -38,6 +38,10 @@ public class LDrawing {
         HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
         HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
 
+        for(Vertex v : convertedGraph.getVertices()){
+            HolderProvider.getEmbeddingHolder().getEdgesCircular(v);
+        }
+
         for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes()){
             switch (node.getType()){
                 case TYPE_Q:

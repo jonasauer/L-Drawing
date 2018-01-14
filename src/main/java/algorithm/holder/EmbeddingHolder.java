@@ -66,9 +66,68 @@ public class EmbeddingHolder {
         for(Dart dart : outgoingDarts)
             edgesCircular.add(convE2OrigE.get(dart.getAssociatedEdge()));
 
-        edgesCircualOrderings.put(vertex, edgesCircular);
+        List<DirectedEdge> orderedEdgesCircular = orderEdgesCircular(edgesCircular, vertex);
+
+        edgesCircualOrderings.put(vertex, orderedEdgesCircular);
+
+        System.out.println(vertex.getName());
+        for(DirectedEdge e : orderedEdgesCircular)
+            System.out.println(e);
+
         return edgesCircular;
     }
+
+    private List<DirectedEdge> orderEdgesCircular(List<DirectedEdge> edgesCircular, Vertex vertex){
+
+        List<DirectedEdge> orderedEdgesCircularIncoming = new LinkedList<>();
+        List<DirectedEdge> orderedEdgesCircularOutgoing = new LinkedList<>();
+        List<DirectedEdge> edgesStillToAdd = new LinkedList<>();
+        boolean ioAlreadySwitched = false;
+
+        //Order all Outgoing first
+        for(DirectedEdge edge : edgesCircular){
+            boolean incoming = edge.getTarget().equals(vertex);
+            if(incoming) {
+                ioAlreadySwitched = true;
+                continue;
+            }
+            if(!ioAlreadySwitched){
+                orderedEdgesCircularIncoming.add(edge);
+            }else{
+                edgesStillToAdd.add(edge);
+            }
+        }
+
+        for(int index = 0; index < edgesStillToAdd.size(); index++){
+            orderedEdgesCircularIncoming.add(index, edgesStillToAdd.get(index));
+        }
+
+        //Order all incoming edges
+        ioAlreadySwitched = false;
+        edgesStillToAdd.clear();
+
+        for(DirectedEdge edge : edgesCircular){
+            boolean outgoing = edge.getSource().equals(vertex);
+            if(outgoing) {
+                ioAlreadySwitched = true;
+                continue;
+            }
+            if(!ioAlreadySwitched){
+                orderedEdgesCircularOutgoing.add(edge);
+            }else{
+                edgesStillToAdd.add(edge);
+            }
+        }
+
+        for(int index = 0; index < edgesStillToAdd.size(); index++){
+            orderedEdgesCircularOutgoing.add(index, edgesStillToAdd.get(index));
+        }
+
+        //add incoming to outgoing
+        orderedEdgesCircularIncoming.addAll(orderedEdgesCircularOutgoing);
+        return orderedEdgesCircularIncoming;
+    }
+
 
 
 
