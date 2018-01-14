@@ -196,7 +196,7 @@ public class AbstractMultiDirectedHyperGraph <E extends IDirectedHyperEdge<V>,V 
 
 	/*
 	 * (non-Javadoc)
-	 * @see de.hpi.bpt.hypergraph.abs.IDirectedHyperGraph#getEdgesCircular(de.hpi.bpt.hypergraph.abs.IVertex)
+	 * @see de.hpi.bpt.hypergraph.abs.IDirectedHyperGraph#getOrderedEdgesCircular(de.hpi.bpt.hypergraph.abs.IVertex)
 	 */
 	public Collection<E> getOutgoingEdges(V v) {
 		return this.getEdgesWithSource(v);

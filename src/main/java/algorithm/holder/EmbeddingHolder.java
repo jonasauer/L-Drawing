@@ -14,7 +14,8 @@ public class EmbeddingHolder {
     private Map<Edge, DirectedEdge> convE2OrigE = new HashMap<>();
     private Map<DirectedEdge, Edge> origE2ConvE = new HashMap<>();
 
-    private Map<Vertex, List<DirectedEdge>> edgesCircualOrderings = new HashMap<>();
+    private Map<Vertex, List<DirectedEdge>> incomingEdgesCircularOrdering = new HashMap<>();
+    private Map<Vertex, List<DirectedEdge>> outgoingEdgesCircularOrdering = new HashMap<>();
     private PlanarEmbedding planarEmbedding;
 
     public EmbeddingHolder(MultiDirectedGraph graph){
@@ -47,18 +48,16 @@ public class EmbeddingHolder {
         }
 
         planarEmbedding = new PlanarEmbedding(convGraph);
+
         for(Vertex vertex : graph.getVertices())
-            getEdgesCircular(vertex);
+            calcOrderedEdgesCircular(vertex);
     }
 
 
 
 
 
-    public List<DirectedEdge> getEdgesCircular(Vertex vertex){
-
-        if(edgesCircualOrderings.containsKey(vertex))
-            return edgesCircualOrderings.get(vertex);
+    private void calcOrderedEdgesCircular(Vertex vertex){
 
         List<Dart> outgoingDarts = planarEmbedding.getOutgoingDarts(origV2ConvV.get(vertex));
         List<DirectedEdge> edgesCircular = new ArrayList<>();
@@ -66,20 +65,11 @@ public class EmbeddingHolder {
         for(Dart dart : outgoingDarts)
             edgesCircular.add(convE2OrigE.get(dart.getAssociatedEdge()));
 
-        List<DirectedEdge> orderedEdgesCircular = orderEdgesCircular(edgesCircular, vertex);
-
-        edgesCircualOrderings.put(vertex, orderedEdgesCircular);
-
-        System.out.println(vertex.getName());
-        for(DirectedEdge e : orderedEdgesCircular)
-            System.out.println(e);
-
-        return edgesCircular;
+        orderEdgesCircular(edgesCircular, vertex);
     }
 
-    private List<DirectedEdge> orderEdgesCircular(List<DirectedEdge> edgesCircular, Vertex vertex){
+    private void orderEdgesCircular(List<DirectedEdge> edgesCircular, Vertex vertex){
 
-        List<DirectedEdge> orderedEdgesCircularIncoming = new LinkedList<>();
         List<DirectedEdge> orderedEdgesCircularOutgoing = new LinkedList<>();
         List<DirectedEdge> edgesStillToAdd = new LinkedList<>();
         boolean ioAlreadySwitched = false;
@@ -88,6 +78,30 @@ public class EmbeddingHolder {
         for(DirectedEdge edge : edgesCircular){
             boolean incoming = edge.getTarget().equals(vertex);
             if(incoming) {
+                ioAlreadySwitched = true;
+                continue;
+            }
+            if(!ioAlreadySwitched){
+                orderedEdgesCircularOutgoing.add(edge);
+            }else{
+                edgesStillToAdd.add(edge);
+            }
+        }
+
+        for(int index = 0; index < edgesStillToAdd.size(); index++){
+            orderedEdgesCircularOutgoing.add(index, edgesStillToAdd.get(index));
+        }
+        outgoingEdgesCircularOrdering.put(vertex, orderedEdgesCircularOutgoing);
+
+
+        //Order all incoming edges
+        ioAlreadySwitched = false;
+        edgesStillToAdd.clear();
+        List<DirectedEdge> orderedEdgesCircularIncoming = new LinkedList<>();
+
+        for(DirectedEdge edge : edgesCircular){
+            boolean outgoing = edge.getSource().equals(vertex);
+            if(outgoing) {
                 ioAlreadySwitched = true;
                 continue;
             }
@@ -102,30 +116,34 @@ public class EmbeddingHolder {
             orderedEdgesCircularIncoming.add(index, edgesStillToAdd.get(index));
         }
 
-        //Order all incoming edges
-        ioAlreadySwitched = false;
-        edgesStillToAdd.clear();
+        incomingEdgesCircularOrdering.put(vertex, orderedEdgesCircularIncoming);
+    }
 
-        for(DirectedEdge edge : edgesCircular){
-            boolean outgoing = edge.getSource().equals(vertex);
-            if(outgoing) {
-                ioAlreadySwitched = true;
-                continue;
-            }
-            if(!ioAlreadySwitched){
-                orderedEdgesCircularOutgoing.add(edge);
-            }else{
-                edgesStillToAdd.add(edge);
-            }
-        }
 
-        for(int index = 0; index < edgesStillToAdd.size(); index++){
-            orderedEdgesCircularOutgoing.add(index, edgesStillToAdd.get(index));
-        }
 
-        //add incoming to outgoing
-        orderedEdgesCircularIncoming.addAll(orderedEdgesCircularOutgoing);
-        return orderedEdgesCircularIncoming;
+
+
+    public List<DirectedEdge> getIncomingEdgesCircularOrdering(Vertex vertex){
+        return incomingEdgesCircularOrdering.get(vertex);
+    }
+
+
+
+
+
+    public List<DirectedEdge> getOutgoingEdgesCircularOrdering(Vertex vertex){
+        return outgoingEdgesCircularOrdering.get(vertex);
+    }
+
+
+
+
+
+    public List<DirectedEdge> getEdgesCircularOrdering(Vertex vertex){
+        List<DirectedEdge> ret = new LinkedList<>();
+        ret.addAll(outgoingEdgesCircularOrdering.get(vertex));
+        ret.addAll(incomingEdgesCircularOrdering.get(vertex));
+        return ret;
     }
 
 
@@ -135,7 +153,7 @@ public class EmbeddingHolder {
 
     public DirectedEdge getCyclicNext(Vertex vertex, DirectedEdge directedEdge){
 
-        List<DirectedEdge> edgesCircular = this.getEdgesCircular(vertex);
+        List<DirectedEdge> edgesCircular = this.getEdgesCircularOrdering(vertex);
         int indexOfDirectedEdge = edgesCircular.indexOf(directedEdge);
         if(indexOfDirectedEdge < 0) return null;
 
@@ -148,7 +166,7 @@ public class EmbeddingHolder {
 
     public DirectedEdge getCyclicPrevious(Vertex vertex, DirectedEdge directedEdge){
 
-        List<DirectedEdge> edgesCircular = this.getEdgesCircular(vertex);
+        List<DirectedEdge> edgesCircular = this.getEdgesCircularOrdering(vertex);
         int indexOfDirectedEdge = edgesCircular.indexOf(directedEdge);
         if(indexOfDirectedEdge < 0) return null;
 

@@ -26,7 +26,7 @@ public class LDrawing {
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
         this.convertedGraph = GraphConverter.convert(initialGraph);
-        HolderProvider.setAugmentationHolder(new AugmentationHolder());
+        HolderProvider.setAugmentationHolder(new AugmentationHolder(convertedGraph));
         this.determineBackEdge();
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
@@ -37,10 +37,6 @@ public class LDrawing {
         HolderProvider.setSourceSinkPertinentGraphsHolder(new SourceSinkPertinentGraphsHolder());
         HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
         HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
-
-        for(Vertex v : convertedGraph.getVertices()){
-            HolderProvider.getEmbeddingHolder().getEdgesCircular(v);
-        }
 
         for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes()){
             switch (node.getType()){
