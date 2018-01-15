@@ -54,6 +54,7 @@ public class LDrawing {
                     break;
             }
         }
+        System.out.println(convertedGraph);
     }
 
 
