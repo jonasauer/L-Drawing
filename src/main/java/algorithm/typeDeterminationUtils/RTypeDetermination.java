@@ -2,11 +2,9 @@ package main.java.algorithm.typeDeterminationUtils;
 
 import main.java.algorithm.holder.EmbeddingHolder;
 import main.java.algorithm.holder.HolderProvider;
-import main.java.algorithm.holder.SourceSinkPertinentGraphsHolder;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCSkeleton;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
@@ -15,7 +13,42 @@ import java.util.*;
 
 public class RTypeDetermination{
 
-    public static void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    private TCTree<DirectedEdge, Vertex> tcTree;
+    private TCTreeNode<DirectedEdge, Vertex> tcTreeNode;
+    private MultiDirectedGraph skeleton;
+    private EmbeddingHolder embedding;
+
+    private List<List<DirectedEdge>> faces;
+
+    private Map<List<DirectedEdge>, Vertex> sourceToFacesMapping;
+    private Map<List<DirectedEdge>, Vertex> targetToFacesMapping;
+
+    private Map<List<DirectedEdge>, Vertex> leftVertex;
+    private Map<List<DirectedEdge>, Vertex> rightVertex;
+
+    private Map<List<DirectedEdge>, FaceType> faceTypes;
+
+    private boolean isSkeletonEmbeddingMirrored;
+
+    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+
+        this.tcTreeNode = tcTreeNode;
+        this.tcTree = tcTree;
+        this.skeleton = convertSkeletonToGraph();
+        this.embedding = new EmbeddingHolder(skeleton);
+
+        this.faces = embedding.getFaces();
+
+        this.sourceToFacesMapping = new HashMap<>();
+        this.targetToFacesMapping = new HashMap<>();
+
+        this.leftVertex = new HashMap<>();
+        this.rightVertex = new HashMap<>();
+
+        this.faceTypes = new HashMap<>();
+
+        this.isSkeletonEmbeddingMirrored = isSkeletonEmbeddingMirrored();
+
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
 
@@ -32,23 +65,22 @@ public class RTypeDetermination{
             }
         }
 
-        MultiDirectedGraph skeleton = convertSkeletonToGraph(tcTree, tcTreeNode);
-        EmbeddingHolder embeddingHolder = new EmbeddingHolder(skeleton);
-        List<List<DirectedEdge>> faces = embeddingHolder.getFaces();
-
-        Map<Vertex, List<List<DirectedEdge>>> sourceToFacesMapping = new HashMap<>();
-        Map<Vertex, List<List<DirectedEdge>>> targetToFacesMapping = new HashMap<>();
-
-        calcSourceAndTargetsOfFaces(sourceToFacesMapping, targetToFacesMapping, faces, skeleton);
-
-
+        calcSourceAndTargetOfFaces();
+        for(List<DirectedEdge> face : faces){
+            Vertex faceTarget = targetToFacesMapping.get(face);
+            Vertex left = leftVertex.get(face);
+            if(faceTarget.equals(left))
+                faceTypes.put(face, FaceType.TYPE_L);
+            else
+                faceTypes.put(face, FaceType.TYPE_R);
+        }
 
 
 
 
     }
 
-    private static MultiDirectedGraph convertSkeletonToGraph(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+    private MultiDirectedGraph convertSkeletonToGraph(){
 
         MultiDirectedGraph skeletonGraph = new MultiDirectedGraph();
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
@@ -61,33 +93,77 @@ public class RTypeDetermination{
 
 
 
-    private static void calcSourceAndTargetsOfFaces(Map<Vertex, List<List<DirectedEdge>>> sourceToFacesMapping,
-                                                    Map<Vertex, List<List<DirectedEdge>>> targetToFacesMapping,
-                                                    List<List<DirectedEdge>> faces,
-                                                    MultiDirectedGraph skeleton){
-
-        sourceToFacesMapping = new HashMap<>();
-        targetToFacesMapping = new HashMap<>();
-        for(Vertex vertex : skeleton.getVertices()){
-            sourceToFacesMapping.put(vertex, new LinkedList<>());
-            targetToFacesMapping.put(vertex, new LinkedList<>());
-        }
+    private void calcSourceAndTargetOfFaces(){
 
         for(List<DirectedEdge> face : faces){
 
-            Set<Vertex> possibleSources = new HashSet<>(skeleton.getVertices());
-            Set<Vertex> possibleTargets = new HashSet<>(skeleton.getVertices());
+            Vertex source = null;
+            Vertex target = null;
 
-            for(DirectedEdge edge : face){
-                for(Vertex vertex : skeleton.getVertices()){
-                    if(edge.getSource().equals(vertex))
-                        possibleTargets.remove(vertex);
-                    if(edge.getTarget().equals(vertex))
-                        possibleSources.remove(vertex);
+            for(int i = 0; i < face.size(); i++){
+
+                DirectedEdge first = face.get(i%face.size());
+                DirectedEdge second = face.get((i+1)%face.size());
+                if(first.getSource().equals(second.getSource())) {
+                    source = first.getSource();
+                    if(isSkeletonEmbeddingMirrored){
+                        leftVertex.put(face, first.getTarget());
+                        rightVertex.put(face, second.getTarget());
+                    }else{
+                        leftVertex.put(face, second.getTarget());
+                        rightVertex.put(face, first.getTarget());
+                    }
                 }
+                if(first.getTarget().equals(second.getTarget()))
+                    target = first.getTarget();
             }
-            sourceToFacesMapping.get(possibleSources.iterator().next()).add(face);
-            targetToFacesMapping.get(possibleTargets.iterator().next()).add(face);
+            sourceToFacesMapping.put(face, source);
+            targetToFacesMapping.put(face, target);
         }
+    }
+
+
+
+    private boolean isSkeletonEmbeddingMirrored(){
+
+        List<DirectedEdge> observedFace = null;
+        for(List<DirectedEdge> face : faces){
+            if(face.size() == 3){
+                observedFace = face;
+                break;
+            }
+        }
+
+        List<Vertex> observedFaceVertices = new LinkedList<>();
+        for(DirectedEdge edge : observedFace){
+            observedFaceVertices.add(edge.getSource());
+        }
+
+        List<Vertex> equalVertices = null;
+        for(List<DirectedEdge> face : HolderProvider.getEmbeddingHolder().getFaces()){
+            equalVertices = new LinkedList<>();
+            for(DirectedEdge edge : face){
+                if(observedFaceVertices.contains(edge.getSource()))
+                    equalVertices.add(edge.getSource());
+            }
+            if(equalVertices.size() == 3)
+                break;
+
+        }
+
+        Vertex first = observedFaceVertices.get(0);
+        Vertex second = observedFaceVertices.get(1);
+        for(int i = 0; i < 3; i++){
+            if(first.equals(equalVertices.get(i))){
+                return !second.equals(equalVertices.get(i%3));
+            }
+        }
+        throw new RuntimeException("Could not determine if the face is mirrored!");
+    }
+
+
+    private enum FaceType{
+        TYPE_L,
+        TYPE_R
     }
 }

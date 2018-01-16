@@ -50,11 +50,10 @@ public class LDrawing {
                     PTypeDetermination.determineType(tcTree, node);
                     break;
                 case TYPE_R:
-                    RTypeDetermination.determineType(tcTree, node);
+                    new RTypeDetermination().determineType(tcTree, node);
                     break;
             }
         }
-        System.out.println(convertedGraph);
     }
 
 
