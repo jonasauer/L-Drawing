@@ -172,6 +172,22 @@ public class EmbeddingHolder {
 
         return indexOfDirectedEdge > 0 ? edgesCircular.get(indexOfDirectedEdge-1) : edgesCircular.get(edgesCircular.size()-1);
     }
+
+
+
+
+
+    public List<List<DirectedEdge>> getFaces(){
+        List<List<DirectedEdge>> convertedFaces = new LinkedList<>();
+        for(List<Dart> face : planarEmbedding.getFaces()){
+            List<DirectedEdge> convertedFace = new LinkedList<>();
+            convertedFaces.add(convertedFace);
+            for(Dart dart : face){
+                convertedFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
+            }
+        }
+        return convertedFaces;
+    }
 }
 
 
