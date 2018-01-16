@@ -76,8 +76,6 @@ public class RTypeDetermination{
         }
 
 
-
-
     }
 
     private MultiDirectedGraph convertSkeletonToGraph(){
@@ -160,6 +158,14 @@ public class RTypeDetermination{
         }
         throw new RuntimeException("Could not determine if the face is mirrored!");
     }
+
+
+
+
+
+
+
+
 
 
     private enum FaceType{

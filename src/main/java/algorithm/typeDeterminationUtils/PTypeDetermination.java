@@ -70,8 +70,14 @@ public class PTypeDetermination{
             }
 
             //get the corresponding edges
-            Collection<DirectedEdge> typeBSuccessorEdges = augmentedGraph.getEdgesWithTargets(typeBSuccessorVertices);
-            Collection<DirectedEdge> typeBPredecessorEdges = augmentedGraph.getEdgesWithSources(typeBPredecessorVertices);
+            List<DirectedEdge> typeBSuccessorEdges = new LinkedList<>();
+            List<DirectedEdge> typeBPredecessorEdges = new LinkedList<>();
+            for(DirectedEdge edge : augmentedGraph.getEdgesWithTargets(typeBSuccessorVertices)){
+                if(edge.getSource().equals(source)) typeBSuccessorEdges.add(edge);
+            }
+            for(DirectedEdge edge : augmentedGraph.getEdgesWithSources(typeBPredecessorVertices)){
+                if(edge.getTarget().equals(target)) typeBPredecessorEdges.add(edge);
+            }
 
             //iterate over all outgoing edges and if it is part of the typeB pertGraph, remove it and add it again.
             Iterator<DirectedEdge> edgeIterator = outgoingEdgesSource.iterator();
