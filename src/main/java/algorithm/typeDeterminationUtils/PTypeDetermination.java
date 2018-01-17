@@ -8,7 +8,6 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.algorithm.holder.HolderProvider;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,6 +111,10 @@ public class PTypeDetermination{
             }
         }
     }
+
+
+    //TODO: switch children in this node, because in RNode that can not be done.
+    //TODO: augmented edges maybe add to embedding.
 }
 
 
