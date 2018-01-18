@@ -52,6 +52,19 @@ public class PTypeDetermination{
                 incomingEdgesTarget.remove(sourceSinkEdge);
                 incomingEdgesTarget.add(0, sourceSinkEdge);
             }
+
+            //connect pertinentGraph of all children
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex firstSuccessor = outgoingEdgesSource.get(i).getTarget();
+                Vertex secondSuccessor = outgoingEdgesSource.get(i+1).getTarget();
+                if(augmentedGraph.getEdge(firstSuccessor, secondSuccessor) == null){
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(firstSuccessor, secondSuccessor);
+                    HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(firstSuccessor).add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(secondSuccessor).add(augmentedEdge);
+                }
+            }
+
         }else{
 
             if(sourceSinkEdge != null)
@@ -99,21 +112,50 @@ public class PTypeDetermination{
                     incomingEdgesTarget.add(insertIndex++, edge);
                 }
             }
-        }
 
-        //connect pertinentGraph of all children
-        for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
-            Vertex firstSuccessor = outgoingEdgesSource.get(i).getTarget();
-            Vertex secondSuccessor = outgoingEdgesSource.get(i+1).getTarget();
-            if(augmentedGraph.getEdge(firstSuccessor, secondSuccessor) == null){
-                DirectedEdge augmentedEdge = augmentedGraph.addEdge(firstSuccessor, secondSuccessor);
-                HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+            //get Index of the apex
+            int apexIndex = -1;
+            for(int i = 1; i < outgoingEdgesSource.size()-1; i++){
+                Vertex leftVertex = outgoingEdgesSource.get(i-1).getTarget();
+                Vertex middleVertex = outgoingEdgesSource.get(i).getTarget();
+                Vertex rightVertex = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge leftMiddle = augmentedGraph.getEdge(leftVertex, middleVertex);
+                DirectedEdge rightMiddle = augmentedGraph.getEdge(rightVertex, middleVertex);
+
+                if(leftMiddle != null && rightMiddle != null){
+                    if(leftMiddle.getTarget().equals(middleVertex) && rightMiddle.getTarget().equals(middleVertex)){
+                        apexIndex = i;
+                        break;
+                    }
+                }
             }
+
+            //connect vertices before apex position with an edge to the right.
+            for(int i = 0; i < apexIndex-1; i++){
+                Vertex firstSuccessor = outgoingEdgesSource.get(i).getTarget();
+                Vertex secondSuccessor = outgoingEdgesSource.get(i+1).getTarget();
+                if(augmentedGraph.getEdge(firstSuccessor, secondSuccessor) == null){
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(firstSuccessor, secondSuccessor);
+                    HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(firstSuccessor).add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(secondSuccessor).add(augmentedEdge);
+                }
+            }
+
+            //connect vertices after apex position with an edge to the left.
+            for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
+                Vertex firstSuccessor = outgoingEdgesSource.get(i).getTarget();
+                Vertex secondSuccessor = outgoingEdgesSource.get(i+1).getTarget();
+                if(augmentedGraph.getEdge(firstSuccessor, secondSuccessor) == null){
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(secondSuccessor, firstSuccessor);
+                    HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(secondSuccessor).add(0, augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(firstSuccessor).add(0 ,augmentedEdge);
+                }
+            }
+
         }
     }
-
-
-    //TODO: switch children in this node, because in RNode that can not be done.
     //TODO: augmented edges maybe add to embedding.
 }
 

@@ -180,6 +180,7 @@ public class EmbeddingHolder {
     public List<List<DirectedEdge>> getFaces(){
         List<List<DirectedEdge>> convertedFaces = new LinkedList<>();
         for(List<Dart> face : planarEmbedding.getFaces()){
+            if(face == planarEmbedding.getOuterFace()) continue;
             List<DirectedEdge> convertedFace = new LinkedList<>();
             convertedFaces.add(convertedFace);
             for(Dart dart : face){

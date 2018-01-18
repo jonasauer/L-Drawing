@@ -21,15 +21,19 @@ public class RTypeDetermination{
 
     private List<List<DirectedEdge>> faces;
 
-    private Map<List<DirectedEdge>, Vertex> sourceToFacesMapping;
-    private Map<List<DirectedEdge>, Vertex> targetToFacesMapping;
+    private Map<List<DirectedEdge>, Vertex> sourceOfFace;
+    private Map<Vertex, List<List<DirectedEdge>>> facesOfSource;
+    private Map<List<DirectedEdge>, Vertex> targetOfFace;
 
-    private Map<List<DirectedEdge>, Vertex> leftVertex;
-    private Map<List<DirectedEdge>, Vertex> rightVertex;
+    private Map<List<DirectedEdge>, DirectedEdge> leftEdge;
+    private Map<List<DirectedEdge>, DirectedEdge> rightEdge;
+
+    private Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> virtualEdgeToTCTreeNode;
 
     private Map<List<DirectedEdge>, FaceType> faceTypes;
 
     private boolean isSkeletonEmbeddingMirrored;
+    private SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
@@ -41,11 +45,14 @@ public class RTypeDetermination{
 
         this.faces = embedding.getFaces();
 
-        this.sourceToFacesMapping = new HashMap<>();
-        this.targetToFacesMapping = new HashMap<>();
+        this.sourceOfFace = new HashMap<>();
+        this.facesOfSource = new HashMap<>();
+        this.targetOfFace = new HashMap<>();
 
-        this.leftVertex = new HashMap<>();
-        this.rightVertex = new HashMap<>();
+        this.leftEdge = new HashMap<>();
+        this.rightEdge = new HashMap<>();
+
+        this.virtualEdgeToTCTreeNode = getVirtualEdgeToTCTreeNode();
 
         this.faceTypes = new HashMap<>();
 
@@ -54,26 +61,15 @@ public class RTypeDetermination{
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
 
-        TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
-        SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
-
-        for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-
-            if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
-                if(optTypeBNode != null)
-                    throw new RuntimeException("Type B is occurring twice in P-Node!");
-                optTypeBNode = child;
-                successorPathType = SuccessorPathType.TYPE_B;
-            }
-        }
-
         calcSourceAndTargetOfFaces();
         for(List<DirectedEdge> face : faces){
-            Vertex faceTarget = targetToFacesMapping.get(face);
-            Vertex left = leftVertex.get(face);
+            Vertex faceTarget = targetOfFace.get(face);
+            Vertex left = leftEdge.get(face).getTarget();
+            Vertex right = rightEdge.get(face).getTarget();
             if(faceTarget.equals(left)) {
                 faceTypes.put(face, FaceType.TYPE_L);
-            }else{
+            }
+            if(faceTarget.equals(right)){
                 faceTypes.put(face, FaceType.TYPE_R);
             }
         }
@@ -96,7 +92,30 @@ public class RTypeDetermination{
 
 
 
+    private Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> getVirtualEdgeToTCTreeNode(){
+
+        Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> virtualEdgeToTCTreeNode = new HashMap<>();
+
+        for(DirectedEdge edge : skeleton.getEdges()){
+            for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                Vertex edgeSource = edge.getSource();
+                Vertex edgeTarget = edge.getTarget();
+                Vertex childSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(child);
+                Vertex childTarget = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(child);
+                if(edgeSource.equals(childSource) && edgeTarget.equals(childTarget))
+                    virtualEdgeToTCTreeNode.put(edge, child);
+            }
+        }
+        return virtualEdgeToTCTreeNode;
+    }
+
+
+
     private void calcSourceAndTargetOfFaces(){
+
+        for(Vertex vertex : skeleton.getVertices()){
+            facesOfSource.put(vertex, new LinkedList<>());
+        }
 
         for(List<DirectedEdge> face : faces){
 
@@ -110,18 +129,19 @@ public class RTypeDetermination{
                 if(first.getSource().equals(second.getSource())) {
                     source = first.getSource();
                     if(isSkeletonEmbeddingMirrored){
-                        leftVertex.put(face, first.getTarget());
-                        rightVertex.put(face, second.getTarget());
+                        leftEdge.put(face, first);
+                        rightEdge.put(face, second);
                     }else{
-                        leftVertex.put(face, second.getTarget());
-                        rightVertex.put(face, first.getTarget());
+                        leftEdge.put(face, second);
+                        rightEdge.put(face, first);
                     }
                 }
                 if(first.getTarget().equals(second.getTarget()))
                     target = first.getTarget();
             }
-            sourceToFacesMapping.put(face, source);
-            targetToFacesMapping.put(face, target);
+            sourceOfFace.put(face, source);
+            targetOfFace.put(face, target);
+            facesOfSource.get(source).add(face);
         }
     }
 
@@ -251,6 +271,68 @@ public class RTypeDetermination{
 
 
     private void connectVertices(Vertex vertex){
+
+        List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
+        if(outgoingFaces.isEmpty()) return;
+        List<List<DirectedEdge>> outgoingFacesOrdered = new LinkedList<>();
+        List<DirectedEdge> outgoingEdges = embedding.getOutgoingEdgesCircularOrdering(vertex);
+        TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
+        boolean bothTypeOfFacesContained = false;
+
+        //order outgoing faces from left to right
+        for(int i = 0; i < outgoingEdges.size()-1; i++){
+            for(List<DirectedEdge> face : outgoingFaces){
+                Vertex realLeft = outgoingEdges.get(i).getTarget();
+                Vertex realRight = outgoingEdges.get(i+1).getTarget();
+                Vertex faceLeft = leftEdge.get(face).getTarget();
+                Vertex faceRight = rightEdge.get(face).getTarget();
+                if(realLeft.equals(faceLeft) && realRight.equals(faceRight))
+                    outgoingFacesOrdered.add(face);
+            }
+        }
+
+        //chick if there is more than one type B child.
+        for(DirectedEdge edge : embedding.getOutgoingEdgesCircularOrdering(vertex)){
+            TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
+            if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
+                if(optTypeBNode != null)
+                    throw new RuntimeException("Vertex has two children with Type B!");
+                optTypeBNode = child;
+                successorPathType = SuccessorPathType.TYPE_B;
+            }
+        }
+
+        //check if all R faces are before typeB node and all L faces are after typeB node.
+        if(optTypeBNode != null){
+            for(List<DirectedEdge> face : outgoingFacesOrdered){
+                DirectedEdge left = leftEdge.get(face);
+                DirectedEdge right = rightEdge.get(face);
+                if(faceTypes.get(face).equals(FaceType.TYPE_L))
+                    if(optTypeBNode.equals(virtualEdgeToTCTreeNode.get(right)))
+                        throw new RuntimeException("Type B node is the right edge of a face with Type L!");
+                if(faceTypes.get(face).equals(FaceType.TYPE_R))
+                    if(optTypeBNode.equals(virtualEdgeToTCTreeNode.get(left)))
+                        throw new RuntimeException("Type B node is the left edge of a face with Type R!");
+            }
+        }
+
+        //check if all faces with type L are after all faces with type R.
+        for(int i = 0; i < outgoingFacesOrdered.size()-1; i++){
+            if(faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_L) &&
+                    faceTypes.get(outgoingFacesOrdered.get(i+1)).equals(FaceType.TYPE_R))
+                throw new RuntimeException("Face with type L is before face with type R!");
+            if(faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_R) &&
+                    faceTypes.get(outgoingFacesOrdered.get(i+1)).equals(FaceType.TYPE_L))
+                bothTypeOfFacesContained = true;
+        }
+
+        if(optTypeBNode != null){
+            return;
+        }
+        if(bothTypeOfFacesContained){
+            return;
+        }
+
     }
 
 

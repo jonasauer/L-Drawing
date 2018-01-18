@@ -65,7 +65,7 @@ public class LDrawing {
         if(GraphChecker.isCyclic(graphAdapter.getYGraph()))
             throw new RuntimeException("Graph is cyclic!");
         if(!GraphChecker.isBiconnected(graphAdapter.getYGraph()))
-            throw new RuntimeException("Graph is not bi-connected!");
+            throw new RuntimeException("Graph is not biconnected!");
         if(!GraphChecker.isPlanar(graphAdapter.getYGraph()))
             throw new RuntimeException("Graph is not planar!");
     }
