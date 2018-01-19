@@ -79,6 +79,7 @@ public class RTypeDetermination{
         }
 
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
+        System.out.println(successorPathType);
     }
 
     private MultiDirectedGraph convertSkeletonToGraph(){
@@ -324,26 +325,39 @@ public class RTypeDetermination{
         }
 
         //check if all faces with type L are after all faces with type R.
+        TCTreeNode<DirectedEdge, Vertex> nodeWithApex = null;
         for(int i = 0; i < outgoingFacesOrdered.size()-1; i++) {
-            if (faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_L) &&
-                    faceTypes.get(outgoingFacesOrdered.get(i + 1)).equals(FaceType.TYPE_R))
+            List<DirectedEdge> face1 = outgoingFacesOrdered.get(i);
+            List<DirectedEdge> face2 = outgoingFacesOrdered.get(i+1);
+            System.out.println(faceTypes.get(face1) + " " + faceTypes.get(face2));
+            if (faceTypes.get(face1).equals(FaceType.TYPE_L) && faceTypes.get(face2).equals(FaceType.TYPE_R))
                 throw new RuntimeException("Face with type L is before face with type R!");
-            if (faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_R) &&
-                    faceTypes.get(outgoingFacesOrdered.get(i + 1)).equals(FaceType.TYPE_L)) {
+            if (faceTypes.get(face1).equals(FaceType.TYPE_R) && faceTypes.get(face2).equals(FaceType.TYPE_L)) {
                 bothTypeOfFacesContained = true;
                 successorPathType = SuccessorPathType.TYPE_B;
+                if(face2.contains(face1.get(0)))
+                    nodeWithApex = virtualEdgeToTCTreeNode.get(face1.get(0));
+                if(face2.contains(face1.get(1)))
+                    nodeWithApex = virtualEdgeToTCTreeNode.get(face1.get(1));
+                if(face2.contains(face1.get(2)))
+                    nodeWithApex = virtualEdgeToTCTreeNode.get(face1.get(2));
+
             }
         }
 
         if(optTypeBNode != null){
             connectWithTypeB(vertex);
+            System.out.println("Finished1");
             return;
         }
         if(bothTypeOfFacesContained){
+            connectWithBothTypes(vertex, nodeWithApex);
+            System.out.println("Finished2");
             return;
         }
 
         connectWithOnlyOneType(vertex);
+        System.out.println("Finished3");
     }
 
 
@@ -365,6 +379,69 @@ public class RTypeDetermination{
                     break;
                 }
             }
+        }
+
+        for(int i = 0; i < apexIndex-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge != null && edge.getSource().equals(second) && edge.getTarget().equals(first)){
+                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                        flipNodeInEmbedding(child);
+                }
+            }
+        }
+
+        for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    if(childPert.contains(edge))
+                        flipNodeInEmbedding(child);
+                }
+            }
+        }
+
+        for(int i = 0; i < apexIndex-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge == null){
+                DirectedEdge augmentedEdge = augmentedGraph.addEdge(first, second);
+                HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(first).add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(second).add(augmentedEdge);
+            }
+        }
+
+        for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge == null){
+                DirectedEdge augmentedEdge = augmentedGraph.addEdge(second, first);
+                HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(second).add(0, augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(first).add(0 ,augmentedEdge);
+            }
+        }
+    }
+
+
+    private void connectWithBothTypes(Vertex vertex, TCTreeNode<DirectedEdge, Vertex> nodeWithApex){
+
+        int apexIndex = 0;
+        List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(nodeWithApex);
+        for(DirectedEdge edge : outgoingEdgesSource){
+            if(pert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                break;
+            apexIndex++;
         }
 
         for(int i = 0; i < apexIndex-1; i++){

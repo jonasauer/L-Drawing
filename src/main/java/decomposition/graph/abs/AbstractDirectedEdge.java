@@ -132,11 +132,6 @@ public class AbstractDirectedEdge<V extends IVertex> extends AbstractDirectedHyp
 		this.target = t;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see de.hpi.bpt.hypergraph.abs.AbstractDirectedHyperEdge#equals(java.lang.Object)
-	 */
-	/*@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
@@ -144,7 +139,7 @@ public class AbstractDirectedEdge<V extends IVertex> extends AbstractDirectedHyp
 		AbstractDirectedEdge<V> e = (AbstractDirectedEdge<V>) obj;
 		
 		return this.source.equals(e.getSource()) && this.target.equals(e.getTarget());
-	}*/
+	}
 	
 	
 	
