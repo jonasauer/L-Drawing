@@ -77,6 +77,8 @@ public class RTypeDetermination{
         for(Vertex vertex : skeleton.getVertices()){
             connectVertices(vertex);
         }
+
+        HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
     }
 
     private MultiDirectedGraph convertSkeletonToGraph(){
@@ -159,15 +161,20 @@ public class RTypeDetermination{
 
         List<Vertex> observedFaceVertices = new LinkedList<>();
         for(DirectedEdge edge : observedFace){
-            observedFaceVertices.add(edge.getSource());
+            if(!observedFaceVertices.contains(edge.getSource()))
+                observedFaceVertices.add(edge.getSource());
+            if(!observedFaceVertices.contains(edge.getTarget()))
+                observedFaceVertices.add(edge.getTarget());
         }
 
         List<Vertex> equalVertices = null;
         for(List<DirectedEdge> face : HolderProvider.getEmbeddingHolder().getFaces()){
             equalVertices = new LinkedList<>();
             for(DirectedEdge edge : face){
-                if(observedFaceVertices.contains(edge.getSource()))
+                if(observedFaceVertices.contains(edge.getSource()) && !equalVertices.contains(edge.getSource()))
                     equalVertices.add(edge.getSource());
+                if(observedFaceVertices.contains(edge.getTarget()) && !equalVertices.contains(edge.getTarget()))
+                    equalVertices.add(edge.getTarget());
             }
             if(equalVertices.size() == 3)
                 break;
@@ -178,7 +185,7 @@ public class RTypeDetermination{
         Vertex second = observedFaceVertices.get(1);
         for(int i = 0; i < 3; i++){
             if(first.equals(equalVertices.get(i))){
-                return !second.equals(equalVertices.get(i%3));
+                return !second.equals(equalVertices.get((i+1)%3));
             }
         }
         throw new RuntimeException("Could not determine if the face is mirrored!");
@@ -317,23 +324,165 @@ public class RTypeDetermination{
         }
 
         //check if all faces with type L are after all faces with type R.
-        for(int i = 0; i < outgoingFacesOrdered.size()-1; i++){
-            if(faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_L) &&
-                    faceTypes.get(outgoingFacesOrdered.get(i+1)).equals(FaceType.TYPE_R))
+        for(int i = 0; i < outgoingFacesOrdered.size()-1; i++) {
+            if (faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_L) &&
+                    faceTypes.get(outgoingFacesOrdered.get(i + 1)).equals(FaceType.TYPE_R))
                 throw new RuntimeException("Face with type L is before face with type R!");
-            if(faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_R) &&
-                    faceTypes.get(outgoingFacesOrdered.get(i+1)).equals(FaceType.TYPE_L))
+            if (faceTypes.get(outgoingFacesOrdered.get(i)).equals(FaceType.TYPE_R) &&
+                    faceTypes.get(outgoingFacesOrdered.get(i + 1)).equals(FaceType.TYPE_L)) {
                 bothTypeOfFacesContained = true;
+                successorPathType = SuccessorPathType.TYPE_B;
+            }
         }
 
         if(optTypeBNode != null){
+            connectWithTypeB(vertex);
             return;
         }
         if(bothTypeOfFacesContained){
             return;
         }
 
+        connectWithOnlyOneType(vertex);
     }
+
+
+    private void connectWithTypeB(Vertex vertex){
+
+        List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        if(outgoingEdgesSource.size() <= 0) return;
+        int apexIndex = -1;
+        for(int i = 1; i < outgoingEdgesSource.size()-1; i++){
+            Vertex leftVertex = outgoingEdgesSource.get(i-1).getTarget();
+            Vertex middleVertex = outgoingEdgesSource.get(i).getTarget();
+            Vertex rightVertex = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge leftMiddle = augmentedGraph.getEdge(leftVertex, middleVertex);
+            DirectedEdge rightMiddle = augmentedGraph.getEdge(rightVertex, middleVertex);
+
+            if(leftMiddle != null && rightMiddle != null){
+                if(leftMiddle.getTarget().equals(middleVertex) && rightMiddle.getTarget().equals(middleVertex)){
+                    apexIndex = i;
+                    break;
+                }
+            }
+        }
+
+        for(int i = 0; i < apexIndex-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge != null && edge.getSource().equals(second) && edge.getTarget().equals(first)){
+                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                        flipNodeInEmbedding(child);
+                }
+            }
+        }
+
+        for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    if(childPert.contains(edge))
+                        flipNodeInEmbedding(child);
+                }
+            }
+        }
+
+        for(int i = 0; i < apexIndex-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge == null){
+                DirectedEdge augmentedEdge = augmentedGraph.addEdge(first, second);
+                HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(first).add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(second).add(augmentedEdge);
+            }
+        }
+
+        for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
+            Vertex first = outgoingEdgesSource.get(i).getTarget();
+            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(first, second);
+            if(edge == null){
+                DirectedEdge augmentedEdge = augmentedGraph.addEdge(second, first);
+                HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(second).add(0, augmentedEdge);
+                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(first).add(0 ,augmentedEdge);
+            }
+        }
+    }
+
+
+    private void connectWithOnlyOneType(Vertex vertex){
+        List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        if(outgoingEdgesSource.size() <= 0) return;
+        if(facesOfSource.get(vertex).size() <= 0) return;
+        FaceType faceType = faceTypes.get(facesOfSource.get(vertex).iterator().next());
+
+        if(faceType.equals(FaceType.TYPE_R)){
+            //flip nodes that are from right to left.
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex first = outgoingEdgesSource.get(i).getTarget();
+                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(first, second);
+                if(edge != null && edge.getSource().equals(second) && edge.getTarget().equals(first)){
+                    for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                        MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                        if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                            flipNodeInEmbedding(child);
+                    }
+                }
+            }
+
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex first = outgoingEdgesSource.get(i).getTarget();
+                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(first, second);
+                if(edge == null){
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(first, second);
+                    HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(first).add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(second).add(augmentedEdge);
+                }
+            }
+        }else{
+
+            //flip nodes that are from right to left.
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex first = outgoingEdgesSource.get(i).getTarget();
+                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(first, second);
+                if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+                    for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                        MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                        if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                            flipNodeInEmbedding(child);
+                    }
+                }
+            }
+
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex first = outgoingEdgesSource.get(i).getTarget();
+                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(first, second);
+                if(edge == null){
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(second, first);
+                    HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(second).add(0, augmentedEdge);
+                    HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(first).add(0, augmentedEdge);
+                }
+            }
+
+        }
+    }
+
+
 
 
 
