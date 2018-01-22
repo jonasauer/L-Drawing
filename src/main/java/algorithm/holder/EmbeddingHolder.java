@@ -190,7 +190,6 @@ public class EmbeddingHolder {
 
 
 
-    //TODO: Rewrite
     public List<List<DirectedEdge>> getFacesOfRNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, MultiDirectedGraph skeleton){
 
 

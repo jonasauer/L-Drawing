@@ -33,8 +33,6 @@ public class RTypeDetermination{
     private SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
 
-
-    //TODO: rewrite faces of skeleton with .
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
         System.out.println("---------------------------");
