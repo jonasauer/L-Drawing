@@ -37,8 +37,9 @@ public class RTypeDetermination{
     //TODO: rewrite faces of skeleton with .
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
-
+        System.out.println("---------------------------");
         System.out.println("    RType Determination");
+
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
 
@@ -571,11 +572,6 @@ public class RTypeDetermination{
 
         }
     }
-
-
-
-
-
 
 
     private enum FaceType{

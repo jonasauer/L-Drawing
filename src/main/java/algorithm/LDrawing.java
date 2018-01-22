@@ -59,6 +59,8 @@ public class LDrawing {
                     break;
             }
         }
+
+        System.out.println("    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
     }
 
 
