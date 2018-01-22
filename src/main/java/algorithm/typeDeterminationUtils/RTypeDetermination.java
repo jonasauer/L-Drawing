@@ -34,7 +34,7 @@ public class RTypeDetermination{
 
 
 
-
+    //TODO: rewrite faces of skeleton with .
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 

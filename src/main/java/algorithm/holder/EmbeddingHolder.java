@@ -190,18 +190,18 @@ public class EmbeddingHolder {
 
 
 
-
+    //TODO: Rewrite
     public List<List<DirectedEdge>> getFacesOfRNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, MultiDirectedGraph skeleton){
 
 
         MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
 
         //determine all faces of the pertinent graph
-        List<List<DirectedEdge>> allFacesOfPert = new LinkedList<>();
-        for(List<DirectedEdge> face : this.getFaces()){
+        List<List<Dart>> allFacesOfPert = new LinkedList<>();
+        for(List<Dart> face : planarEmbedding.getFaces()){
             boolean isFaceOfPert = true;
-            for(DirectedEdge edge : face){
-                if(!rPert.contains(edge))
+            for(Dart dart : face){
+                if(!rPert.contains(convE2OrigE.get(dart.getAssociatedEdge())))
                     isFaceOfPert = false;
             }
             if(isFaceOfPert)
@@ -210,13 +210,21 @@ public class EmbeddingHolder {
 
         //determine if a face is also a face of the skeleton and if so, determine the relevant vertices.
         List<List<Vertex>> allFacesOfSkeleton = new LinkedList<>();
-        for(List<DirectedEdge> face : allFacesOfPert){
+        for(List<Dart> face : allFacesOfPert){
             List<Vertex> realFaceVertices = new LinkedList<>();
-            for(DirectedEdge edge : face){
-                if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
-                    realFaceVertices.add(edge.getSource());
-                if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
-                    realFaceVertices.add(edge.getTarget());
+            for(Dart dart : face){
+                DirectedEdge edge = convE2OrigE.get(dart.getAssociatedEdge());
+                if(!dart.isReversed()){
+                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
+                        realFaceVertices.add(edge.getTarget());
+                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
+                        realFaceVertices.add(edge.getSource());
+                }else{
+                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
+                        realFaceVertices.add(edge.getSource());
+                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
+                        realFaceVertices.add(edge.getTarget());
+                }
             }
             if(realFaceVertices.size() >= 3)
                 allFacesOfSkeleton.add(realFaceVertices);
