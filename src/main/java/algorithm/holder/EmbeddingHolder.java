@@ -214,15 +214,15 @@ public class EmbeddingHolder {
             for(Dart dart : face){
                 DirectedEdge edge = convE2OrigE.get(dart.getAssociatedEdge());
                 if(!dart.isReversed()){
-                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
-                        realFaceVertices.add(edge.getTarget());
                     if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
                         realFaceVertices.add(edge.getSource());
+                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
+                        realFaceVertices.add(edge.getTarget());
                 }else{
-                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
-                        realFaceVertices.add(edge.getSource());
                     if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
                         realFaceVertices.add(edge.getTarget());
+                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
+                        realFaceVertices.add(edge.getSource());
                 }
             }
             if(realFaceVertices.size() >= 3)

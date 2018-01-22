@@ -130,8 +130,8 @@ public class RTypeDetermination{
                 DirectedEdge edge2 = face.get((i+1)%face.size());
                 if(edge1.getSource().equals(edge2.getSource())) {
                     source = edge1.getSource();
-                    leftEdge.put(face, edge2);
-                    rightEdge.put(face, edge1);
+                    leftEdge.put(face, edge1);
+                    rightEdge.put(face, edge2);
                 }
                 if(edge1.getTarget().equals(edge2.getTarget())) {
                     target = edge1.getTarget();
@@ -273,7 +273,7 @@ public class RTypeDetermination{
             for(int j = 0; j < face.size(); j++){
                 DirectedEdge e1 = face.get((j+0)%face.size());
                 DirectedEdge e2 = face.get((j+1)%face.size());
-                if(e1.getSource().equals(vertex) && e2.getTarget().equals(vertex))
+                if(e1.getTarget().equals(vertex) && e2.getSource().equals(vertex))
                     index = i;
             }
         }
@@ -283,10 +283,10 @@ public class RTypeDetermination{
             for(int j = 0; j < face.size(); j++) {
                 DirectedEdge e1 = face.get((j + 0) % face.size());
                 DirectedEdge e2 = face.get((j + 1) % face.size());
-                if (e2.getSource().equals(vertex) && !outgoingEdges.contains(e2))
-                    outgoingEdges.add(e2);
                 if (e1.getSource().equals(vertex) && !outgoingEdges.contains(e1))
                     outgoingEdges.add(e1);
+                if (e2.getSource().equals(vertex) && !outgoingEdges.contains(e2))
+                    outgoingEdges.add(e2);
             }
 
         }
@@ -301,18 +301,32 @@ public class RTypeDetermination{
         List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
         if(outgoingFaces.isEmpty()) return;
         List<List<DirectedEdge>> outgoingFacesOrdered = new LinkedList<>();
-        List<DirectedEdge> outgoingEdges = getOutgoingEdgesCircularOrdering(vertex);
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         boolean bothTypeOfFacesContained = false;
 
+        //TODO: maybe remake
         //order outgoing faces from left to right
-        for(int i = 0; i < outgoingEdges.size()-1; i++){
-            DirectedEdge edge1 = outgoingEdges.get(i);
-            DirectedEdge edge2 = outgoingEdges.get(i+1);
-            for(List<DirectedEdge> face : outgoingFaces){
-                if(face.contains(edge1) && face.contains(edge2))
-                    outgoingFacesOrdered.add(face);
+        int index = 0;
+        outgoingFacesOrdered.add(outgoingFaces.get(0));
+        while(index < outgoingFaces.size()){
+            List<DirectedEdge> face = outgoingFaces.get(index++);
+            List<DirectedEdge> first = outgoingFacesOrdered.get(0);
+            List<DirectedEdge> last = outgoingFacesOrdered.get(outgoingFacesOrdered.size()-1);
+            if(rightEdge.get(face).equals(leftEdge.get(first))){
+                outgoingFacesOrdered.add(0, face);
+                index = 0;
             }
+            if(rightEdge.get(last).equals(leftEdge.get(face))){
+                outgoingFacesOrdered.add(face);
+                index = 0;
+            }
+        }
+
+        System.out.println(vertex + ": ");
+        for(List<DirectedEdge> face : outgoingFacesOrdered){
+            for(DirectedEdge edge : face)
+                System.out.print(edge + "  ");
+            System.out.println();
         }
 
         //check if there is more than one type B child.
