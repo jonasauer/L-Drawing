@@ -13,6 +13,7 @@ import main.java.algorithm.typeDeterminationUtils.PTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.QTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.RTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.STypeDetermination;
+import main.java.test.Printer;
 
 public class LDrawing {
 
@@ -30,6 +31,10 @@ public class LDrawing {
         this.determineBackEdge();
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
+
+        Printer.printTreePreOrder(tcTree);
+        System.out.println();
+        System.out.println();
 
         HolderProvider.setSourceSinkGraphHolder(new SourceSinkGraphHolder(convertedGraph));
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));

@@ -1,6 +1,5 @@
 package main.java.algorithm.typeDeterminationUtils;
 
-import main.java.algorithm.holder.EmbeddingHolder;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -8,6 +7,7 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.test.Printer;
 
 import java.util.*;
 
@@ -17,7 +17,8 @@ public class RTypeDetermination{
     private TCTreeNode<DirectedEdge, Vertex> tcTreeNode;
     private MultiDirectedGraph skeleton;
     private MultiDirectedGraph augmentedGraph;
-    private EmbeddingHolder skeletonEmbedding;
+
+    private List<List<DirectedEdge>> skeletonFaces;
 
     private Map<List<DirectedEdge>, Vertex> sourceOfFace;
     private Map<Vertex, List<List<DirectedEdge>>> facesOfSource;
@@ -29,8 +30,6 @@ public class RTypeDetermination{
     private Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> virtualEdgeToTCTreeNode;
 
     private Map<List<DirectedEdge>, FaceType> faceTypes;
-
-    private boolean isSkeletonEmbeddingMirrored;
     private SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
 
@@ -39,13 +38,15 @@ public class RTypeDetermination{
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
+        System.out.println("    RType Determination");
+
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
 
         this.tcTreeNode = tcTreeNode;
         this.tcTree = tcTree;
         this.skeleton = convertSkeletonToGraph();
         this.augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
-        this.skeletonEmbedding = new EmbeddingHolder(skeleton);
+        this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRNode(tcTreeNode, skeleton);
 
         this.sourceOfFace = new HashMap<>();
         this.facesOfSource = new HashMap<>();
@@ -58,8 +59,6 @@ public class RTypeDetermination{
 
         this.faceTypes = new HashMap<>();
 
-        this.isSkeletonEmbeddingMirrored = isSkeletonEmbeddingMirrored();
-
         calcSourceAndTargetOfFaces();
 
         assignLabelsToFaces();
@@ -69,7 +68,9 @@ public class RTypeDetermination{
         }
 
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
-        System.out.println(successorPathType);
+        System.out.println("    " + successorPathType);
+        System.out.println();
+        System.out.println();
     }
 
 
@@ -84,6 +85,7 @@ public class RTypeDetermination{
             Vertex target = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(child);
             skeletonGraph.addEdge(source, target);
         }
+        System.out.println("      Skeleton: " + skeletonGraph);
         return skeletonGraph;
     }
 
@@ -118,24 +120,19 @@ public class RTypeDetermination{
             facesOfSource.put(vertex, new LinkedList<>());
         }
 
-        for(List<DirectedEdge> face : skeletonEmbedding.getFaces()){
+        for(List<DirectedEdge> face : skeletonFaces){
 
             Vertex source = null;
             Vertex target = null;
 
             for(int i = 0; i < face.size(); i++){
 
-                DirectedEdge edge1 = face.get(i);
+                DirectedEdge edge1 = face.get((i+0)%face.size());
                 DirectedEdge edge2 = face.get((i+1)%face.size());
                 if(edge1.getSource().equals(edge2.getSource())) {
                     source = edge1.getSource();
-                    if (isSkeletonEmbeddingMirrored) {
-                        leftEdge.put(face, edge1);
-                        rightEdge.put(face, edge2);
-                    } else {
-                        leftEdge.put(face, edge2);
-                        rightEdge.put(face, edge1);
-                    }
+                    leftEdge.put(face, edge2);
+                    rightEdge.put(face, edge1);
                 }
                 if(edge1.getTarget().equals(edge2.getTarget())) {
                     target = edge1.getTarget();
@@ -152,7 +149,8 @@ public class RTypeDetermination{
     //TODO: OK
     private void assignLabelsToFaces(){
 
-        for(List<DirectedEdge> face : skeletonEmbedding.getFaces()){
+        System.out.println("    Faces:");
+        for(List<DirectedEdge> face : skeletonFaces){
             FaceType faceType = FaceType.UNDEFINED;
             Vertex target = targetOfFace.get(face);
             Vertex vL = leftEdge.get(face).getTarget();
@@ -164,54 +162,20 @@ public class RTypeDetermination{
                 faceType = FaceType.TYPE_R;
             }
             faceTypes.put(face, faceType);
+            System.out.print("      Face: ");
+            for(DirectedEdge edge : face)
+                System.out.print(edge + "  ");
+            System.out.print(faceType + "  ");
+            System.out.print("S: " + sourceOfFace.get(face) + "  ");
+            System.out.print("T: " + targetOfFace.get(face) + "  ");
+            System.out.print("L: " + leftEdge.get(face) + "  ");
+            System.out.print("R: " + rightEdge.get(face));
+            System.out.println();
         }
     }
 
 
 
-    //FIXME: remake
-    private boolean isSkeletonEmbeddingMirrored(){
-
-        List<DirectedEdge> observedFace = null;
-        for(List<DirectedEdge> face : skeletonEmbedding.getFaces()){
-            if(face.size() == 3){
-                observedFace = face;
-                break;
-            }
-        }
-
-        List<Vertex> observedFaceVertices = new LinkedList<>();
-        for(DirectedEdge edge : observedFace){
-            if(!observedFaceVertices.contains(edge.getSource()))
-                observedFaceVertices.add(edge.getSource());
-            if(!observedFaceVertices.contains(edge.getTarget()))
-                observedFaceVertices.add(edge.getTarget());
-        }
-
-        List<Vertex> equalVertices = new LinkedList<>();
-        for(List<DirectedEdge> face : HolderProvider.getEmbeddingHolder().getFaces()){
-
-            equalVertices.clear();
-            for(DirectedEdge edge : face){
-                if(observedFaceVertices.contains(edge.getSource()) && !equalVertices.contains(edge.getSource()))
-                    equalVertices.add(edge.getSource());
-                if(observedFaceVertices.contains(edge.getTarget()) && !equalVertices.contains(edge.getTarget()))
-                    equalVertices.add(edge.getTarget());
-            }
-            if(equalVertices.size() == 3)
-                break;
-
-        }
-
-        Vertex first = observedFaceVertices.get(0);
-        Vertex second = observedFaceVertices.get(1);
-        for(int i = 0; i < 3; i++){
-            if(first.equals(equalVertices.get(i))){
-                return !second.equals(equalVertices.get((i+1)%3));
-            }
-        }
-        throw new RuntimeException("Could not determine if the face is mirrored!");
-    }
 
 
 
@@ -299,6 +263,38 @@ public class RTypeDetermination{
     }
 
 
+    private List<DirectedEdge> getOutgoingEdgesCircularOrdering(Vertex vertex){
+
+        List<DirectedEdge> outgoingEdges = new LinkedList<>();
+        List<List<DirectedEdge>> facesOfVertex = facesOfSource.get(vertex);
+
+        int index = 0;
+        for(int i = 0; i < facesOfVertex.size(); i++){
+            List<DirectedEdge> face = facesOfVertex.get(i);
+            for(int j = 0; j < face.size(); j++){
+                DirectedEdge e1 = face.get((j+0)%face.size());
+                DirectedEdge e2 = face.get((j+1)%face.size());
+                if(e1.getSource().equals(vertex) && e2.getTarget().equals(vertex))
+                    index = i;
+            }
+        }
+
+        for(int i = index; i < index + facesOfVertex.size(); i++){
+            List<DirectedEdge> face = facesOfVertex.get(i);
+            for(int j = 0; j < face.size(); j++) {
+                DirectedEdge e1 = face.get((j + 0) % face.size());
+                DirectedEdge e2 = face.get((j + 1) % face.size());
+                if (e2.getSource().equals(vertex) && !outgoingEdges.contains(e2))
+                    outgoingEdges.add(e2);
+                if (e1.getSource().equals(vertex) && !outgoingEdges.contains(e1))
+                    outgoingEdges.add(e1);
+            }
+
+        }
+        return outgoingEdges;
+    }
+
+
 
     //TODO: OK
     private void connectVertices(Vertex vertex){
@@ -306,7 +302,7 @@ public class RTypeDetermination{
         List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
         if(outgoingFaces.isEmpty()) return;
         List<List<DirectedEdge>> outgoingFacesOrdered = new LinkedList<>();
-        List<DirectedEdge> outgoingEdges = skeletonEmbedding.getOutgoingEdgesCircularOrdering(vertex);
+        List<DirectedEdge> outgoingEdges = getOutgoingEdgesCircularOrdering(vertex);
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         boolean bothTypeOfFacesContained = false;
 
@@ -321,7 +317,7 @@ public class RTypeDetermination{
         }
 
         //check if there is more than one type B child.
-        for(DirectedEdge edge : skeletonEmbedding.getOutgoingEdgesCircularOrdering(vertex)){
+        for(DirectedEdge edge : getOutgoingEdgesCircularOrdering(vertex)){
             TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
@@ -359,17 +355,17 @@ public class RTypeDetermination{
 
         if(optTypeBNode != null){
             connectWithTypeB(vertex);
-            System.out.println("Finished with TypeB in RNode!");
+            System.out.println("    Finished with TypeB in successors! Vertex: " + vertex);
             return;
         }
         if(bothTypeOfFacesContained){
             connectWithBothTypes(vertex, nodeWithApex);
-            System.out.println("Finished with both types in RNode!");
+            System.out.println("    Finished with both types of faces! Vertex: !" + vertex);
             return;
         }
 
         connectWithOnlyOneType(vertex);
-        System.out.println("Finished with only one type in RNode!");
+        System.out.println("    Finished with only one type of faces! Vertex: " + vertex);
     }
 
 

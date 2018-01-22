@@ -4,6 +4,8 @@ import com.yworks.yfiles.algorithms.*;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
+import main.java.decomposition.spqrTree.TCSkeleton;
+import main.java.decomposition.spqrTree.TCTreeNode;
 
 import java.util.*;
 
@@ -46,14 +48,35 @@ public class EmbeddingHolder {
 
         planarEmbedding = new PlanarEmbedding(convGraph);
 
-        for(Vertex vertex : graph.getVertices())
+        for(Vertex vertex : graph.getVertices()) {
+            outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>());
+            incomingEdgesCircularOrdering.put(vertex, new LinkedList<>());
             calcOrderedEdgesCircular(vertex);
+        }
+
+        System.out.println( "    Incoming:");
+        for(Vertex vertex : graph.getVertices()) {
+            System.out.print("      " + vertex + ": ");
+            for (DirectedEdge edge : incomingEdgesCircularOrdering.get(vertex))
+                System.out.print(edge + " ");
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("    Outgoing:");
+        for(Vertex vertex : graph.getVertices()) {
+            System.out.print("      " + vertex + ": ");
+            for (DirectedEdge edge : outgoingEdgesCircularOrdering.get(vertex))
+                System.out.print(edge + " ");
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
     }
 
 
 
 
-
+    //TODO: ok
     private void calcOrderedEdgesCircular(Vertex vertex){
 
         List<DirectedEdge> edgesCircular = new ArrayList<>();
@@ -61,6 +84,7 @@ public class EmbeddingHolder {
         for(Dart dart : planarEmbedding.getOutgoingDarts(origV2ConvV.get(vertex)))
             edgesCircular.add(convE2OrigE.get(dart.getAssociatedEdge()));
 
+        //get all the edges with vertex as source.
         int index = 0;
         while(index < edgesCircular.size()){
 
@@ -69,17 +93,17 @@ public class EmbeddingHolder {
             index++;
             if(edge1.getTarget().equals(vertex) && edge2.getSource().equals(vertex)) {
 
-                List<DirectedEdge> orderedEdgesCircularOutgoing = new LinkedList<>();
+                List<DirectedEdge> orderedEdgesCircularOutgoing = outgoingEdgesCircularOrdering.get(vertex);
                 for (int i = index; i < index + edgesCircular.size(); i++) {
                     DirectedEdge edge = edgesCircular.get(i % edgesCircular.size());
                     if(edge.getSource().equals(vertex))
                         orderedEdgesCircularOutgoing.add(edge);
                 }
-                outgoingEdgesCircularOrdering.put(vertex, orderedEdgesCircularOutgoing);
                 break;
             }
         }
 
+        //get all edges with vertex as target.
         index = 0;
         while(index < edgesCircular.size()){
 
@@ -88,15 +112,22 @@ public class EmbeddingHolder {
             index++;
             if(edge1.getSource().equals(vertex) && edge2.getTarget().equals(vertex)) {
 
-                List<DirectedEdge> orderedEdgesCircularIncoming = new LinkedList<>();
+                List<DirectedEdge> orderedEdgesCircularIncoming = incomingEdgesCircularOrdering.get(vertex);
                 for (int i = index; i < index + edgesCircular.size(); i++) {
                     DirectedEdge edge = edgesCircular.get(i % edgesCircular.size());
                     if(edge.getTarget().equals(vertex))
                         orderedEdgesCircularIncoming.add(edge);
                 }
-                incomingEdgesCircularOrdering.put(vertex, orderedEdgesCircularIncoming);
                 break;
             }
+        }
+
+        //in case nothing has been added (there are not incoming AND outgoing edges)
+        for(DirectedEdge edge : edgesCircular){
+            if(!outgoingEdgesCircularOrdering.get(vertex).contains(edge) && edge.getSource().equals(vertex))
+                outgoingEdgesCircularOrdering.get(vertex).add(edge);
+            if(!incomingEdgesCircularOrdering.get(vertex).contains(edge) && edge.getTarget().equals(vertex))
+                incomingEdgesCircularOrdering.get(vertex).add(edge);
         }
     }
 
@@ -155,6 +186,54 @@ public class EmbeddingHolder {
             outerFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
         }
         return outerFace;
+    }
+
+
+
+
+    public List<List<DirectedEdge>> getFacesOfRNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, MultiDirectedGraph skeleton){
+
+
+        MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
+
+        //determine all faces of the pertinent graph
+        List<List<DirectedEdge>> allFacesOfPert = new LinkedList<>();
+        for(List<DirectedEdge> face : this.getFaces()){
+            boolean isFaceOfPert = true;
+            for(DirectedEdge edge : face){
+                if(!rPert.contains(edge))
+                    isFaceOfPert = false;
+            }
+            if(isFaceOfPert)
+                allFacesOfPert.add(new LinkedList<>(face));
+        }
+
+        //determine if a face is also a face of the skeleton and if so, determine the relevant vertices.
+        List<List<Vertex>> allFacesOfSkeleton = new LinkedList<>();
+        for(List<DirectedEdge> face : allFacesOfPert){
+            List<Vertex> realFaceVertices = new LinkedList<>();
+            for(DirectedEdge edge : face){
+                if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
+                    realFaceVertices.add(edge.getSource());
+                if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
+                    realFaceVertices.add(edge.getTarget());
+            }
+            if(realFaceVertices.size() >= 3)
+                allFacesOfSkeleton.add(realFaceVertices);
+        }
+
+        List<List<DirectedEdge>> skeletonFaces = new LinkedList<>();
+        for(List<Vertex> faceVertices : allFacesOfSkeleton){
+            List<DirectedEdge> face = new LinkedList<>();
+            for(int i = 0; i < faceVertices.size(); i++){
+                Vertex v1 = faceVertices.get((i+0)%faceVertices.size());
+                Vertex v2 = faceVertices.get((i+1)%faceVertices.size());
+                face.add(skeleton.getEdge(v1, v2));
+            }
+            skeletonFaces.add(face);
+        }
+
+        return skeletonFaces;
     }
 }
 
