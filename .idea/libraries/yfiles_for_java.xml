@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="yfiles-for-java">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/yfiles-for-java.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

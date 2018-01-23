@@ -62,14 +62,13 @@ public class RTypeDetermination{
 
         assignLabelsToFaces();
 
+        System.out.println("    ConnectVertices");
         for(Vertex vertex : skeleton.getVertices()){
             connectVertices(vertex);
         }
 
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
-        System.out.println("    " + successorPathType);
-        System.out.println();
-        System.out.println();
+        System.out.println("    SucessorPathType: " + successorPathType);
     }
 
 
@@ -165,10 +164,10 @@ public class RTypeDetermination{
             for(DirectedEdge edge : face)
                 System.out.print(edge + "  ");
             System.out.print(faceType + "  ");
-            System.out.print("S: " + sourceOfFace.get(face) + "  ");
-            System.out.print("T: " + targetOfFace.get(face) + "  ");
-            System.out.print("L: " + leftEdge.get(face) + "  ");
-            System.out.print("R: " + rightEdge.get(face));
+            System.out.print("Source: " + sourceOfFace.get(face) + "  ");
+            System.out.print("Target: " + targetOfFace.get(face) + "  ");
+            System.out.print("LeftEdge: " + leftEdge.get(face) + "  ");
+            System.out.print("RightEdge: " + rightEdge.get(face));
             System.out.println();
         }
     }
@@ -304,7 +303,6 @@ public class RTypeDetermination{
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         boolean bothTypeOfFacesContained = false;
 
-        //TODO: maybe remake
         //order outgoing faces from left to right
         int index = 0;
         outgoingFacesOrdered.add(outgoingFaces.get(0));
@@ -322,8 +320,9 @@ public class RTypeDetermination{
             }
         }
 
-        System.out.println(vertex + ": ");
+        System.out.println("      " + vertex + ": ");
         for(List<DirectedEdge> face : outgoingFacesOrdered){
+            System.out.print("        ");
             for(DirectedEdge edge : face)
                 System.out.print(edge + "  ");
             System.out.println();
@@ -368,17 +367,17 @@ public class RTypeDetermination{
 
         if(optTypeBNode != null){
             connectWithTypeB(vertex);
-            System.out.println("    Finished with TypeB in successors! Vertex: " + vertex);
+            System.out.println("        Finished with TypeB in successors! Vertex: " + vertex);
             return;
         }
         if(bothTypeOfFacesContained){
             connectWithBothTypes(vertex, nodeWithApex);
-            System.out.println("    Finished with both types of faces! Vertex: !" + vertex);
+            System.out.println("        Finished with both types of faces! Vertex: " + vertex);
             return;
         }
 
         connectWithOnlyOneType(vertex);
-        System.out.println("    Finished with only one type of faces! Vertex: " + vertex);
+        System.out.println("        Finished with only one type of faces! Vertex: " + vertex);
     }
 
 
@@ -421,13 +420,13 @@ public class RTypeDetermination{
         }
 
         for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
-            Vertex first = outgoingEdgesSource.get(i).getTarget();
-            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
-            DirectedEdge edge = augmentedGraph.getEdge(first, second);
-            if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+            Vertex v1 = outgoingEdgesSource.get(i).getTarget();
+            Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+            if(edge != null && edge.getSource().equals(v1) && edge.getTarget().equals(v2)){
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                    if(childPert.contains(edge))
+                    if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                         flipNodeInEmbedding(child);
                 }
             }
@@ -471,26 +470,26 @@ public class RTypeDetermination{
         }
 
         for(int i = 0; i < apexIndex-1; i++){
-            Vertex first = outgoingEdgesSource.get(i).getTarget();
-            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
-            DirectedEdge edge = augmentedGraph.getEdge(first, second);
-            if(edge != null && edge.getSource().equals(second) && edge.getTarget().equals(first)){
+            Vertex v1 = outgoingEdgesSource.get(i).getTarget();
+            Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+            if(edge != null && edge.getSource().equals(v2) && edge.getTarget().equals(v1)){
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                    if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                    if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                         flipNodeInEmbedding(child);
                 }
             }
         }
 
         for(int i = apexIndex+1; i < outgoingEdgesSource.size()-1; i++){
-            Vertex first = outgoingEdgesSource.get(i).getTarget();
-            Vertex second = outgoingEdgesSource.get(i+1).getTarget();
-            DirectedEdge edge = augmentedGraph.getEdge(first, second);
-            if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+            Vertex v1 = outgoingEdgesSource.get(i).getTarget();
+            Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+            DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+            if(edge != null && edge.getSource().equals(v1) && edge.getTarget().equals(v2)){
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                    if(childPert.contains(edge))
+                    if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                         flipNodeInEmbedding(child);
                 }
             }
@@ -531,13 +530,13 @@ public class RTypeDetermination{
         if(faceType.equals(FaceType.TYPE_R)){
             //flip nodes that are from right to left.
             for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
-                Vertex first = outgoingEdgesSource.get(i).getTarget();
-                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
-                DirectedEdge edge = augmentedGraph.getEdge(first, second);
-                if(edge != null && edge.getSource().equals(second) && edge.getTarget().equals(first)){
+                Vertex v1 = outgoingEdgesSource.get(i).getTarget();
+                Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+                if(edge != null && edge.getSource().equals(v2) && edge.getTarget().equals(v1)){
                     for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                         MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                        if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                        if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                             flipNodeInEmbedding(child);
                     }
                 }
@@ -558,13 +557,13 @@ public class RTypeDetermination{
 
             //flip nodes that are from right to left.
             for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
-                Vertex first = outgoingEdgesSource.get(i).getTarget();
-                Vertex second = outgoingEdgesSource.get(i+1).getTarget();
-                DirectedEdge edge = augmentedGraph.getEdge(first, second);
-                if(edge != null && edge.getSource().equals(first) && edge.getTarget().equals(second)){
+                Vertex v1 = outgoingEdgesSource.get(i).getTarget();
+                Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+                if(edge != null && edge.getSource().equals(v1) && edge.getTarget().equals(v2)){
                     for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                         MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                        if(childPert.getEdge(edge.getSource(), edge.getTarget()) != null)
+                        if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                             flipNodeInEmbedding(child);
                     }
                 }

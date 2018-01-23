@@ -32,9 +32,13 @@ public class LDrawing {
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
 
-        Printer.printTreePreOrder(tcTree);
         System.out.println();
-        System.out.println();
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
+        System.out.println("----------------L_DRAWING---------------");
+        System.out.println("----------------------------------------");
+        System.out.println("----------------------------------------");
+
 
         HolderProvider.setSourceSinkGraphHolder(new SourceSinkGraphHolder(convertedGraph));
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));
@@ -61,6 +65,7 @@ public class LDrawing {
         }
 
         System.out.println("    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
+        HolderProvider.getEmbeddingHolder().print(convertedGraph);
     }
 
 

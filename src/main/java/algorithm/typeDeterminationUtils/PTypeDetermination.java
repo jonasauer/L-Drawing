@@ -62,7 +62,7 @@ public class PTypeDetermination{
                 if(edge != null && edge.getSource().equals(v2) && edge.getTarget().equals(v1)){
                     for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                         MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                        if(childPert.getEdges().contains(edge))
+                        if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                             flipNodeInEmbedding(child);
                     }
                 }
@@ -145,6 +145,22 @@ public class PTypeDetermination{
                     }
                 }
             }
+
+
+            //flip node if necessary.
+            for(int i = 0; i < outgoingEdgesSource.size()-1; i++){
+                Vertex v1 = outgoingEdgesSource.get(i+0).getTarget();
+                Vertex v2 = outgoingEdgesSource.get(i+1).getTarget();
+                DirectedEdge edge = augmentedGraph.getEdge(v1, v2);
+                if(edge != null && edge.getSource().equals(v2) && edge.getTarget().equals(v1)){
+                    for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                        MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                        if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
+                            flipNodeInEmbedding(child);
+                    }
+                }
+            }
+
 
             //connect vertices before apex position with an edge to the right.
             for(int i = 0; i < apexIndex-1; i++){

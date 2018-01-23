@@ -54,6 +54,11 @@ public class EmbeddingHolder {
             calcOrderedEdgesCircular(vertex);
         }
 
+        print(graph);
+    }
+
+
+    public void print(MultiDirectedGraph graph){
         System.out.println( "    Incoming:");
         for(Vertex vertex : graph.getVertices()) {
             System.out.print("      " + vertex + ": ");
@@ -61,7 +66,6 @@ public class EmbeddingHolder {
                 System.out.print(edge + " ");
             System.out.println();
         }
-        System.out.println();
         System.out.println("    Outgoing:");
         for(Vertex vertex : graph.getVertices()) {
             System.out.print("      " + vertex + ": ");
@@ -69,7 +73,6 @@ public class EmbeddingHolder {
                 System.out.print(edge + " ");
             System.out.println();
         }
-        System.out.println();
         System.out.println();
     }
 
