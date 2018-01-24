@@ -7,7 +7,6 @@ import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
-import main.java.test.Printer;
 
 import java.util.*;
 
@@ -261,7 +260,7 @@ public class RTypeDetermination{
     }
 
 
-    private List<DirectedEdge> getOutgoingEdgesCircularOrdering(Vertex vertex){
+    private List<DirectedEdge> getOutgoingEdgesOfSeleton(Vertex vertex){
 
         List<DirectedEdge> outgoingEdges = new LinkedList<>();
         List<List<DirectedEdge>> facesOfVertex = facesOfSource.get(vertex);
@@ -329,7 +328,7 @@ public class RTypeDetermination{
         }
 
         //check if there is more than one type B child.
-        for(DirectedEdge edge : getOutgoingEdgesCircularOrdering(vertex)){
+        for(DirectedEdge edge : getOutgoingEdgesOfSeleton(vertex)){
             TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
@@ -407,7 +406,7 @@ public class RTypeDetermination{
         }
 
         for(int i = 0; i < apexIndex-1; i++){
-            Vertex vertex1 = outgoingEdgesSource.get(i).getTarget();
+            Vertex vertex1 = outgoingEdgesSource.get(i+0).getTarget();
             Vertex vertex2 = outgoingEdgesSource.get(i+1).getTarget();
             DirectedEdge edge = augmentedGraph.getEdge(vertex1, vertex2);
             if(edge != null && edge.getSource().equals(vertex2) && edge.getTarget().equals(vertex1)){

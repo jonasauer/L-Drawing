@@ -4,7 +4,6 @@ import com.yworks.yfiles.algorithms.*;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCSkeleton;
 import main.java.decomposition.spqrTree.TCTreeNode;
 
 import java.util.*;
@@ -51,7 +50,7 @@ public class EmbeddingHolder {
         for(Vertex vertex : graph.getVertices()) {
             outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>());
             incomingEdgesCircularOrdering.put(vertex, new LinkedList<>());
-            calcOrderedEdgesCircular(vertex);
+            calculateOrderedEdgesCircular(vertex);
         }
 
         print(graph);
@@ -80,7 +79,7 @@ public class EmbeddingHolder {
 
 
     //TODO: ok
-    private void calcOrderedEdgesCircular(Vertex vertex){
+    private void calculateOrderedEdgesCircular(Vertex vertex){
 
         List<DirectedEdge> edgesCircular = new ArrayList<>();
 
@@ -183,12 +182,12 @@ public class EmbeddingHolder {
         if(outerFace != null)
             return outerFace;
 
-        List<Dart> of = planarEmbedding.getOuterFace();
-        outerFace = new LinkedList<>();
-        for(Dart dart : of){
-            outerFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
+        List<Dart> outerFace = planarEmbedding.getOuterFace();
+        this.outerFace = new LinkedList<>();
+        for(Dart dart : outerFace){
+            this.outerFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
         }
-        return outerFace;
+        return this.outerFace;
     }
 
 
