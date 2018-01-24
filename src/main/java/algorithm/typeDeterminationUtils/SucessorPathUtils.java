@@ -1,5 +1,6 @@
-package main.java.algorithm.holder;
+package main.java.algorithm.typeDeterminationUtils;
 
+import main.java.algorithm.holder.HolderProvider;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -9,29 +10,12 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class SucessorPathUtils {
 
-    public int getApexIndex(MultiDirectedGraph graph, List<DirectedEdge> outgoingEdges){
 
-        for(int i = 1; i < outgoingEdges.size()-1; i++){
-            Vertex v1 = outgoingEdges.get(i-1).getTarget();
-            Vertex v2 = outgoingEdges.get(i).getTarget();
-            Vertex v3 = outgoingEdges.get(i+1).getTarget();
-            DirectedEdge v1_v2 = graph.getEdge(v1, v2);
-            DirectedEdge v2_v3 = graph.getEdge(v2, v3);
-
-            if(v1_v2 != null && v2_v3 != null){
-                if(v1_v2.getTarget().equals(v2_v3.getTarget())){
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
-
-
-    private void flipNodeInEmbedding(MultiDirectedGraph graph, TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+    private void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
 
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
         Vertex pertSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
@@ -108,10 +92,87 @@ public class SucessorPathUtils {
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
         if(outgoingEdges.size() <= 1)
             return;
-        int apexIndex = getApexIndex(graph, outgoingEdges);
+        int apexIndex = -1;
+
+        for(int i = 1; i < outgoingEdges.size()-1; i++){
+            Vertex v1 = outgoingEdges.get(i-1).getTarget();
+            Vertex v2 = outgoingEdges.get(i).getTarget();
+            Vertex v3 = outgoingEdges.get(i+1).getTarget();
+            DirectedEdge v1_v2 = graph.getEdge(v1, v2);
+            DirectedEdge v2_v3 = graph.getEdge(v2, v3);
+
+            if(v1_v2 != null && v2_v3 != null){
+                if(v1_v2.getTarget().equals(v2_v3.getTarget())){
+                    apexIndex = i;
+                    break;
+                }
+            }
+        }
+
+        connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+    }
+
+
+
+    private void connectWithBothTypes(MultiDirectedGraph graph,
+                                      TCTree<DirectedEdge, Vertex> tcTree,
+                                      TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
+                                      TCTreeNode<DirectedEdge, Vertex> rl_Divider,
+                                      Vertex vertex){
+
+        int apexIndex = 0;
+        List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(rl_Divider);
+        for(DirectedEdge edge : outgoingEdges){
+            if(pert.getEdges().contains(edge))
+                break;
+            apexIndex++;
+        }
+
+        connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+    }
+
+
+
+    private void connectWithOnlyOneType(MultiDirectedGraph graph,
+                                        TCTree<DirectedEdge, Vertex> tcTree,
+                                        TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
+                                        Map<Vertex, List<List<DirectedEdge>>> facesOfSource,
+                                        Map<List<DirectedEdge>, FaceType> faceTypes,
+                                        Vertex vertex){
+
+        List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        if(outgoingEdges.size() <= 1)
+            return;
+        if(facesOfSource.get(vertex).size() <= 0)
+            return;
+
+        FaceType faceType = FaceType.UNDEFINED;
+        for(List<DirectedEdge> face : facesOfSource.get(vertex)){
+            if(!faceTypes.get(face).equals(FaceType.UNDEFINED)){
+                faceType = faceTypes.get(face);
+                break;
+            }
+        }
+
+        if(faceType.equals(FaceType.TYPE_R))
+            connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, outgoingEdges.size()-1);
+        else
+            connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, 0);
+
+    }
+
+
+    private void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
+                                              List<DirectedEdge> outgoingEdges,
+                                              TCTree<DirectedEdge, Vertex> tcTree,
+                                              TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
+                                              int apexIndex){
 
         //flip nodes preceding the apex if they are not from left to right.
-        for(int i = 0; i < apexIndex-1; i++){
+        for(int i = 0; i < apexIndex; i++){
             Vertex v1 = outgoingEdges.get(i+0).getTarget();
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
             DirectedEdge v1_v2 = graph.getEdge(v1, v2);
@@ -120,28 +181,13 @@ public class SucessorPathUtils {
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
                     if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
-                        flipNodeInEmbedding(graph, child);
-                }
-            }
-        }
-
-        //flip nodes following the apex if they are not from right to left.
-        for(int i = apexIndex+1; i < outgoingEdges.size()-1; i++){
-            Vertex v1 = outgoingEdges.get(i+0).getTarget();
-            Vertex v2 = outgoingEdges.get(i+1).getTarget();
-            DirectedEdge v1_v2 = graph.getEdge(v1, v2);
-
-            if(v1_v2 != null && v1_v2.getSource().equals(v1) && v1_v2.getTarget().equals(v2)){
-                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
-                    if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
-                        flipNodeInEmbedding(graph, child);
+                        flipNodeInEmbedding(child);
                 }
             }
         }
 
         //augment the graph with missing edges between nodes preceding the apex.
-        for(int i = 0; i < apexIndex-1; i++){
+        for(int i = 0; i < apexIndex; i++){
             Vertex v1 = outgoingEdges.get(i+0).getTarget();
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
@@ -152,9 +198,31 @@ public class SucessorPathUtils {
                 HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(v2).add(augmentedEdge);
             }
         }
+    }
+
+    private void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
+                                              List<DirectedEdge> outgoingEdges,
+                                              TCTree<DirectedEdge, Vertex> tcTree,
+                                              TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
+                                              int apexIndex){
+
+        //flip nodes following the apex if they are not from right to left.
+        for(int i = apexIndex; i < outgoingEdges.size()-1; i++){
+            Vertex v1 = outgoingEdges.get(i+0).getTarget();
+            Vertex v2 = outgoingEdges.get(i+1).getTarget();
+            DirectedEdge v1_v2 = graph.getEdge(v1, v2);
+
+            if(v1_v2 != null && v1_v2.getSource().equals(v1) && v1_v2.getTarget().equals(v2)){
+                for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
+                        flipNodeInEmbedding(child);
+                }
+            }
+        }
 
         //augment the graph with missing edges between nodes following the apex.
-        for(int i = apexIndex+1; i < outgoingEdges.size()-1; i++){
+        for(int i = apexIndex; i < outgoingEdges.size()-1; i++){
             Vertex v1 = outgoingEdges.get(i+0).getTarget();
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 

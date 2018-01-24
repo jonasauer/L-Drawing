@@ -582,11 +582,4 @@ public class RTypeDetermination{
 
         }
     }
-
-
-    private enum FaceType{
-        TYPE_L,
-        TYPE_R,
-        UNDEFINED
-    }
 }
