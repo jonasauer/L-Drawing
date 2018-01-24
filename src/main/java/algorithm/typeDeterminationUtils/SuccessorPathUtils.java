@@ -1,5 +1,6 @@
 package main.java.algorithm.typeDeterminationUtils;
 
+import main.java.PrintColors;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -124,13 +125,8 @@ public class SuccessorPathUtils {
             }
         }
 
-        for(DirectedEdge edge : outgoingEdges){
-            System.out.print(edge + "  ");
-        }
-        System.out.println();
-
-        connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
-        connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsLeftToRight(graph, vertex, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsRightToLeft(graph, vertex, tcTree, tcTreeNode, apexIndex);
     }
 
 
@@ -150,13 +146,8 @@ public class SuccessorPathUtils {
             apexIndex++;
         }
 
-        for(DirectedEdge edge : outgoingEdges){
-            System.out.print(edge + "  ");
-        }
-        System.out.println();
-
-        connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
-        connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsLeftToRight(graph, vertex, tcTree, tcTreeNode, apexIndex);
+        connectSuccessorsRightToLeft(graph, vertex, tcTree, tcTreeNode, apexIndex);
     }
 
 
@@ -182,15 +173,10 @@ public class SuccessorPathUtils {
             }
         }
 
-        for(DirectedEdge edge : outgoingEdges){
-            System.out.print(edge + "  ");
-        }
-        System.out.println();
-
         if(faceType.equals(FaceType.TYPE_R))
-            connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, outgoingEdges.size()-1);
+            connectSuccessorsLeftToRight(graph, vertex, tcTree, tcTreeNode, outgoingEdges.size()-1);
         else
-            connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, 0);
+            connectSuccessorsRightToLeft(graph, vertex, tcTree, tcTreeNode, 0);
 
     }
 
@@ -200,6 +186,9 @@ public class SuccessorPathUtils {
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                               int apexIndex){
+
+        List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
 
         //flip nodes preceding the apex if they are not from left to right.
         for(int i = 0; i < apexIndex; i++){
@@ -221,8 +210,8 @@ public class SuccessorPathUtils {
             Vertex v1 = outgoingEdges.get(i+0).getTarget();
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
-            if(graph.getEdge(v1, v2) == null){
-                System.out.println("Insert edge LR: " + v1 + "->" + v2);
+            if(pert.getVertices().contains(v1) && pert.getVertices().contains(v2) && graph.getEdge(v1, v2) == null){
+                System.out.println(PrintColors.ANSI_RED + "    Insert edge LR: " + v1 + "->" + v2);
                 DirectedEdge augmentedEdge = graph.addEdge(v1, v2);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v1).add(augmentedEdge);
@@ -232,10 +221,13 @@ public class SuccessorPathUtils {
     }
 
     public static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
-                                              List<DirectedEdge> outgoingEdges,
+                                              Vertex vertex,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                               int apexIndex){
+
+        List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
 
         //flip nodes following the apex if they are not from right to left.
         for(int i = apexIndex; i < outgoingEdges.size()-1; i++){
@@ -257,8 +249,8 @@ public class SuccessorPathUtils {
             Vertex v1 = outgoingEdges.get(i+0).getTarget();
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
-            if(graph.getEdge(v1, v2) == null){
-                System.out.println("Insert edge RL: " + v2 + "->" + v1);
+            if(pert.getVertices().contains(v1) && pert.getVertices().contains(v2) && graph.getEdge(v1, v2) == null){
+                System.out.println(PrintColors.ANSI_RED + "    Insert edge RL: " + v2 + "->" + v1);
                 DirectedEdge augmentedEdge = graph.addEdge(v2, v1);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v2).add(0, augmentedEdge);

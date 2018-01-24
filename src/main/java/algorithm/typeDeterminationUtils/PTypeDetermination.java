@@ -1,5 +1,6 @@
 package main.java.algorithm.typeDeterminationUtils;
 
+import main.java.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -13,6 +14,10 @@ import java.util.*;
 public class PTypeDetermination{
 
     public static void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+
+        System.out.println(PrintColors.ANSI_RED + "---------------------------");
+        System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
 
@@ -30,6 +35,7 @@ public class PTypeDetermination{
         }
 
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
+        System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
         MultiDirectedGraph augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
 
         Vertex source = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
@@ -53,7 +59,7 @@ public class PTypeDetermination{
                 incomingEdgesTarget.add(0, sourceSinkEdge);
             }
 
-            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, outgoingEdgesSource, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
+            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
 
         }else{
 
@@ -104,7 +110,7 @@ public class PTypeDetermination{
                 }
             }
 
-            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, outgoingEdgesSource, tcTree, tcTreeNode, apexIndex);
+            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, apexIndex);
 
         }
     }

@@ -3,6 +3,7 @@ package main.java.algorithm;
 import com.yworks.yfiles.algorithms.GraphChecker;
 import com.yworks.yfiles.graph.IGraph;
 import com.yworks.yfiles.layout.YGraphAdapter;
+import main.java.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -33,11 +34,11 @@ public class LDrawing {
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
 
         System.out.println();
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
-        System.out.println("----------------L_DRAWING---------------");
-        System.out.println("----------------------------------------");
-        System.out.println("----------------------------------------");
+        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
+        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
+        System.out.println(PrintColors.ANSI_GREEN + "LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING");
+        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
+        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
 
 
         HolderProvider.setSourceSinkGraphHolder(new SourceSinkGraphHolder(convertedGraph));
@@ -63,8 +64,9 @@ public class LDrawing {
                     break;
             }
         }
-
-        System.out.println("    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
+        System.out.println(PrintColors.ANSI_WHITE + "---------------------------");
+        System.out.println(PrintColors.ANSI_WHITE + "Finish");
+        System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
         HolderProvider.getEmbeddingHolder().print(convertedGraph);
     }
 

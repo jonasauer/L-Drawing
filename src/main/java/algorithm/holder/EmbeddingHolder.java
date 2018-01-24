@@ -1,6 +1,7 @@
 package main.java.algorithm.holder;
 
 import com.yworks.yfiles.algorithms.*;
+import main.java.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -58,21 +59,20 @@ public class EmbeddingHolder {
 
 
     public void print(MultiDirectedGraph graph){
-        System.out.println( "    Incoming:");
+        System.out.println(PrintColors.ANSI_CYAN + "    Incoming:");
         for(Vertex vertex : graph.getVertices()) {
-            System.out.print("      " + vertex + ": ");
+            System.out.print(PrintColors.ANSI_CYAN + "      " + vertex + ": ");
             for (DirectedEdge edge : incomingEdgesCircularOrdering.get(vertex))
-                System.out.print(edge + " ");
+                System.out.print(PrintColors.ANSI_CYAN + edge + " ");
             System.out.println();
         }
-        System.out.println("    Outgoing:");
+        System.out.println(PrintColors.ANSI_CYAN + "    Outgoing:");
         for(Vertex vertex : graph.getVertices()) {
-            System.out.print("      " + vertex + ": ");
+            System.out.print(PrintColors.ANSI_CYAN + "      " + vertex + ": ");
             for (DirectedEdge edge : outgoingEdgesCircularOrdering.get(vertex))
-                System.out.print(edge + " ");
+                System.out.print(PrintColors.ANSI_CYAN + edge + " ");
             System.out.println();
         }
-        System.out.println();
     }
 
 

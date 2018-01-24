@@ -1,5 +1,6 @@
 package main.java.algorithm.typeDeterminationUtils;
 
+import main.java.PrintColors;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -34,8 +35,8 @@ public class RTypeDetermination{
 
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
-        System.out.println("---------------------------");
-        System.out.println("    RType Determination");
+        System.out.println(PrintColors.ANSI_RED + "---------------------------");
+        System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
 
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
@@ -61,13 +62,13 @@ public class RTypeDetermination{
 
         assignLabelsToFaces();
 
-        System.out.println("    ConnectVertices");
+        System.out.println(PrintColors.ANSI_YELLOW + "    ConnectVertices");
         for(Vertex vertex : skeleton.getVertices()){
             connectVertices(vertex);
         }
 
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
-        System.out.println("    SucessorPathType: " + successorPathType);
+        System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
     }
 
 
@@ -82,7 +83,7 @@ public class RTypeDetermination{
             Vertex target = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(child);
             skeletonGraph.addEdge(source, target);
         }
-        System.out.println("      Skeleton: " + skeletonGraph);
+        System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + skeletonGraph);
         return skeletonGraph;
     }
 
@@ -146,7 +147,7 @@ public class RTypeDetermination{
     //TODO: OK
     private void assignLabelsToFaces(){
 
-        System.out.println("    Faces:");
+        System.out.println(PrintColors.ANSI_CYAN + "    Faces:");
         for(List<DirectedEdge> face : skeletonFaces){
             FaceType faceType = FaceType.UNDEFINED;
             Vertex target = targetOfFace.get(face);
@@ -159,14 +160,14 @@ public class RTypeDetermination{
                 faceType = FaceType.TYPE_R;
             }
             faceTypes.put(face, faceType);
-            System.out.print("      Face: ");
+            System.out.print(PrintColors.ANSI_CYAN + "      Face: ");
             for(DirectedEdge edge : face)
-                System.out.print(edge + "  ");
+                System.out.print(PrintColors.ANSI_CYAN + edge + "  ");
             System.out.print(faceType + "  ");
-            System.out.print("Source: " + sourceOfFace.get(face) + "  ");
-            System.out.print("Target: " + targetOfFace.get(face) + "  ");
-            System.out.print("LeftEdge: " + leftEdge.get(face) + "  ");
-            System.out.print("RightEdge: " + rightEdge.get(face));
+            System.out.print(PrintColors.ANSI_CYAN + "Source: " + sourceOfFace.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_CYAN + "Target: " + targetOfFace.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_CYAN + "LeftEdge: " + leftEdge.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_CYAN + "RightEdge: " + rightEdge.get(face));
             System.out.println();
         }
     }
@@ -239,11 +240,11 @@ public class RTypeDetermination{
             }
         }
 
-        System.out.println("      " + vertex + ": ");
+        System.out.println(PrintColors.ANSI_YELLOW + "      Vertex " + vertex + ": ");
         for(List<DirectedEdge> face : outgoingFacesOrdered){
-            System.out.print("        ");
+            System.out.print(PrintColors.ANSI_YELLOW + "        ");
             for(DirectedEdge edge : face)
-                System.out.print(edge + "  ");
+                System.out.print(PrintColors.ANSI_YELLOW + edge + "  ");
             System.out.println();
         }
 
@@ -286,16 +287,16 @@ public class RTypeDetermination{
 
         if(optTypeBNode != null){
             SuccessorPathUtils.connectWithTypeB(augmentedGraph, tcTree, tcTreeNode, vertex);
-            System.out.println("        Finished with TypeB in successors! Vertex: " + vertex);
+            System.out.println(PrintColors.ANSI_YELLOW + "        Finished with TypeB in successors!");
             return;
         }
         if(bothTypeOfFacesContained){
             SuccessorPathUtils.connectWithBothTypes(augmentedGraph, tcTree, tcTreeNode, nodeWithApex, vertex);
-            System.out.println("        Finished with both types of faces! Vertex: " + vertex);
+            System.out.println(PrintColors.ANSI_YELLOW + "        Finished with both types of faces!");
             return;
         }
 
         SuccessorPathUtils.connectWithOnlyOneType(augmentedGraph, tcTree, tcTreeNode, facesOfSource, faceTypes, vertex);
-        System.out.println("        Finished with only one type of faces! Vertex: " + vertex);
+        System.out.println(PrintColors.ANSI_YELLOW + "        Finished with only one type of faces!");
     }
 }
