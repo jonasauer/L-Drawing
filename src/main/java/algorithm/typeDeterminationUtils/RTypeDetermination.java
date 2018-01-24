@@ -212,7 +212,7 @@ public class RTypeDetermination{
 
 
 
-    
+
     //TODO: OK
     private void connectVertices(Vertex vertex){
 

@@ -32,13 +32,20 @@ public class SuccessorPathUtils {
             int insertIndex = 0;
             for(DirectedEdge outgoingEdge : allOutgoingEdges){
                 if(pertOutgoingEdges.contains(outgoingEdge)){
-                    allOutgoingEdges.removeAll(pertOutgoingEdges);
                     break;
                 }
                 insertIndex++;
             }
-            for(int i = pertOutgoingEdges.size()-1; i >= 0; i--){
-                allOutgoingEdges.add(insertIndex++, pertOutgoingEdges.get(i));
+
+            List<DirectedEdge> temp = new ArrayList<>();
+            for(DirectedEdge outgoingEdge : allOutgoingEdges){
+                if(pertOutgoingEdges.contains(outgoingEdge))
+                    temp.add(outgoingEdge);
+            }
+            allOutgoingEdges.removeAll(temp);
+
+            for(int i = temp.size()-1; i >= 0; i--){
+                allOutgoingEdges.add(insertIndex++, temp.get(i));
             }
         }
 
@@ -47,13 +54,21 @@ public class SuccessorPathUtils {
             int insertIndex = 0;
             for(DirectedEdge incomingEdge : allIncomingEdges){
                 if(pertIncomingEdges.contains(incomingEdge)){
-                    allIncomingEdges.removeAll(pertIncomingEdges);
                     break;
                 }
                 insertIndex++;
             }
-            for(int i = pertIncomingEdges.size()-1; i >= 0; i--){
-                allIncomingEdges.add(insertIndex++, pertIncomingEdges.get(i));
+
+            List<DirectedEdge> temp = new ArrayList<>();
+            for(DirectedEdge incomingEdge : allIncomingEdges){
+                if(pertIncomingEdges.contains(incomingEdge))
+                    temp.add(incomingEdge);
+            }
+
+            allIncomingEdges.removeAll(temp);
+
+            for(int i = temp.size()-1; i >= 0; i--){
+                allIncomingEdges.add(insertIndex++, temp.get(i));
             }
         }
 
@@ -109,6 +124,11 @@ public class SuccessorPathUtils {
             }
         }
 
+        for(DirectedEdge edge : outgoingEdges){
+            System.out.print(edge + "  ");
+        }
+        System.out.println();
+
         connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
         connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
     }
@@ -129,6 +149,11 @@ public class SuccessorPathUtils {
                 break;
             apexIndex++;
         }
+
+        for(DirectedEdge edge : outgoingEdges){
+            System.out.print(edge + "  ");
+        }
+        System.out.println();
 
         connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
         connectSuccessorsRightToLeft(graph, outgoingEdges, tcTree, tcTreeNode, apexIndex);
@@ -157,6 +182,11 @@ public class SuccessorPathUtils {
             }
         }
 
+        for(DirectedEdge edge : outgoingEdges){
+            System.out.print(edge + "  ");
+        }
+        System.out.println();
+
         if(faceType.equals(FaceType.TYPE_R))
             connectSuccessorsLeftToRight(graph, outgoingEdges, tcTree, tcTreeNode, outgoingEdges.size()-1);
         else
@@ -165,8 +195,8 @@ public class SuccessorPathUtils {
     }
 
 
-    private static void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
-                                              List<DirectedEdge> outgoingEdges,
+    public static void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
+                                              Vertex vertex,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                               int apexIndex){
@@ -192,6 +222,7 @@ public class SuccessorPathUtils {
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
             if(graph.getEdge(v1, v2) == null){
+                System.out.println("Insert edge LR: " + v1 + "->" + v2);
                 DirectedEdge augmentedEdge = graph.addEdge(v1, v2);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v1).add(augmentedEdge);
@@ -200,7 +231,7 @@ public class SuccessorPathUtils {
         }
     }
 
-    private static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
+    public static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
                                               List<DirectedEdge> outgoingEdges,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
@@ -227,6 +258,7 @@ public class SuccessorPathUtils {
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
             if(graph.getEdge(v1, v2) == null){
+                System.out.println("Insert edge RL: " + v2 + "->" + v1);
                 DirectedEdge augmentedEdge = graph.addEdge(v2, v1);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v2).add(0, augmentedEdge);
