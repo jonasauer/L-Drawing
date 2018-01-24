@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/SucessorPathUtils.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SucessorPathUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SucessorPathUtils.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -36,8 +35,8 @@
       <file leaf-file-name="RTypeDetermination.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="262" column="72" lean-forward="true" selection-start-line="262" selection-start-column="72" selection-end-line="262" selection-end-column="72" />
+            <state relative-caret-position="-686">
+              <caret line="214" column="4" lean-forward="false" selection-start-line="214" selection-start-column="4" selection-end-line="214" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -99,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SucessorPathUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SucessorPathUtils.java">
+      <file leaf-file-name="SuccessorPathUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+            <state relative-caret-position="198">
+              <caret line="202" column="19" lean-forward="false" selection-start-line="202" selection-start-column="19" selection-end-line="202" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -181,7 +180,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/test/SourceSinkPertinentGraphsHolderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/Type.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/holder/SourceSinkGraphHolderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/holder/SourceSinkPertinentGraphsHolderTest.java" />
@@ -231,6 +229,7 @@
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/SucessorPathUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/FaceType.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SucessorPathUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" />
       </list>
     </option>
@@ -601,7 +600,7 @@
       <workItem from="1516670303701" duration="219000" />
       <workItem from="1516706532040" duration="4030000" />
       <workItem from="1516740994467" duration="5197000" />
-      <workItem from="1516799852834" duration="3868000" />
+      <workItem from="1516799852834" duration="4216000" />
     </task>
     <servers />
   </component>
@@ -638,7 +637,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="206253000" />
+    <option name="totallyTimeSpent" value="206601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -958,10 +957,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SucessorPathUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="45" column="21" lean-forward="false" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+        <state relative-caret-position="198">
+          <caret line="202" column="19" lean-forward="false" selection-start-line="202" selection-start-column="19" selection-end-line="202" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -970,8 +969,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="262" column="72" lean-forward="true" selection-start-line="262" selection-start-column="72" selection-end-line="262" selection-end-column="72" />
+        <state relative-caret-position="-686">
+          <caret line="214" column="4" lean-forward="false" selection-start-line="214" selection-start-column="4" selection-end-line="214" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

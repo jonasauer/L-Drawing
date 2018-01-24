@@ -12,10 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SucessorPathUtils {
+public class SuccessorPathUtils {
 
 
-    private void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+    private static void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
 
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
         Vertex pertSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
@@ -84,7 +84,7 @@ public class SucessorPathUtils {
 
 
 
-    private void connectWithTypeB(MultiDirectedGraph graph,
+    public static void connectWithTypeB(MultiDirectedGraph graph,
                                   TCTree<DirectedEdge, Vertex> tcTree,
                                   TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                   Vertex vertex){
@@ -115,7 +115,7 @@ public class SucessorPathUtils {
 
 
 
-    private void connectWithBothTypes(MultiDirectedGraph graph,
+    public static void connectWithBothTypes(MultiDirectedGraph graph,
                                       TCTree<DirectedEdge, Vertex> tcTree,
                                       TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                       TCTreeNode<DirectedEdge, Vertex> rl_Divider,
@@ -136,7 +136,7 @@ public class SucessorPathUtils {
 
 
 
-    private void connectWithOnlyOneType(MultiDirectedGraph graph,
+    public static void connectWithOnlyOneType(MultiDirectedGraph graph,
                                         TCTree<DirectedEdge, Vertex> tcTree,
                                         TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                         Map<Vertex, List<List<DirectedEdge>>> facesOfSource,
@@ -165,7 +165,7 @@ public class SucessorPathUtils {
     }
 
 
-    private void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
+    private static void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
                                               List<DirectedEdge> outgoingEdges,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
@@ -200,7 +200,7 @@ public class SucessorPathUtils {
         }
     }
 
-    private void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
+    private static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
                                               List<DirectedEdge> outgoingEdges,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
