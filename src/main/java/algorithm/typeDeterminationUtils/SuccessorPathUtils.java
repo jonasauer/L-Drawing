@@ -189,6 +189,7 @@ public class SuccessorPathUtils {
 
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
+        System.out.println("ApexIndex " + apexIndex);
 
         //flip nodes preceding the apex if they are not from left to right.
         for(int i = 0; i < apexIndex; i++){

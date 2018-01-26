@@ -24,6 +24,7 @@ public class PTypeDetermination{
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
+
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
 
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
@@ -38,11 +39,58 @@ public class PTypeDetermination{
         System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
         MultiDirectedGraph augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
 
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
         Vertex source = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
         Vertex target = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(tcTreeNode);
         DirectedEdge sourceSinkEdge = augmentedGraph.getEdge(source, target);
         List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
         List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
+
+        
+        boolean lastEdgeWasInPert = false;
+        int sourcePertStart = outgoingEdgesSource.size()-1;
+        int sourcePertEnd = 0;
+
+
+        for (int i = sourcePertEnd; i < outgoingEdgesSource.size(); i++) {
+            DirectedEdge outgoingEdge = outgoingEdgesSource.get(i);
+            if (lastEdgeWasInPert && !pert.getEdges().contains(outgoingEdge))
+                sourcePertEnd = i;
+            if (!lastEdgeWasInPert && pert.getEdges().contains(outgoingEdge))
+                sourcePertStart = i;
+            lastEdgeWasInPert = pert.getEdges().contains(outgoingEdge);
+        }
+
+        if(sourcePertEnd == 0)
+            sourcePertEnd = 1;
+        if(pert.getEdges().contains(outgoingEdgesSource.get(outgoingEdgesSource.size()-1)))
+            sourcePertEnd = outgoingEdgesSource.size();
+        if(pert.getEdges().contains(outgoingEdgesSource.get(0))){
+            sourcePertStart = 0;
+        }
+
+
+        lastEdgeWasInPert = false;
+        int targetPertStart = incomingEdgesTarget.size()-1;
+        int targetPertEnd = 0;
+
+        for (int i = targetPertStart; i >= 0; i--) {
+            DirectedEdge incomingEdge = incomingEdgesTarget.get(i);
+            if (lastEdgeWasInPert && !pert.getEdges().contains(incomingEdge))
+                targetPertStart = i;
+            if (!lastEdgeWasInPert && pert.getEdges().contains(incomingEdge))
+                targetPertEnd = i;
+            lastEdgeWasInPert = pert.getEdges().contains(incomingEdge);
+        }
+        if(targetPertStart == incomingEdgesTarget.size()-1)
+            targetPertStart = incomingEdgesTarget.size()-2;
+        if(pert.getEdges().contains(incomingEdgesTarget.get(0)))
+            targetPertStart = -1;
+        if(pert.getEdges().contains(incomingEdgesTarget.get(incomingEdgesTarget.size()-1))){
+            targetPertEnd = 0;
+        }
+
+
 
 
 
@@ -52,11 +100,11 @@ public class PTypeDetermination{
             if(sourceSinkEdge != null){
                 //remove edge and add it at the last index so that it lies on the right path
                 outgoingEdgesSource.remove(sourceSinkEdge);
-                outgoingEdgesSource.add(sourceSinkEdge);
+                outgoingEdgesSource.add(sourcePertEnd-1, sourceSinkEdge);
 
                 //remove edge and add it on the first index so that it lies on the right path
                 incomingEdgesTarget.remove(sourceSinkEdge);
-                incomingEdgesTarget.add(0, sourceSinkEdge);
+                incomingEdgesTarget.add(targetPertStart + 1, sourceSinkEdge);
             }
 
             SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
@@ -66,17 +114,17 @@ public class PTypeDetermination{
             if(sourceSinkEdge != null)
                 throw new RuntimeException("Type B and edge from source to sink is occurring on P-Node!");
 
-            MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(optTypeBNode);
+            MultiDirectedGraph typeBPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(optTypeBNode);
 
-            List<DirectedEdge> pertOutgoingEdges = new LinkedList<>(pert.getEdgesWithSource(source));
-            List<DirectedEdge> pertIncomingEdges = new LinkedList<>(pert.getEdgesWithTarget(target));
+            List<DirectedEdge> typeBPertOutgoingEdges = new LinkedList<>(typeBPert.getEdgesWithSource(source));
+            List<DirectedEdge> typeBPertIncomingEdges = new LinkedList<>(typeBPert.getEdgesWithTarget(target));
 
             //iterate over all outgoing edges and if it is part of the typeB pertGraph, remove it and add it again.
             List<DirectedEdge> outgoingEdgesCopy = new ArrayList<>(outgoingEdgesSource);
             for(DirectedEdge edge : outgoingEdgesCopy){
-                if(pertOutgoingEdges.contains(edge)) {
+                if(typeBPertOutgoingEdges.contains(edge)) {
                     outgoingEdgesSource.remove(edge);
-                    outgoingEdgesSource.add(edge);
+                    outgoingEdgesSource.add(sourcePertEnd-1, edge);
                 }
             }
 
@@ -85,17 +133,19 @@ public class PTypeDetermination{
             int insertIndex = 0;
             List<DirectedEdge> incomingEdgesCopy = new ArrayList<>(incomingEdgesTarget);
             for(DirectedEdge edge : incomingEdgesCopy){
-                if(pertIncomingEdges.contains(edge)){
+                if(typeBPertIncomingEdges.contains(edge)){
                     incomingEdgesTarget.remove(edge);
-                    incomingEdgesTarget.add(insertIndex++, edge);
+                    incomingEdgesTarget.add(targetPertStart + 1 + insertIndex++, edge);
                 }
             }
 
 
-
             //get Index of the apex
             int apexIndex = -1;
+
             for(int i = 1; i < outgoingEdgesSource.size()-1; i++){
+                if(sourcePertStart > i || i > sourcePertEnd)
+                    continue;
                 Vertex v1 = outgoingEdgesSource.get(i-1).getTarget();
                 Vertex v2 = outgoingEdgesSource.get(i).getTarget();
                 Vertex v3 = outgoingEdgesSource.get(i+1).getTarget();
@@ -108,6 +158,10 @@ public class PTypeDetermination{
                         break;
                     }
                 }
+            }
+
+            for(DirectedEdge edge : HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source)){
+                System.out.println(edge);
             }
 
             SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, apexIndex);
