@@ -17,7 +17,7 @@ public class PTypeDetermination{
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
-
+        System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
 
