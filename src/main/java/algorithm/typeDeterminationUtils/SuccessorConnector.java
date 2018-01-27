@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SuccessorPathUtils {
+public class SuccessorConnector {
 
 
     private static void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){

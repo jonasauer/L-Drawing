@@ -8,7 +8,7 @@ import main.java.algorithm.holder.HolderProvider;
 
 public class QTypeDetermination{
 
-    public static void determineType(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public void determineType(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_Q)) return;
         HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, SuccessorPathType.TYPE_M);

@@ -53,8 +53,6 @@ public class EmbeddingHolder {
             incomingEdgesCircularOrdering.put(vertex, new LinkedList<>());
             calculateOrderedEdgesCircular(vertex);
         }
-
-        print(graph);
     }
 
 
@@ -77,8 +75,6 @@ public class EmbeddingHolder {
 
 
 
-
-    //TODO: ok
     private void calculateOrderedEdgesCircular(Vertex vertex){
 
         List<DirectedEdge> edgesCircular = new ArrayList<>();

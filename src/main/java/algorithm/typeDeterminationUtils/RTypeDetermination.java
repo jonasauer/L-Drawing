@@ -33,7 +33,6 @@ public class RTypeDetermination{
     private SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
 
-    //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
@@ -54,7 +53,7 @@ public class RTypeDetermination{
         this.leftEdge = new HashMap<>();
         this.rightEdge = new HashMap<>();
 
-        this.virtualEdgeToTCTreeNode = calcVirtualEdgeToTCTreeNode();
+        this.virtualEdgeToTCTreeNode = calcTCNodeOfVirtualEdge();
 
         this.faceTypes = new HashMap<>();
 
@@ -74,7 +73,7 @@ public class RTypeDetermination{
 
 
 
-    //TODO: OK
+
     private MultiDirectedGraph convertSkeletonToGraph(){
 
         MultiDirectedGraph skeletonGraph = new MultiDirectedGraph();
@@ -91,27 +90,24 @@ public class RTypeDetermination{
 
 
 
-    //TODO: OK
-    private Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> calcVirtualEdgeToTCTreeNode(){
+
+    private Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> calcTCNodeOfVirtualEdge(){
 
         Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> virtualEdgeToTCTreeNode = new HashMap<>();
 
-        for(DirectedEdge edge : skeleton.getEdges()){
-            for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-                Vertex edgeSource = edge.getSource();
-                Vertex edgeTarget = edge.getTarget();
-                Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
-                Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
-                if(edgeSource.equals(pertSource) && edgeTarget.equals(pertTarget) || edgeSource.equals(pertTarget) && edgeTarget.equals(pertSource))
-                    virtualEdgeToTCTreeNode.put(edge, child);
-            }
+        for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
+            Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
+            Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
+            DirectedEdge virtualEdge = skeleton.getEdge(pertSource, pertTarget);
+            virtualEdgeToTCTreeNode.put(virtualEdge, child);
         }
+
         return virtualEdgeToTCTreeNode;
     }
 
 
 
-    //TODO: OK
+
     private void calcSourceAndTargetOfFaces(){
 
         for(Vertex vertex : skeleton.getVertices()){
@@ -286,17 +282,17 @@ public class RTypeDetermination{
         }
 
         if(optTypeBNode != null){
-            SuccessorPathUtils.connectWithTypeB(augmentedGraph, tcTree, tcTreeNode, vertex);
+            SuccessorConnector.connectWithTypeB(augmentedGraph, tcTree, tcTreeNode, vertex);
             System.out.println(PrintColors.ANSI_YELLOW + "        Finished with TypeB in successors!");
             return;
         }
         if(bothTypeOfFacesContained){
-            SuccessorPathUtils.connectWithBothTypes(augmentedGraph, tcTree, tcTreeNode, nodeWithApex, vertex);
+            SuccessorConnector.connectWithBothTypes(augmentedGraph, tcTree, tcTreeNode, nodeWithApex, vertex);
             System.out.println(PrintColors.ANSI_YELLOW + "        Finished with both types of faces!");
             return;
         }
 
-        SuccessorPathUtils.connectWithOnlyOneType(augmentedGraph, tcTree, tcTreeNode, facesOfSource, faceTypes, vertex);
+        SuccessorConnector.connectWithOnlyOneType(augmentedGraph, tcTree, tcTreeNode, facesOfSource, faceTypes, vertex);
         System.out.println(PrintColors.ANSI_YELLOW + "        Finished with only one type of faces!");
     }
 }

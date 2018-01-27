@@ -17,16 +17,14 @@ public class PostOrderNodesHolder {
 
         this.postOrderNodes = new ArrayList<>();
         this.tcTree = tcTree;
-
-        TCTreeNode<DirectedEdge, Vertex> root = tcTree.getRoot();
-        postOrderNodes(root);
+        postOrderNodes(tcTree.getRoot());
     }
 
     private void postOrderNodes(TCTreeNode<DirectedEdge, Vertex> node){
 
-        for(TCTreeNode<DirectedEdge, Vertex> child : this.tcTree.getChildren(node)){
+        for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(node))
             postOrderNodes(child);
-        }
+
         postOrderNodes.add(node);
     }
 

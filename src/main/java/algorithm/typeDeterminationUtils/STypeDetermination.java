@@ -10,7 +10,7 @@ import main.java.algorithm.holder.HolderProvider;
 
 public class STypeDetermination{
 
-    public static void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_S)) return;
 

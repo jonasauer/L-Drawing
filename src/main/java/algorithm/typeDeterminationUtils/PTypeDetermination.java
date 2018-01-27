@@ -13,7 +13,7 @@ import java.util.*;
 
 public class PTypeDetermination{
 
-    public static void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public  void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
@@ -107,7 +107,7 @@ public class PTypeDetermination{
                 incomingEdgesTarget.add(targetPertStart + 1, sourceSinkEdge);
             }
 
-            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
+            SuccessorConnector.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
 
         }else{
 
@@ -164,7 +164,7 @@ public class PTypeDetermination{
                 System.out.println(edge);
             }
 
-            SuccessorPathUtils.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, apexIndex);
+            SuccessorConnector.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, apexIndex);
 
         }
     }

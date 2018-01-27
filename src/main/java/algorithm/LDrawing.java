@@ -46,17 +46,18 @@ public class LDrawing {
         HolderProvider.setSourceTargetPertinentGraphsHolder(new SourceTargetPertinentGraphsHolder());
         HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
         HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
+        HolderProvider.getEmbeddingHolder().print(convertedGraph);
 
         for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes()){
             switch (node.getType()){
                 case TYPE_Q:
-                    QTypeDetermination.determineType(node);
+                    new QTypeDetermination().determineType(node);
                     break;
                 case TYPE_S:
-                    STypeDetermination.determineType(tcTree, node);
+                    new STypeDetermination().determineType(tcTree, node);
                     break;
                 case TYPE_P:
-                    PTypeDetermination.determineType(tcTree, node);
+                    new PTypeDetermination().determineType(tcTree, node);
                     break;
                 case TYPE_R:
                     new RTypeDetermination().determineType(tcTree, node);
