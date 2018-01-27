@@ -7,13 +7,13 @@ import main.java.test.graphProvider.SimpleGraphProvider;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.holder.PertinentGraphHolder;
 import main.java.algorithm.holder.PostOrderNodesHolder;
-import main.java.algorithm.holder.SourceSinkPertinentGraphsHolder;
+import main.java.algorithm.holder.SourceTargetPertinentGraphsHolder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class SourceSinkPertinentGraphsHolderTest {
+public class SourceTargetPertinentGraphsHolderTest {
 
     @Test
     public void testSimpleGraph(){
@@ -21,12 +21,12 @@ public class SourceSinkPertinentGraphsHolderTest {
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(SimpleGraphProvider.getSimpleGraph(), SimpleGraphProvider.backEdge);
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
         HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
-        SourceSinkPertinentGraphsHolder sourceSinkPertinentGraphsHolder = new SourceSinkPertinentGraphsHolder();
+        SourceTargetPertinentGraphsHolder sourceTargetPertinentGraphsHolder = new SourceTargetPertinentGraphsHolder();
 
-        assertTrue(sourceSinkPertinentGraphsHolder.getSourceNodes().get(tctree.getRoot()).equals(SimpleGraphProvider.s1));
-        assertTrue(sourceSinkPertinentGraphsHolder.getSinkNodes().get(tctree.getRoot()).equals(SimpleGraphProvider.s9));
+        assertTrue(sourceTargetPertinentGraphsHolder.getSourceNodes().get(tctree.getRoot()).equals(SimpleGraphProvider.s1));
+        assertTrue(sourceTargetPertinentGraphsHolder.getTargetNodes().get(tctree.getRoot()).equals(SimpleGraphProvider.s9));
 
-        assertFalse(sourceSinkPertinentGraphsHolder.getSourceNodes().containsValue(SimpleGraphProvider.s9));
-        assertFalse(sourceSinkPertinentGraphsHolder.getSinkNodes().containsValue(SimpleGraphProvider.s1));
+        assertFalse(sourceTargetPertinentGraphsHolder.getSourceNodes().containsValue(SimpleGraphProvider.s9));
+        assertFalse(sourceTargetPertinentGraphsHolder.getTargetNodes().containsValue(SimpleGraphProvider.s1));
     }
 }

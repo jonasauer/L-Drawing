@@ -3,8 +3,8 @@ package main.java.algorithm.holder;
 public class HolderProvider {
 
     private static PertinentGraphHolder pertinentGraphHolder;
-    private static SourceSinkGraphHolder sourceSinkGraphHolder;
-    private static SourceSinkPertinentGraphsHolder sourceSinkPertinentGraphsHolder;
+    private static SourceTargetGraphHolder sourceTargetGraphHolder;
+    private static SourceTargetPertinentGraphsHolder sourceTargetPertinentGraphsHolder;
     private static SuccessorPathTypeHolder successorPathTypeHolder;
     private static PostOrderNodesHolder postOrderNodesHolder;
     private static AugmentationHolder augmentationHolder;
@@ -16,12 +16,12 @@ public class HolderProvider {
         return pertinentGraphHolder;
     }
 
-    public static SourceSinkGraphHolder getSourceSinkGraphHolder() {
-        return sourceSinkGraphHolder;
+    public static SourceTargetGraphHolder getSourceTargetGraphHolder() {
+        return sourceTargetGraphHolder;
     }
 
-    public static SourceSinkPertinentGraphsHolder getSourceSinkPertinentGraphsHolder() {
-        return sourceSinkPertinentGraphsHolder;
+    public static SourceTargetPertinentGraphsHolder getSourceTargetPertinentGraphsHolder() {
+        return sourceTargetPertinentGraphsHolder;
     }
 
     public static SuccessorPathTypeHolder getSuccessorPathTypeHolder() {
@@ -47,12 +47,12 @@ public class HolderProvider {
         HolderProvider.pertinentGraphHolder = pertinentGraphHolder;
     }
 
-    public static void setSourceSinkGraphHolder(SourceSinkGraphHolder sourceSinkGraphHolder) {
-        HolderProvider.sourceSinkGraphHolder = sourceSinkGraphHolder;
+    public static void setSourceTargetGraphHolder(SourceTargetGraphHolder sourceTargetGraphHolder) {
+        HolderProvider.sourceTargetGraphHolder = sourceTargetGraphHolder;
     }
 
-    public static void setSourceSinkPertinentGraphsHolder(SourceSinkPertinentGraphsHolder sourceSinkPertinentGraphsHolder) {
-        HolderProvider.sourceSinkPertinentGraphsHolder = sourceSinkPertinentGraphsHolder;
+    public static void setSourceTargetPertinentGraphsHolder(SourceTargetPertinentGraphsHolder sourceTargetPertinentGraphsHolder) {
+        HolderProvider.sourceTargetPertinentGraphsHolder = sourceTargetPertinentGraphsHolder;
     }
 
     public static void setSuccessorPathTypeHolder(SuccessorPathTypeHolder successorPathTypeHolder) {

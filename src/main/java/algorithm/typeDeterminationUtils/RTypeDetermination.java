@@ -36,7 +36,7 @@ public class RTypeDetermination{
     //TODO: OK
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
-        System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+        System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
 
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
@@ -79,8 +79,8 @@ public class RTypeDetermination{
 
         MultiDirectedGraph skeletonGraph = new MultiDirectedGraph();
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-            Vertex source = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(child);
-            Vertex target = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(child);
+            Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
+            Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
             skeletonGraph.addEdge(source, target);
         }
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + skeletonGraph);
@@ -100,8 +100,8 @@ public class RTypeDetermination{
             for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                 Vertex edgeSource = edge.getSource();
                 Vertex edgeTarget = edge.getTarget();
-                Vertex pertSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(child);
-                Vertex pertTarget = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(child);
+                Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
+                Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
                 if(edgeSource.equals(pertSource) && edgeTarget.equals(pertTarget) || edgeSource.equals(pertTarget) && edgeTarget.equals(pertSource))
                     virtualEdgeToTCTreeNode.put(edge, child);
             }

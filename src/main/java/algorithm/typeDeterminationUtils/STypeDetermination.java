@@ -15,14 +15,14 @@ public class STypeDetermination{
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_S)) return;
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
-        System.out.println(PrintColors.ANSI_RED + "SType Determination! Source Vertex is " + HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+        System.out.println(PrintColors.ANSI_RED + "SType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
-        Vertex source = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
+        Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
 
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
 
-            Vertex childSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(child);
+            Vertex childSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
             if(source.equals(childSource)){
                 SuccessorPathType type = HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child);
                 HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, type);

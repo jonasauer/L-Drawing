@@ -19,8 +19,8 @@ public class SuccessorPathUtils {
     private static void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
 
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
-        Vertex pertSource = HolderProvider.getSourceSinkPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
-        Vertex pertTarget = HolderProvider.getSourceSinkPertinentGraphsHolder().getSinkNodes().get(tcTreeNode);
+        Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
+        Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(tcTreeNode);
 
         List<DirectedEdge> pertOutgoingEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
         List<DirectedEdge> pertIncomingEdges = new LinkedList<>(pert.getEdgesWithTarget(pertTarget));

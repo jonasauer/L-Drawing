@@ -50,9 +50,9 @@ public class PertinentGraphHolderTest {
                 possibleSNodeEdges.remove((Integer)edges);
             }
             if(node.getType().equals(TCTreeNodeType.TYPE_P)){
-                int edges = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node).getEdges().size();
+                Integer edges = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node).getEdges().size();
                 assertTrue(possiblePNodeEdges.contains(edges));
-                possiblePNodeEdges.remove((Integer)edges);
+                possiblePNodeEdges.remove(edges);
             }
         }
     }

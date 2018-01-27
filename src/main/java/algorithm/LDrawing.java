@@ -14,7 +14,6 @@ import main.java.algorithm.typeDeterminationUtils.PTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.QTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.RTypeDetermination;
 import main.java.algorithm.typeDeterminationUtils.STypeDetermination;
-import main.java.test.Printer;
 
 public class LDrawing {
 
@@ -41,10 +40,10 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
 
 
-        HolderProvider.setSourceSinkGraphHolder(new SourceSinkGraphHolder(convertedGraph));
+        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));
         HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tcTree));
-        HolderProvider.setSourceSinkPertinentGraphsHolder(new SourceSinkPertinentGraphsHolder());
+        HolderProvider.setSourceTargetPertinentGraphsHolder(new SourceTargetPertinentGraphsHolder());
         HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
         HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
 
@@ -87,9 +86,9 @@ public class LDrawing {
 
     private void determineBackEdge(){
 
-        HolderProvider.setSourceSinkGraphHolder(new SourceSinkGraphHolder(convertedGraph));
-        Vertex source = HolderProvider.getSourceSinkGraphHolder().getSourceNodes().iterator().next();
-        Vertex target = HolderProvider.getSourceSinkGraphHolder().getSinkNodes().iterator().next();
+        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
+        Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNodes().iterator().next();
+        Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNodes().iterator().next();
 
         if(!convertedGraph.getEdges(source, target).isEmpty()){
             backEdge = convertedGraph.getEdge(source, target);
