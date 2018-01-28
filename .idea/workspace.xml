@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathUtils.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingException.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingNotPossibeExceptionException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/PTypeDetermination.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/QTypeDetermination.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/RTypeDetermination.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/STypeDetermination.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/HolderProvider.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/holder/HolderProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/application/GUIController.java" afterPath="$PROJECT_DIR$/src/main/java/application/GUIController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,6 +26,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="LDrawing.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SourceTargetGraphHolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetGraphHolder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GUIController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/application/GUIController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="348">
+              <caret line="165" column="30" lean-forward="true" selection-start-line="165" selection-start-column="30" selection-end-line="165" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SuccessorPathTypeHolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SuccessorPathTypeHolder.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -42,50 +73,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PostOrderNodesHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java">
+      <file leaf-file-name="RTypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/RTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PertinentGraphHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HolderProvider.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/HolderProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="40" lean-forward="true" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+            <state relative-caret-position="-3951">
+              <caret line="17" column="60" lean-forward="false" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
               <folding>
-                <element signature="method#getSourceTargetPertinentGraphsHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setPertinentGraphHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setSourceTargetGraphHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setSourceTargetPertinentGraphsHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setSuccessorPathTypeHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setPostOrderNodesHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setAugmentationHolder#0;class#HolderProvider#0" expanded="false" />
-                <element signature="method#setEmbeddingHolder#0;class#HolderProvider#0" expanded="false" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/TypeDetermination.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="PTypeDetermination.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/PTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="19" column="95" lean-forward="true" selection-start-line="19" selection-start-column="95" selection-end-line="19" selection-end-column="95" />
+            <state relative-caret-position="223">
+              <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="111" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -93,62 +109,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LDrawingException.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingException.java">
+      <file leaf-file-name="STypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/STypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="e#136#137#0" expanded="true" />
-                <element signature="e#166#167#0" expanded="true" />
-                <element signature="e#215#216#0" expanded="true" />
-                <element signature="e#243#244#0" expanded="true" />
-                <element signature="e#308#309#0" expanded="true" />
-                <element signature="e#345#346#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="12" column="60" lean-forward="false" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmbeddingHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
+      <file leaf-file-name="QTypeDetermination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/QTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+            <state relative-caret-position="102">
+              <caret line="13" column="110" lean-forward="false" selection-start-line="13" selection-start-column="110" selection-end-line="13" selection-end-column="110" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SuccessorConnector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3035">
+              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AugmentationHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/AugmentationHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SourceTargetGraphHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetGraphHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SourceTargetPertinentGraphsHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="20" column="21" lean-forward="false" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-              <folding>
-                <element signature="method#determineSourcesAndTargets#0;class#SourceTargetPertinentGraphsHolder#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -160,8 +147,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -184,6 +171,7 @@
       <find>face</find>
       <find>flipNode</find>
       <find>getEdgesWithSource</find>
+      <find>throw</find>
     </findStrings>
     <replaceStrings>
       <replace>AssertTrue</replace>
@@ -205,11 +193,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/PTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/RTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/STypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/typeDeterminationUtils/QTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/typeDetermination/holder/SuccessorPathTypeHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/decomposition/spqrTree/SPQRTreeNodeType.java" />
         <option value="$PROJECT_DIR$/src/main/java/graphConverter/GraphConverter.java" />
         <option value="$PROJECT_DIR$/src/main/java/decomposition/spqrTree/SPQRSkeleton.java" />
@@ -230,7 +213,6 @@
         <option value="$PROJECT_DIR$/src/main/java/algorithm/EmbeddingHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/AugmentationHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/decomposition/graph/abs/AbstractDirectedEdge.java" />
-        <option value="$PROJECT_DIR$/src/main/java/application/GUIController.java" />
         <option value="$PROJECT_DIR$/src/com.yworks.yfiles.java.license.xml" />
         <option value="$PROJECT_DIR$/src/com.yworks.yfiles.java.developmentlicense.xml" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/SucessorPathUtils.java" />
@@ -246,16 +228,22 @@
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/HolderProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnecter.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnector.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/PTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/TypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/QTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/RTypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/STypeDetermination.java" />
+        <option value="$PROJECT_DIR$/src/main/java/application/GUIController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java" />
       </list>
     </option>
   </component>
@@ -338,6 +326,16 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="algorithm" type="462c0819:PsiDirectoryNode" />
               <item name="typeDeterminationUtils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="L-Drawing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="L-Drawing" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="algorithm" type="462c0819:PsiDirectoryNode" />
+              <item name="typeDeterminationUtils" type="462c0819:PsiDirectoryNode" />
+              <item name="typeDetermination" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="L-Drawing" type="b2602c69:ProjectViewProjectNode" />
@@ -644,7 +642,7 @@
       <workItem from="1516740994467" duration="5197000" />
       <workItem from="1516799852834" duration="17984000" />
       <workItem from="1516969564961" duration="12340000" />
-      <workItem from="1517053099675" duration="4310000" />
+      <workItem from="1517053099675" duration="8198000" />
     </task>
     <servers />
   </component>
@@ -681,11 +679,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="237019000" />
+    <option name="totallyTimeSpent" value="240907000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -696,7 +693,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34570518" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34570518" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -730,7 +727,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/decomposition/spqrTree/SPQRTree.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/PertinentGraphHolder.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/HolderProvider.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/typeDetermination/holder/SourceSinkPertinentGraphsHolder.java" />
@@ -846,13 +842,6 @@
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/yfiles-for-java.jar!/com/yworks/yfiles/algorithms/b.class" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/application/GUIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="39" column="33" lean-forward="false" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com.yworks.yfiles.javafx.developmentlicense.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -894,42 +883,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/QTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/STypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="26" column="36" lean-forward="false" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/RTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="101" column="60" lean-forward="true" selection-start-line="101" selection-start-column="60" selection-end-line="101" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="56" column="24" lean-forward="false" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorPathType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -946,58 +899,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnector.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingNotPossibeExceptionException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="238">
+          <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#174#175#0" expanded="true" />
+            <element signature="e#204#205#0" expanded="true" />
+            <element signature="e#272#273#0" expanded="true" />
+            <element signature="e#300#301#0" expanded="true" />
+            <element signature="e#384#385#0" expanded="true" />
+            <element signature="e#421#422#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/AugmentationHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-34">
+          <caret line="190" column="44" lean-forward="false" selection-start-line="190" selection-start-column="44" selection-end-line="190" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetGraphHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="21" lean-forward="false" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-          <folding>
-            <element signature="method#determineSourcesAndTargets#0;class#SourceTargetPertinentGraphsHolder#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SuccessorPathTypeHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding>
-            <element signature="e#599#600#0" expanded="true" />
-            <element signature="e#631#632#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1018,45 +949,121 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/AugmentationHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PertinentGraphHolder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        <state relative-caret-position="-26">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/PTypeDetermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="19" column="95" lean-forward="true" selection-start-line="19" selection-start-column="95" selection-end-line="19" selection-end-column="95" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/exception/LDrawingException.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/PostOrderNodesHolder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" column="21" lean-forward="false" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SuccessorPathTypeHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
           <folding>
-            <element signature="e#136#137#0" expanded="true" />
-            <element signature="e#166#167#0" expanded="true" />
-            <element signature="e#215#216#0" expanded="true" />
-            <element signature="e#243#244#0" expanded="true" />
-            <element signature="e#308#309#0" expanded="true" />
-            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#599#600#0" expanded="true" />
+            <element signature="e#631#632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/SuccessorConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3035">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/PTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="111" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/QTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="13" column="110" lean-forward="false" selection-start-line="13" selection-start-column="110" selection-end-line="13" selection-end-column="110" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/STypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="12" column="60" lean-forward="false" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/application/GUIController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="165" column="30" lean-forward="true" selection-start-line="165" selection-start-column="30" selection-end-line="165" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/RTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3951">
+          <caret line="17" column="60" lean-forward="false" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDeterminationUtils/typeDetermination/TypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetGraphHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

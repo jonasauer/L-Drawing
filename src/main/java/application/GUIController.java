@@ -6,11 +6,15 @@ import com.yworks.yfiles.view.*;
 import com.yworks.yfiles.view.input.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import main.java.algorithm.LDrawing;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class GUIController {
 
@@ -140,8 +144,37 @@ public class GUIController {
 
     @FXML
     public void handleLDrawing(){
+        try {
+            new LDrawing().lDrawing(graph);
+        } catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Layout not possible!");
+            alert.setContentText("The input graph does not admit an L-Drawing representation.");
 
-        new LDrawing().lDrawing(graph);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            exception.printStackTrace(pw);
+            String exceptionText = sw.toString();
+
+            Label label = new Label("The exception stacktrace was:");
+
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
     }
 
     @FXML
