@@ -12,6 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import main.java.algorithm.LDrawing;
+import main.java.algorithm.exception.GraphConditionsException;
+import main.java.algorithm.exception.LDrawingNotPossibleException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -146,35 +148,48 @@ public class GUIController {
     public void handleLDrawing(){
         try {
             new LDrawing().lDrawing(graph);
-        } catch (Exception exception){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            alert.setHeaderText("Layout not possible!");
-            alert.setContentText("The input graph does not admit an L-Drawing representation.");
-
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            exception.printStackTrace(pw);
-            String exceptionText = sw.toString();
-
-            Label label = new Label("The exception stacktrace was:");
-
-            TextArea textArea = new TextArea(exceptionText);
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            textArea.setMaxWidth(Double.MAX_VALUE);
-            textArea.setMaxHeight(Double.MAX_VALUE);
-            GridPane.setVgrow(textArea, Priority.ALWAYS);
-            GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-            GridPane expContent = new GridPane();
-            expContent.setMaxWidth(Double.MAX_VALUE);
-            expContent.add(label, 0, 0);
-            expContent.add(textArea, 0, 1);
-
-            alert.getDialogPane().setExpandableContent(expContent);
-            alert.showAndWait();
+        }catch (GraphConditionsException exception){
+            String message = exception.getMessage() + " The graph has to fulfill following conditions:\n" + "\tplanar\n" + "\tbiconnected\n" + "\tacyclic\n" + "\tst-graph";
+            makeAlert("The graph does not admit a L-Drawing layout.", message, exception);
+        }catch (LDrawingNotPossibleException exception) {
+            String message = "Unfortunately the graph does not admit a L-Drawing layout. " + exception.getMessage();
+            makeAlert("The graph does not admit a L-Drawing layout.", message, exception);
+        }catch (Exception exception){
+            String message = "An unexpected error occurred. We are sorry. Please try again.";
+            makeAlert("Something went wrong.", message, exception);
         }
+    }
+
+
+
+    private void makeAlert(String header, String message, Exception exception){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        alert.getDialogPane().setExpandableContent(expContent);
+        alert.showAndWait();
     }
 
     @FXML

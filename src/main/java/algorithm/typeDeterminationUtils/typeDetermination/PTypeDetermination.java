@@ -1,7 +1,7 @@
 package main.java.algorithm.typeDeterminationUtils.typeDetermination;
 
 import main.java.PrintColors;
-import main.java.algorithm.exception.LDrawingNotPossibeExceptionException;
+import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.typeDeterminationUtils.SuccessorConnector;
 import main.java.algorithm.typeDeterminationUtils.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
@@ -16,7 +16,7 @@ import java.util.*;
 
 public class PTypeDetermination implements TypeDetermination{
 
-    public  void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibeExceptionException {
+    public  void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
@@ -32,7 +32,7 @@ public class PTypeDetermination implements TypeDetermination{
 
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
-                    throw new LDrawingNotPossibeExceptionException("P-Node contains two children assigned with Type-B.");
+                    throw new LDrawingNotPossibleException("P-Node contains two children assigned with Type-B.");
                 optTypeBNode = child;
                 successorPathType = SuccessorPathType.TYPE_B;
             }
@@ -115,7 +115,7 @@ public class PTypeDetermination implements TypeDetermination{
         }else{
 
             if(sourceSinkEdge != null)
-                throw new RuntimeException("P-Node contains one child assigned with Type-B and an edge reaching from the source to the target.");
+                throw new LDrawingNotPossibleException("P-Node contains one child assigned with Type-B and an edge reaching from the source to the target.");
 
             MultiDirectedGraph typeBPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(optTypeBNode);
 

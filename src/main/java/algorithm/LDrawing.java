@@ -4,7 +4,8 @@ import com.yworks.yfiles.algorithms.GraphChecker;
 import com.yworks.yfiles.graph.IGraph;
 import com.yworks.yfiles.layout.YGraphAdapter;
 import main.java.PrintColors;
-import main.java.algorithm.exception.LDrawingNotPossibeExceptionException;
+import main.java.algorithm.exception.GraphConditionsException;
+import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -23,7 +24,7 @@ public class LDrawing {
     private DirectedEdge backEdge;
 
 
-    public void lDrawing(IGraph graph) throws LDrawingNotPossibeExceptionException {
+    public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
 
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
@@ -32,7 +33,9 @@ public class LDrawing {
         this.determineBackEdge();
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
-        //TODO: check if tc tree is correct, ...
+
+
+
         System.out.println();
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
@@ -65,6 +68,8 @@ public class LDrawing {
                     break;
             }
         }
+
+
         System.out.println(PrintColors.ANSI_WHITE + "---------------------------");
         System.out.println(PrintColors.ANSI_WHITE + "Finish");
         System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
@@ -72,19 +77,21 @@ public class LDrawing {
     }
 
 
-    public void checkIfLDrawingPossible(IGraph graph) throws LDrawingNotPossibeExceptionException {
+    public void checkIfLDrawingPossible(IGraph graph) throws GraphConditionsException {
 
         YGraphAdapter graphAdapter = new YGraphAdapter(graph);
         if(initialGraph.getNodes().size() < 2)
-            throw new LDrawingNotPossibeExceptionException("The input graph has no edges in it.");
+            throw new GraphConditionsException("The input graph contains less than two nodes. Please add nodes to the graph until it contains at least two nodes.");
+        if(initialGraph.getEdges().size() < 2)
+            throw new GraphConditionsException("The input graph contains less than two edges. Please add edges to the graph until it contains at least two edges.");
         if(!GraphChecker.isConnected(graphAdapter.getYGraph()))
-            throw new LDrawingNotPossibeExceptionException("The input graph is not connected.");
+            throw new GraphConditionsException("The input graph is not connected. Please connect all nodes of the graph to a biconnected graph.");
         if(GraphChecker.isCyclic(graphAdapter.getYGraph()))
-            throw new LDrawingNotPossibeExceptionException("The input graph is cyclic.");
+            throw new GraphConditionsException("The input graph is cyclic. Please remove or change edges to make the graph acyclic.");
         if(!GraphChecker.isBiconnected(graphAdapter.getYGraph()))
-            throw new LDrawingNotPossibeExceptionException("The input graph is not biconnected.");
+            throw new GraphConditionsException("The input graph is not biconnected. Please add edges to make the graph biconnected.");
         if(!GraphChecker.isPlanar(graphAdapter.getYGraph()))
-            throw new LDrawingNotPossibeExceptionException("The input graph is not planar.");
+            throw new GraphConditionsException("The input graph is not planar. Please make sure the graph admits a planar embedding.");
     }
 
 

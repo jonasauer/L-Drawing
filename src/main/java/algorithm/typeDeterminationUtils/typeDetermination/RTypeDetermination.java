@@ -1,7 +1,7 @@
 package main.java.algorithm.typeDeterminationUtils.typeDetermination;
 
 import main.java.PrintColors;
-import main.java.algorithm.exception.LDrawingNotPossibeExceptionException;
+import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.typeDeterminationUtils.FaceType;
 import main.java.algorithm.typeDeterminationUtils.SuccessorConnector;
@@ -37,7 +37,7 @@ public class RTypeDetermination implements TypeDetermination{
     private SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
 
-    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibeExceptionException {
+    public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
 
@@ -215,7 +215,7 @@ public class RTypeDetermination implements TypeDetermination{
 
 
     //TODO: OK
-    private void connectVertices(Vertex vertex) throws LDrawingNotPossibeExceptionException {
+    private void connectVertices(Vertex vertex) throws LDrawingNotPossibleException {
 
         List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
         if(outgoingFaces.isEmpty()) return;
@@ -253,7 +253,7 @@ public class RTypeDetermination implements TypeDetermination{
             TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
-                    throw new LDrawingNotPossibeExceptionException("R-Node contains two children assigned with Type-B that have the same source.");
+                    throw new LDrawingNotPossibleException("R-Node contains two children assigned with Type-B that have the same source.");
                 optTypeBNode = child;
                 successorPathType = SuccessorPathType.TYPE_B;
             }
@@ -265,9 +265,9 @@ public class RTypeDetermination implements TypeDetermination{
                 DirectedEdge left = leftEdge.get(face);
                 DirectedEdge right = rightEdge.get(face);
                 if(faceTypes.get(face).equals(FaceType.TYPE_L) && optTypeBNode.equals(virtualEdgeToTCTreeNode.get(right)))
-                        throw new LDrawingNotPossibeExceptionException("R-Node contains a child assigned with Type-B that is the right edge of a face assigned with Type-L.");
+                        throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the right edge of a face assigned with Type-L.");
                 if(faceTypes.get(face).equals(FaceType.TYPE_R) && optTypeBNode.equals(virtualEdgeToTCTreeNode.get(left)))
-                        throw new LDrawingNotPossibeExceptionException("R-Node contains a child assigned with Type-B that is the left edge of a face assigned with Type-R.");
+                        throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the left edge of a face assigned with Type-R.");
             }
         }
 
@@ -277,7 +277,7 @@ public class RTypeDetermination implements TypeDetermination{
             List<DirectedEdge> face1 = outgoingFacesOrdered.get(i);
             List<DirectedEdge> face2 = outgoingFacesOrdered.get(i+1);
             if (faceTypes.get(face1).equals(FaceType.TYPE_L) && faceTypes.get(face2).equals(FaceType.TYPE_R))
-                throw new LDrawingNotPossibeExceptionException("R-Node contains a vertex with a face assigned with Type-L placed before a face assigned with Type-R.");
+                throw new LDrawingNotPossibleException("R-Node contains a vertex with a face assigned with Type-L placed before a face assigned with Type-R.");
             if (faceTypes.get(face1).equals(FaceType.TYPE_R) && faceTypes.get(face2).equals(FaceType.TYPE_L)) {
                 bothTypeOfFacesContained = true;
                 successorPathType = SuccessorPathType.TYPE_B;
