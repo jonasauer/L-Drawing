@@ -6,16 +6,17 @@ import com.yworks.yfiles.layout.YGraphAdapter;
 import main.java.PrintColors;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
+import main.java.algorithm.utils.GraphConverter;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.algorithm.holder.*;
-import main.java.algorithm.typeDeterminationUtils.typeDetermination.PTypeDetermination;
-import main.java.algorithm.typeDeterminationUtils.typeDetermination.QTypeDetermination;
-import main.java.algorithm.typeDeterminationUtils.typeDetermination.RTypeDetermination;
-import main.java.algorithm.typeDeterminationUtils.typeDetermination.STypeDetermination;
+import main.java.algorithm.successorPathTypeDetermination.PTypeDetermination;
+import main.java.algorithm.successorPathTypeDetermination.QTypeDetermination;
+import main.java.algorithm.successorPathTypeDetermination.RTypeDetermination;
+import main.java.algorithm.successorPathTypeDetermination.STypeDetermination;
 
 public class LDrawing {
 
@@ -74,6 +75,7 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_WHITE + "Finish");
         System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
         HolderProvider.getEmbeddingHolder().print(convertedGraph);
+        new ST_OrderingHolder(convertedGraph, backEdge);
     }
 
 

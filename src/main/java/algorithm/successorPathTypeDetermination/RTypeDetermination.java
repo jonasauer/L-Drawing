@@ -1,11 +1,10 @@
-package main.java.algorithm.typeDeterminationUtils.typeDetermination;
+package main.java.algorithm.successorPathTypeDetermination;
 
 import main.java.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.holder.HolderProvider;
-import main.java.algorithm.typeDeterminationUtils.FaceType;
-import main.java.algorithm.typeDeterminationUtils.SuccessorConnector;
-import main.java.algorithm.typeDeterminationUtils.SuccessorPathType;
+import main.java.algorithm.types.FaceType;
+import main.java.algorithm.types.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -15,7 +14,7 @@ import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
-public class RTypeDetermination implements TypeDetermination{
+public class RTypeDetermination implements ITypeDetermination {
 
     private TCTree<DirectedEdge, Vertex> tcTree;
     private TCTreeNode<DirectedEdge, Vertex> tcTreeNode;
@@ -147,7 +146,7 @@ public class RTypeDetermination implements TypeDetermination{
     //TODO: OK
     private void assignLabelsToFaces(){
 
-        System.out.println(PrintColors.ANSI_CYAN + "    Faces:");
+        System.out.println(PrintColors.ANSI_RED + "    Faces:");
         for(List<DirectedEdge> face : skeletonFaces){
             FaceType faceType = FaceType.UNDEFINED;
             Vertex target = targetOfFace.get(face);
@@ -160,14 +159,14 @@ public class RTypeDetermination implements TypeDetermination{
                 faceType = FaceType.TYPE_R;
             }
             faceTypes.put(face, faceType);
-            System.out.print(PrintColors.ANSI_CYAN + "      Face: ");
+            System.out.print(PrintColors.ANSI_RED + "      Face: ");
             for(DirectedEdge edge : face)
-                System.out.print(PrintColors.ANSI_CYAN + edge + "  ");
+                System.out.print(PrintColors.ANSI_RED + edge + "  ");
             System.out.print(faceType + "  ");
-            System.out.print(PrintColors.ANSI_CYAN + "Source: " + sourceOfFace.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_CYAN + "Target: " + targetOfFace.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_CYAN + "LeftEdge: " + leftEdge.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_CYAN + "RightEdge: " + rightEdge.get(face));
+            System.out.print(PrintColors.ANSI_RED + "Source: " + sourceOfFace.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_RED + "Target: " + targetOfFace.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_RED + "LeftEdge: " + leftEdge.get(face) + "  ");
+            System.out.print(PrintColors.ANSI_RED + "RightEdge: " + rightEdge.get(face));
             System.out.println();
         }
     }
@@ -242,7 +241,7 @@ public class RTypeDetermination implements TypeDetermination{
 
         System.out.println(PrintColors.ANSI_YELLOW + "      Vertex " + vertex + ": ");
         for(List<DirectedEdge> face : outgoingFacesOrdered){
-            System.out.print(PrintColors.ANSI_YELLOW + "        ");
+            System.out.print(PrintColors.ANSI_YELLOW + "        Face: ");
             for(DirectedEdge edge : face)
                 System.out.print(PrintColors.ANSI_YELLOW + edge + "  ");
             System.out.println();

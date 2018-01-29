@@ -1,4 +1,4 @@
-package main.java.algorithm;
+package main.java.algorithm.utils;
 
 import com.yworks.yfiles.graph.*;
 import main.java.decomposition.graph.MultiDirectedGraph;

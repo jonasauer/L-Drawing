@@ -1,7 +1,8 @@
-package main.java.algorithm.typeDeterminationUtils;
+package main.java.algorithm.successorPathTypeDetermination;
 
 import main.java.PrintColors;
 import main.java.algorithm.holder.HolderProvider;
+import main.java.algorithm.types.FaceType;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -189,7 +190,6 @@ public class SuccessorConnector {
 
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
-        System.out.println("ApexIndex " + apexIndex);
 
         //flip nodes preceding the apex if they are not from left to right.
         for(int i = 0; i < apexIndex; i++){
@@ -212,7 +212,7 @@ public class SuccessorConnector {
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
             if(pert.getVertices().contains(v1) && pert.getVertices().contains(v2) && graph.getEdge(v1, v2) == null){
-                System.out.println(PrintColors.ANSI_RED + "    Insert edge LR: " + v1 + "->" + v2);
+                System.out.println(PrintColors.ANSI_BLUE + "        Insert edge LR: " + v1 + "->" + v2);
                 DirectedEdge augmentedEdge = graph.addEdge(v1, v2);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v1).add(augmentedEdge);
@@ -251,7 +251,7 @@ public class SuccessorConnector {
             Vertex v2 = outgoingEdges.get(i+1).getTarget();
 
             if(pert.getVertices().contains(v1) && pert.getVertices().contains(v2) && graph.getEdge(v1, v2) == null){
-                System.out.println(PrintColors.ANSI_RED + "    Insert edge RL: " + v2 + "->" + v1);
+                System.out.println(PrintColors.ANSI_BLUE + "        Insert edge RL: " + v2 + "->" + v1);
                 DirectedEdge augmentedEdge = graph.addEdge(v2, v1);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v2).add(0, augmentedEdge);

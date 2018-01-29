@@ -23,5 +23,4 @@ hs_err_pid*
 
 # y-Files License File
 com.yworks.yfiles.javafx.developmentlicense.xml
-com.yworks.yfiles.java.developmentlicense.xml
-com.yworks.yfiles.java.license.xml
+com.yworks.yfiles.javafx.license.xml

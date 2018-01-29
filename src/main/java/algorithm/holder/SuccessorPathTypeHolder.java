@@ -3,7 +3,7 @@ package main.java.algorithm.holder;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.algorithm.typeDeterminationUtils.SuccessorPathType;
+import main.java.algorithm.types.SuccessorPathType;
 
 import java.util.HashMap;
 import java.util.Map;

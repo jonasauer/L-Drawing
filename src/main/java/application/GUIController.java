@@ -149,12 +149,15 @@ public class GUIController {
         try {
             new LDrawing().lDrawing(graph);
         }catch (GraphConditionsException exception){
+            exception.printStackTrace();
             String message = exception.getMessage() + " The graph has to fulfill following conditions:\n" + "\tplanar\n" + "\tbiconnected\n" + "\tacyclic\n" + "\tst-graph";
             makeAlert("The graph does not admit a L-Drawing layout.", message, exception);
         }catch (LDrawingNotPossibleException exception) {
+            exception.printStackTrace();
             String message = "Unfortunately the graph does not admit a L-Drawing layout. " + exception.getMessage();
             makeAlert("The graph does not admit a L-Drawing layout.", message, exception);
         }catch (Exception exception){
+            exception.printStackTrace();
             String message = "An unexpected error occurred. We are sorry. Please try again.";
             makeAlert("Something went wrong.", message, exception);
         }

@@ -1,8 +1,8 @@
-package main.java.algorithm.typeDeterminationUtils.typeDetermination;
+package main.java.algorithm.successorPathTypeDetermination;
 
 import main.java.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
-import main.java.algorithm.typeDeterminationUtils.SuccessorPathType;
+import main.java.algorithm.types.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
@@ -10,7 +10,7 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.algorithm.holder.HolderProvider;
 
-public class STypeDetermination implements TypeDetermination{
+public class STypeDetermination implements ITypeDetermination {
 
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
 

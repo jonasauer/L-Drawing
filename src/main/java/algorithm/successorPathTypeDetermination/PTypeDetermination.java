@@ -1,9 +1,8 @@
-package main.java.algorithm.typeDeterminationUtils.typeDetermination;
+package main.java.algorithm.successorPathTypeDetermination;
 
 import main.java.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
-import main.java.algorithm.typeDeterminationUtils.SuccessorConnector;
-import main.java.algorithm.typeDeterminationUtils.SuccessorPathType;
+import main.java.algorithm.types.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -14,7 +13,7 @@ import main.java.algorithm.holder.HolderProvider;
 
 import java.util.*;
 
-public class PTypeDetermination implements TypeDetermination{
+public class PTypeDetermination implements ITypeDetermination {
 
     public  void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
 
@@ -22,14 +21,12 @@ public class PTypeDetermination implements TypeDetermination{
         System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
-        if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
 
+        if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
-
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
                     throw new LDrawingNotPossibleException("P-Node contains two children assigned with Type-B.");
@@ -49,12 +46,10 @@ public class PTypeDetermination implements TypeDetermination{
         List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
         List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
 
-
+        //get index of start and end of the pert graph in the outgoing edges.
         boolean lastEdgeWasInPert = false;
         int sourcePertStart = outgoingEdgesSource.size()-1;
         int sourcePertEnd = 0;
-
-
         for (int i = sourcePertEnd; i < outgoingEdgesSource.size(); i++) {
             DirectedEdge outgoingEdge = outgoingEdgesSource.get(i);
             if (lastEdgeWasInPert && !pert.getEdges().contains(outgoingEdge))
@@ -63,7 +58,6 @@ public class PTypeDetermination implements TypeDetermination{
                 sourcePertStart = i;
             lastEdgeWasInPert = pert.getEdges().contains(outgoingEdge);
         }
-
         if(sourcePertEnd == 0)
             sourcePertEnd = 1;
         if(pert.getEdges().contains(outgoingEdgesSource.get(outgoingEdgesSource.size()-1)))
@@ -72,11 +66,10 @@ public class PTypeDetermination implements TypeDetermination{
             sourcePertStart = 0;
         }
 
-
+        //get index of start and end of the pert graph in the incoming edges.
         lastEdgeWasInPert = false;
         int targetPertStart = incomingEdgesTarget.size()-1;
         int targetPertEnd = 0;
-
         for (int i = targetPertStart; i >= 0; i--) {
             DirectedEdge incomingEdge = incomingEdgesTarget.get(i);
             if (lastEdgeWasInPert && !pert.getEdges().contains(incomingEdge))
@@ -92,9 +85,6 @@ public class PTypeDetermination implements TypeDetermination{
         if(pert.getEdges().contains(incomingEdgesTarget.get(incomingEdgesTarget.size()-1))){
             targetPertEnd = 0;
         }
-
-
-
 
 
         if(successorPathType.equals(SuccessorPathType.TYPE_M)){
@@ -163,12 +153,7 @@ public class PTypeDetermination implements TypeDetermination{
                 }
             }
 
-            for(DirectedEdge edge : HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source)){
-                System.out.println(edge);
-            }
-
             SuccessorConnector.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, apexIndex);
-
         }
     }
 }

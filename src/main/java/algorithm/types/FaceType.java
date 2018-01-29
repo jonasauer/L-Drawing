@@ -1,4 +1,4 @@
-package main.java.algorithm.typeDeterminationUtils;
+package main.java.algorithm.types;
 
 public enum FaceType {
 
