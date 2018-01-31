@@ -74,8 +74,12 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_WHITE + "---------------------------");
         System.out.println(PrintColors.ANSI_WHITE + "Finish");
         System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
+
+
         HolderProvider.getEmbeddingHolder().print(convertedGraph);
-        new ST_OrderingHolder(convertedGraph, backEdge);
+        HolderProvider.setStOrderingHolder(new STOrderingHolder(convertedGraph));
+        HolderProvider.getAugmentationHolder().removeAugmentedParts();
+
     }
 
 

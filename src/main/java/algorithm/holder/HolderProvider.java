@@ -9,6 +9,7 @@ public class HolderProvider {
     private static PostOrderNodesHolder postOrderNodesHolder;
     private static AugmentationHolder augmentationHolder;
     private static EmbeddingHolder embeddingHolder;
+    private static STOrderingHolder stOrderingHolder;
 
 
 
@@ -41,6 +42,10 @@ public class HolderProvider {
         return embeddingHolder;
     }
 
+    public static STOrderingHolder getStOrderingHolder(){
+        return stOrderingHolder;
+    }
+
 
 
 
@@ -70,5 +75,9 @@ public class HolderProvider {
 
     public static void setEmbeddingHolder(EmbeddingHolder embeddingHolder){
         HolderProvider.embeddingHolder = embeddingHolder;
+    }
+
+    public static void setStOrderingHolder(STOrderingHolder stOrderingHolder){
+        HolderProvider.stOrderingHolder = stOrderingHolder;
     }
 }

@@ -33,4 +33,11 @@ public class AugmentationHolder {
     public MultiDirectedGraph getAugmentedGraph() {
         return augmentedGraph;
     }
+
+    public void removeAugmentedParts(){
+        for(DirectedEdge augmentedEdge : augmentedEdges)
+            augmentedGraph.removeEdge(augmentedEdge);
+        if(augmentedSource != null)
+            augmentedGraph.removeVertex(augmentedSource);
+    }
 }
