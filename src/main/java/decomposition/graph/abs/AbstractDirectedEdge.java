@@ -43,7 +43,7 @@ public class AbstractDirectedEdge<V extends IVertex> extends AbstractDirectedHyp
 
 	/*
 	 * (non-Javadoc)
-	 * @see de.hpi.bpt.graph.abs.IDirectedEdge#getTargetNodes()
+	 * @see de.hpi.bpt.graph.abs.IDirectedEdge#getTargetNode()
 	 */
 	public V getTarget() {
 		return this.target;

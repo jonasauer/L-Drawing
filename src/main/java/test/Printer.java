@@ -1,5 +1,6 @@
 package main.java.test;
 
+import main.java.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.graph.abs.AbstractEdge;
@@ -46,18 +47,19 @@ public class Printer {
 
     public static void printTreePreOrder(MultiDirectedGraph graph, DirectedEdge backEdge){
 
+        System.out.println(PrintColors.ANSI_RESET + "---------------------------");
+        System.out.println(PrintColors.ANSI_RESET + "TCTree:");
         dfsDepth = -1;
-
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(graph, backEdge);
-
         TCTreeNode root = tcTree.getRoot();
         treePreOrderDFS(tcTree, root);
     }
 
     public static void printTreePreOrder(TCTree<DirectedEdge, Vertex> tcTree){
 
+        System.out.println(PrintColors.ANSI_RESET + "---------------------------");
+        System.out.println(PrintColors.ANSI_RESET + "TCTree:");
         dfsDepth = -1;
-
         TCTreeNode root = tcTree.getRoot();
         treePreOrderDFS(tcTree, root);
     }
@@ -65,42 +67,14 @@ public class Printer {
     private static void treePreOrderDFS(TCTree tcTree, TCTreeNode node){
         dfsDepth++;
 
+        System.out.print(PrintColors.ANSI_RESET + "    ");
         for(int i = 0; i < dfsDepth; i++) {
             if(i < dfsDepth-1)
-                System.out.print("|   ");
+                System.out.print(PrintColors.ANSI_RESET + "|   ");
             else
-                System.out.print("|-> ");
+                System.out.print(PrintColors.ANSI_RESET + "|-> ");
         }
-        System.out.println(node.getType() +  "    Skeleton: " + node.getSkeleton().toString().replace(",", "").replace("-", "->"));
-
-
-        if(node.getSkeleton().getVirtualEdges().iterator().hasNext()) {
-            for(int i = 0; i < dfsDepth; i++)
-                System.out.print("|   ");
-            if(node.getType().equals(TCTreeNodeType.TYPE_Q))
-                System.out.print("  AbstractEdges:     ");
-            else
-                System.out.print("|  AbstractEdges:     ");
-            for(Object o : node.getSkeleton().getVirtualEdges()){
-                AbstractEdge e = (AbstractEdge)o;
-                System.out.print(e.toString().replace("-", "->") + " ");
-            }
-            System.out.println();
-        }
-
-        if(node.getSkeleton().getOriginalEdges().iterator().hasNext()) {
-            for(int i = 0; i < dfsDepth; i++)
-                System.out.print("|   ");
-            if(node.getType().equals(TCTreeNodeType.TYPE_Q))
-                System.out.print("  OriginalEdges:     ");
-            else
-                System.out.print("|  OriginalEdges:     ");
-            for(Object o : node.getSkeleton().getOriginalEdges()){
-                DirectedEdge e = (DirectedEdge) o;
-                System.out.print(e + " ");
-            }
-            System.out.println();
-        }
+        System.out.println(PrintColors.ANSI_RESET + node.getType() +  "    Skeleton: " + node.getSkeleton().toString().replace(",", "").replace("-", "->"));
 
         for(Object o : tcTree.getChildren(node)){
             TCTreeNode n = (TCTreeNode)o;

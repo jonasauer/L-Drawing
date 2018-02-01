@@ -148,9 +148,4 @@ public class TCTreeTest {
         assertTrue(0  == tctree.getTCTreeNodes(TCTreeNodeType.TYPE_R).size());
         assertTrue(4  == tctree.getTCTreeNodes(TCTreeNodeType.TYPE_S).size());
     }
-
-    @Test
-    public void testComplexGraph() {
-
-    }
 }

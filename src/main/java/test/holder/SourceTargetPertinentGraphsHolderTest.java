@@ -1,5 +1,6 @@
 package main.java.test.holder;
 
+import main.java.algorithm.exception.GraphConditionsException;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class SourceTargetPertinentGraphsHolderTest {
 
     @Test
-    public void testSimpleGraph(){
+    public void testSimpleGraph() throws GraphConditionsException {
 
         TCTree<DirectedEdge, Vertex> tctree = new TCTree<>(SimpleGraphProvider.getSimpleGraph(), SimpleGraphProvider.backEdge);
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));

@@ -17,12 +17,17 @@ import main.java.algorithm.successorPathTypeDetermination.PTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.QTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.RTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.STypeDetermination;
+import main.java.decomposition.spqrTree.TCTreeNodeType;
+import main.java.test.Printer;
+
+import java.util.Set;
 
 public class LDrawing {
 
     private IGraph initialGraph;
     private MultiDirectedGraph convertedGraph;
     private DirectedEdge backEdge;
+    private TCTree<DirectedEdge, Vertex> tcTree;
 
 
     public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
@@ -31,19 +36,18 @@ public class LDrawing {
         this.checkIfLDrawingPossible(initialGraph);
         this.convertedGraph = GraphConverter.convert(initialGraph);
         HolderProvider.setAugmentationHolder(new AugmentationHolder(convertedGraph));
-        this.determineBackEdge();
+        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
 
-        TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
+        buildTCTree();
 
 
 
-        System.out.println();
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(PrintColors.ANSI_GREEN + "LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
-
+        Printer.printTreePreOrder(tcTree);
 
         HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));
@@ -75,11 +79,10 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_WHITE + "Finish");
         System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
 
-
+        HolderProvider.getAugmentationHolder().removeAugmentedParts();
+        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
         HolderProvider.getEmbeddingHolder().print(convertedGraph);
         HolderProvider.setStOrderingHolder(new STOrderingHolder(convertedGraph));
-        HolderProvider.getAugmentationHolder().removeAugmentedParts();
-
     }
 
 
@@ -103,9 +106,8 @@ public class LDrawing {
 
     private void determineBackEdge(){
 
-        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
-        Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNodes().iterator().next();
-        Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNodes().iterator().next();
+        Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNode();
+        Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNode();
 
         if(!convertedGraph.getEdges(source, target).isEmpty()){
             backEdge = convertedGraph.getEdge(source, target);
@@ -118,5 +120,22 @@ public class LDrawing {
             HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE1);
             HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE2);
         }
+    }
+
+    private void buildTCTree(){
+
+
+        Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNode();
+        Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNode();
+        this.backEdge = convertedGraph.addEdge(source, target);
+        this.tcTree = new TCTree<>(convertedGraph, backEdge);
+        Set<TCTreeNode<DirectedEdge, Vertex>> children = tcTree.getChildren(tcTree.getRoot());
+        for(TCTreeNode<DirectedEdge, Vertex> child : children){
+            if(child.getType().equals(TCTreeNodeType.TYPE_Q)){
+                tcTree.removeVertex(child);
+                break;
+            }
+        }
+        convertedGraph.removeEdge(backEdge);
     }
 }

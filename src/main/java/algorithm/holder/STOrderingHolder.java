@@ -19,7 +19,7 @@ public class STOrderingHolder {
         this.graph = graph;
         this.stOrdering = new LinkedList<>();
         this.vertexQueue = new LinkedList<>();
-        this.vertexQueue.offer(HolderProvider.getSourceTargetGraphHolder().getSourceNodes().iterator().next());
+        this.vertexQueue.offer(HolderProvider.getSourceTargetGraphHolder().getSourceNode());
         this.incomingEdgesCount = new HashMap<>();
         for(Vertex vertex : graph.getVertices())
             incomingEdgesCount.put(vertex, graph.getEdgesWithTarget(vertex).size());

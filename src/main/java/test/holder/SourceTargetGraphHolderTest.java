@@ -1,5 +1,6 @@
 package main.java.test.holder;
 
+import main.java.algorithm.exception.GraphConditionsException;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.test.graphProvider.SimpleGraphProvider;
@@ -11,19 +12,16 @@ import static org.junit.Assert.assertTrue;
 public class SourceTargetGraphHolderTest {
 
     @Test
-    public void testSimpleGraph(){
+    public void testSimpleGraph() throws GraphConditionsException {
 
         SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(SimpleGraphProvider.getSimpleGraph());
 
-        assertTrue(sourceTargetGraphHolder.getSourceNodes().size() == 1);
-        assertTrue(sourceTargetGraphHolder.getTargetNodes().size() == 1);
-
-        assertTrue(sourceTargetGraphHolder.getSourceNodes().iterator().next().equals(SimpleGraphProvider.s1));
-        assertTrue(sourceTargetGraphHolder.getTargetNodes().iterator().next().equals(SimpleGraphProvider.s9));
+        assertTrue(sourceTargetGraphHolder.getSourceNode().equals(SimpleGraphProvider.s1));
+        assertTrue(sourceTargetGraphHolder.getTargetNode().equals(SimpleGraphProvider.s9));
     }
 
     @Test
-    public void testCycle(){
+    public void testCycle() throws GraphConditionsException {
 
         MultiDirectedGraph cycle = new MultiDirectedGraph();
         Vertex c1 = new Vertex("1");
@@ -34,17 +32,17 @@ public class SourceTargetGraphHolderTest {
         cycle.addEdge(c3, c1);
         SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(cycle);
 
-        assertTrue(sourceTargetGraphHolder.getSourceNodes().isEmpty());
-        assertTrue(sourceTargetGraphHolder.getTargetNodes().isEmpty());
+        assertTrue(sourceTargetGraphHolder.getSourceNode() == null);
+        assertTrue(sourceTargetGraphHolder.getTargetNode() == null);
     }
 
     @Test
-    public void testEmptyGraph(){
+    public void testEmptyGraph() throws GraphConditionsException {
 
         MultiDirectedGraph empty = new MultiDirectedGraph();
         SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(empty);
 
-        assertTrue(sourceTargetGraphHolder.getSourceNodes().isEmpty());
-        assertTrue(sourceTargetGraphHolder.getTargetNodes().isEmpty());
+        assertTrue(sourceTargetGraphHolder.getSourceNode() == null);
+        assertTrue(sourceTargetGraphHolder.getTargetNode() == null);
     }
 }

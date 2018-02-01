@@ -52,17 +52,17 @@ public class TCTree<E extends IEdge<V>, V extends IVertex> extends AbstractTree<
 	protected E backEdge = null;
 	// Maps internal edges used for technical purpose to original graph edges
 	private Map<E,E> internalEdges2originalEdges = new HashMap<E,E>();
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param graph A graph to decompose.
 	 */
 	public TCTree(IGraph<E,V> graph) {
 		if (graph==null) return;
 		if (graph.getEdges().isEmpty()) return;
 		if (graph.getVertices().isEmpty()) return;
-		
+
 		this.graph = graph;
 		this.backEdge = graph.getEdges().iterator().next();
 		this.construct();

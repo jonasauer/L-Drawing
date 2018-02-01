@@ -22,10 +22,6 @@ public class AugmentationHolder {
         this.augmentedSource = augmentedSource;
     }
 
-    public Vertex getAugmentedSource() {
-        return augmentedSource;
-    }
-
     public Set<DirectedEdge> getAugmentedEdges(){
         return augmentedEdges;
     }
@@ -37,7 +33,6 @@ public class AugmentationHolder {
     public void removeAugmentedParts(){
         for(DirectedEdge augmentedEdge : augmentedEdges)
             augmentedGraph.removeEdge(augmentedEdge);
-        if(augmentedSource != null)
-            augmentedGraph.removeVertex(augmentedSource);
+        augmentedGraph.removeVertex(augmentedSource);
     }
 }

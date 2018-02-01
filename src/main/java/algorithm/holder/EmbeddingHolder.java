@@ -57,6 +57,8 @@ public class EmbeddingHolder {
 
 
     public void print(MultiDirectedGraph graph){
+        System.out.println(PrintColors.ANSI_CYAN + "---------------------------");
+        System.out.println(PrintColors.ANSI_CYAN + "Embedding");
         System.out.println(PrintColors.ANSI_CYAN + "    Incoming:");
         for(Vertex vertex : graph.getVertices()) {
             System.out.print(PrintColors.ANSI_CYAN + "      " + vertex + ": ");

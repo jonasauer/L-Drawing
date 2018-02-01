@@ -1,10 +1,9 @@
 package main.java.algorithm.holder;
 
+import main.java.algorithm.exception.GraphConditionsException;
 import main.java.decomposition.graph.DirectedEdge;
-import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ public class SourceTargetPertinentGraphsHolder {
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> sourceNodes;
     private Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> targetNodes;
 
-    public SourceTargetPertinentGraphsHolder(){
+    public SourceTargetPertinentGraphsHolder() throws GraphConditionsException {
 
         this.sourceNodes = new HashMap<>();
         this.targetNodes = new HashMap<>();
@@ -21,17 +20,17 @@ public class SourceTargetPertinentGraphsHolder {
         determineSourcesAndTargets();
     }
 
-    private void determineSourcesAndTargets(){
+    private void determineSourcesAndTargets() throws GraphConditionsException {
 
         List<TCTreeNode<DirectedEdge, Vertex>> postOrderNodes = HolderProvider.getPostOrderNodesHolder().getPostOrderNodes();
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderNodes){
 
             SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node));
-            Set<Vertex> pertSourceNodes = sourceTargetGraphHolder.getSourceNodes();
-            Set<Vertex> pertTargetNodes = sourceTargetGraphHolder.getTargetNodes();
-            sourceNodes.put(node, pertSourceNodes.iterator().next());
-            targetNodes.put(node, pertTargetNodes.iterator().next());
+            Vertex pertSourceNode = sourceTargetGraphHolder.getSourceNode();
+            Vertex pertTargetNode = sourceTargetGraphHolder.getTargetNode();
+            sourceNodes.put(node, pertSourceNode);
+            targetNodes.put(node, pertTargetNode);
         }
     }
 
