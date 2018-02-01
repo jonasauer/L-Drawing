@@ -165,6 +165,13 @@ public class GUIController {
 
 
 
+    private void replaceVertices(){
+
+
+    }
+
+
+
     private void makeAlert(String header, String message, Exception exception){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

@@ -5,21 +5,17 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AugmentationHolder {
 
-    private Vertex augmentedSource = null;
     private Set<DirectedEdge> augmentedEdges;
     private MultiDirectedGraph augmentedGraph;
 
     public AugmentationHolder(MultiDirectedGraph augmentedGraph){
         this.augmentedEdges = new HashSet<>();
         this.augmentedGraph = augmentedGraph;
-    }
-
-    public void setAugmentedSource(Vertex augmentedSource){
-        this.augmentedSource = augmentedSource;
     }
 
     public Set<DirectedEdge> getAugmentedEdges(){
@@ -31,8 +27,15 @@ public class AugmentationHolder {
     }
 
     public void removeAugmentedParts(){
-        for(DirectedEdge augmentedEdge : augmentedEdges)
+        for(DirectedEdge augmentedEdge : augmentedEdges) {
             augmentedGraph.removeEdge(augmentedEdge);
-        augmentedGraph.removeVertex(augmentedSource);
+            Vertex source = augmentedEdge.getSource();
+            Vertex target = augmentedEdge.getTarget();
+            List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
+            outgoingEdgesSource.remove(augmentedEdge);
+            List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
+            incomingEdgesTarget.remove(augmentedEdge);
+        }
+
     }
 }

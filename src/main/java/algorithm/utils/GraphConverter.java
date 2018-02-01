@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class GraphConverter {
 
+
     public static MultiDirectedGraph convert(IGraph graph){
 
         MultiDirectedGraph conv = new MultiDirectedGraph();
