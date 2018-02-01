@@ -10,6 +10,7 @@ public class HolderProvider {
     private static AugmentationHolder augmentationHolder;
     private static EmbeddingHolder embeddingHolder;
     private static STOrderingHolder stOrderingHolder;
+    private static CoordinatesHolder coordinatesHolder;
 
 
 
@@ -46,6 +47,10 @@ public class HolderProvider {
         return stOrderingHolder;
     }
 
+    public static CoordinatesHolder getCoordinatesHolder(){
+        return coordinatesHolder;
+    }
+
 
 
 
@@ -79,5 +84,9 @@ public class HolderProvider {
 
     public static void setStOrderingHolder(STOrderingHolder stOrderingHolder){
         HolderProvider.stOrderingHolder = stOrderingHolder;
+    }
+
+    public static void setCoordinatesHolder(CoordinatesHolder coordinatesHolder){
+        HolderProvider.coordinatesHolder = coordinatesHolder;
     }
 }

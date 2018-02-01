@@ -52,6 +52,11 @@ public class STOrderingHolder {
             stOrdering.add(source);
         }
     }
+
+
+    public List<Vertex> getSTOrdering(){
+        return stOrdering;
+    }
 }
 
 
