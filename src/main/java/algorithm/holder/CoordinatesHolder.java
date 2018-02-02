@@ -8,8 +8,8 @@ import java.util.*;
 
 public class CoordinatesHolder {
 
-    private static final int xDifference = 50;
-    private static final int yDifference = 50;
+    private static final int xDifference = 75;
+    private static final int yDifference = 75;
 
     private MultiDirectedGraph graph;
     private Map<Vertex, Integer> xCoordinates;
@@ -81,5 +81,16 @@ public class CoordinatesHolder {
 
         for(Vertex vertex : stOrdering)
             yCoordinates.put(vertex, yDifference * counter++);
+    }
+
+
+
+
+    public Map<Vertex, Integer> getxCoordinates() {
+        return xCoordinates;
+    }
+
+    public Map<Vertex, Integer> getyCoordinates() {
+        return yCoordinates;
     }
 }

@@ -1,6 +1,8 @@
 package main.java.application;
 
-import com.yworks.yfiles.graph.IGraph;
+import com.yworks.yfiles.geometry.PointD;
+import com.yworks.yfiles.geometry.RectD;
+import com.yworks.yfiles.graph.*;
 import com.yworks.yfiles.graph.styles.*;
 import com.yworks.yfiles.view.*;
 import com.yworks.yfiles.view.input.*;
@@ -14,9 +16,16 @@ import javafx.scene.paint.Color;
 import main.java.algorithm.LDrawing;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
+import main.java.algorithm.graphConverter.GraphConverterHolder;
+import main.java.algorithm.holder.CoordinatesHolder;
+import main.java.algorithm.holder.HolderProvider;
+import main.java.decomposition.graph.MultiDirectedGraph;
+import main.java.decomposition.hyperGraph.Vertex;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 public class GUIController {
 
@@ -148,6 +157,8 @@ public class GUIController {
     public void handleLDrawing(){
         try {
             new LDrawing().lDrawing(graph);
+            replaceVertices();
+            addBends();
         }catch (GraphConditionsException exception){
             exception.printStackTrace();
             String message = exception.getMessage() + " The graph has to fulfill following conditions:\n" + "\tplanar\n" + "\tbiconnected\n" + "\tacyclic\n" + "\tst-graph";
@@ -167,7 +178,32 @@ public class GUIController {
 
     private void replaceVertices(){
 
+        Map<Vertex, Integer> xCoordinates = HolderProvider.getCoordinatesHolder().getxCoordinates();
+        Map<Vertex, Integer> yCoordinates = HolderProvider.getCoordinatesHolder().getyCoordinates();
+        MultiDirectedGraph convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
+        Map<Vertex, INode> vertex2INode = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getVertex2INode();
 
+        for(Vertex vertex : convertedGraph.getVertices()){
+            INode originalNode = vertex2INode.get(vertex);
+            int x = xCoordinates.get(vertex);
+            int y = yCoordinates.get(vertex);
+            graph.setNodeCenter(originalNode, new PointD(x, -y));
+        }
+    }
+
+
+    private void addBends(){
+
+        for(IEdge edge : graph.getEdges()){
+            INode source = edge.getSourceNode();
+            INode target = edge.getTargetNode();
+            graph.clearBends(edge);
+            graph.addBend(edge, new PointD(source.getLayout().getCenter().x, target.getLayout().getCenter().y+5));
+            if(source.getLayout().getCenter().x < target.getLayout().getCenter().x)
+                graph.addBend(edge, new PointD(source.getLayout().getCenter().x+5, target.getLayout().getCenter().y));
+            else
+                graph.addBend(edge, new PointD(source.getLayout().getCenter().x-5, target.getLayout().getCenter().y));
+        }
     }
 
 
