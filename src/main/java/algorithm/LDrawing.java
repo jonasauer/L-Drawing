@@ -6,7 +6,9 @@ import com.yworks.yfiles.layout.YGraphAdapter;
 import main.java.PrintColors;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
-import main.java.algorithm.utils.GraphConverter;
+import main.java.algorithm.graphConverter.GraphConverterHolder;
+import main.java.algorithm.graphConverter.IGraphToMultiDirectedGraphConverter;
+import main.java.algorithm.graphConverter.MultiDirectedGraphToGraphConverter;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -34,7 +36,9 @@ public class LDrawing {
 
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
-        this.convertedGraph = GraphConverter.convert(initialGraph);
+        GraphConverterHolder.setIGraphToMultiDirectedGraphConverter(new IGraphToMultiDirectedGraphConverter(graph));
+        this.convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
+        GraphConverterHolder.setMultiDirectedGraphToGraphConverter(new MultiDirectedGraphToGraphConverter(convertedGraph));
         HolderProvider.setAugmentationHolder(new AugmentationHolder(convertedGraph));
         HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
 

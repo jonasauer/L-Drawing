@@ -2,6 +2,7 @@ package main.java.algorithm.holder;
 
 import com.yworks.yfiles.algorithms.*;
 import main.java.PrintColors;
+import main.java.algorithm.graphConverter.GraphConverterHolder;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -11,8 +12,8 @@ import java.util.*;
 
 public class EmbeddingHolder {
 
-    private Map<Vertex, Node>       origV2ConvV = new HashMap<>();
-    private Map<Edge, DirectedEdge> convE2OrigE = new HashMap<>();
+    private Map<Vertex, Node>       origV2ConvV;
+    private Map<Edge, DirectedEdge> convE2OrigE;
 
     private Map<Vertex, List<DirectedEdge>> incomingEdgesCircularOrdering = new HashMap<>();
     private Map<Vertex, List<DirectedEdge>> outgoingEdgesCircularOrdering = new HashMap<>();
@@ -22,31 +23,10 @@ public class EmbeddingHolder {
 
     public EmbeddingHolder(MultiDirectedGraph graph){
 
-        Graph convGraph = new Graph();
-
-        for(DirectedEdge origEdge : graph.getEdges()){
-
-            Vertex origSource = origEdge.getSource();
-            Vertex origTarget = origEdge.getTarget();
-
-            if(!origV2ConvV.containsKey(origSource)){
-                Node convSource = convGraph.createNode();
-                origV2ConvV.put(origSource, convSource);
-            }
-
-            if(!origV2ConvV.containsKey(origTarget)){
-                Node convTarget = convGraph.createNode();
-                origV2ConvV.put(origTarget, convTarget);
-            }
-
-            Node convSource = origV2ConvV.get(origSource);
-            Node convTarget = origV2ConvV.get(origTarget);
-
-            Edge convEdge = convGraph.createEdge(convSource, convTarget);
-            convE2OrigE.put(convEdge, origEdge);
-        }
-
-        planarEmbedding = new PlanarEmbedding(convGraph);
+        Graph convertedGraph = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getConvertedGraph();
+        origV2ConvV = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getVertex2NodeMap();
+        convE2OrigE = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getEdge2DirectedEdgeMap();
+        planarEmbedding = new PlanarEmbedding(convertedGraph);
 
         for(Vertex vertex : graph.getVertices()) {
             outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>());
