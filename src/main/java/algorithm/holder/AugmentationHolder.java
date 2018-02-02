@@ -12,6 +12,7 @@ public class AugmentationHolder {
 
     private Set<DirectedEdge> augmentedEdges;
     private MultiDirectedGraph augmentedGraph;
+    private Vertex augmentedSource;
 
     public AugmentationHolder(MultiDirectedGraph augmentedGraph){
         this.augmentedEdges = new HashSet<>();
@@ -26,6 +27,10 @@ public class AugmentationHolder {
         return augmentedGraph;
     }
 
+    public void setAugmentedSource(Vertex augmentedSource){
+        this.augmentedSource = augmentedSource;
+    }
+
     public void removeAugmentedParts(){
         for(DirectedEdge augmentedEdge : augmentedEdges) {
             augmentedGraph.removeEdge(augmentedEdge);
@@ -36,6 +41,7 @@ public class AugmentationHolder {
             List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
             incomingEdgesTarget.remove(augmentedEdge);
         }
+        augmentedGraph.removeVertex(augmentedSource);
 
     }
 }

@@ -65,13 +65,39 @@ public class CoordinatesHolder {
             }
             return sourceIndex;
         }else{
-            int minPredecessorIndex = graph.getVertices().size();
+
+            Vertex maxSTOrdering1 = null;
+            Vertex maxSTOrdering2 = null;
+            for(DirectedEdge incomingEdge : incomingEdges){
+                Vertex source = incomingEdge.getSource();
+                if(maxSTOrdering1 == null){
+                    maxSTOrdering1 = source;
+                    continue;
+                }
+                if(maxSTOrdering2 == null){
+                    maxSTOrdering2 = source;
+                    continue;
+                }
+                if(stOrdering.indexOf(maxSTOrdering1) < stOrdering.indexOf(maxSTOrdering2) && stOrdering.indexOf(maxSTOrdering1) < stOrdering.indexOf(source)) {
+                    maxSTOrdering1 = source;
+                    continue;
+                }
+                if(stOrdering.indexOf(maxSTOrdering2) < stOrdering.indexOf(maxSTOrdering1) && stOrdering.indexOf(maxSTOrdering2) < stOrdering.indexOf(source)) {
+                    maxSTOrdering2 = source;
+                    continue;
+                }
+            }
+            int index = currentOrdering.indexOf(maxSTOrdering1) < currentOrdering.indexOf(maxSTOrdering2) ? currentOrdering.indexOf(maxSTOrdering1) + 1 : currentOrdering.indexOf(maxSTOrdering2) + 1;
+            return index;
+
+
+            /**int minPredecessorIndex = graph.getVertices().size();
             for(DirectedEdge incomingEdge : incomingEdges){
                 Vertex source = incomingEdge.getSource();
                 if(minPredecessorIndex > currentOrdering.indexOf(source))
                     minPredecessorIndex = currentOrdering.indexOf(source);
             }
-            return minPredecessorIndex+1;
+            return minPredecessorIndex+1;**/
         }
     }
 

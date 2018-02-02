@@ -12,8 +12,8 @@ import java.util.*;
 
 public class EmbeddingHolder {
 
-    private Map<Vertex, Node>       origV2ConvV;
-    private Map<Edge, DirectedEdge> convE2OrigE;
+    private Map<Vertex, Node> vertex2NodeMap;
+    private Map<Edge, DirectedEdge> edge2DirectedEdge;
 
     private Map<Vertex, List<DirectedEdge>> incomingEdgesCircularOrdering = new HashMap<>();
     private Map<Vertex, List<DirectedEdge>> outgoingEdgesCircularOrdering = new HashMap<>();
@@ -24,8 +24,8 @@ public class EmbeddingHolder {
     public EmbeddingHolder(MultiDirectedGraph graph){
 
         Graph convertedGraph = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getConvertedGraph();
-        origV2ConvV = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getVertex2NodeMap();
-        convE2OrigE = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getEdge2DirectedEdgeMap();
+        vertex2NodeMap = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getVertex2NodeMap();
+        edge2DirectedEdge = GraphConverterHolder.getMultiDirectedGraphToGraphConverter().getEdge2DirectedEdgeMap();
         planarEmbedding = new PlanarEmbedding(convertedGraph);
 
         for(Vertex vertex : graph.getVertices()) {
@@ -61,8 +61,8 @@ public class EmbeddingHolder {
 
         List<DirectedEdge> edgesCircular = new ArrayList<>();
 
-        for(Dart dart : planarEmbedding.getOutgoingDarts(origV2ConvV.get(vertex)))
-            edgesCircular.add(convE2OrigE.get(dart.getAssociatedEdge()));
+        for(Dart dart : planarEmbedding.getOutgoingDarts(vertex2NodeMap.get(vertex)))
+            edgesCircular.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
 
         //get all the edges with vertex as source.
         int index = 0;
@@ -144,7 +144,7 @@ public class EmbeddingHolder {
 
             List<DirectedEdge> convertedFace = new LinkedList<>();
             for(Dart dart : face)
-                convertedFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
+                convertedFace.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
 
             convertedFaces.add(convertedFace);
         }
@@ -163,7 +163,7 @@ public class EmbeddingHolder {
         List<Dart> outerFace = planarEmbedding.getOuterFace();
         this.outerFace = new LinkedList<>();
         for(Dart dart : outerFace){
-            this.outerFace.add(convE2OrigE.get(dart.getAssociatedEdge()));
+            this.outerFace.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
         }
         return this.outerFace;
     }
@@ -180,7 +180,7 @@ public class EmbeddingHolder {
         for(List<Dart> face : planarEmbedding.getFaces()){
             boolean isFaceOfPert = true;
             for(Dart dart : face){
-                if(!rPert.contains(convE2OrigE.get(dart.getAssociatedEdge())))
+                if(!rPert.contains(edge2DirectedEdge.get(dart.getAssociatedEdge())))
                     isFaceOfPert = false;
             }
             if(isFaceOfPert)
@@ -192,7 +192,7 @@ public class EmbeddingHolder {
         for(List<Dart> face : allFacesOfPert){
             List<Vertex> realFaceVertices = new LinkedList<>();
             for(Dart dart : face){
-                DirectedEdge edge = convE2OrigE.get(dart.getAssociatedEdge());
+                DirectedEdge edge = edge2DirectedEdge.get(dart.getAssociatedEdge());
                 if(!dart.isReversed()){
                     if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
                         realFaceVertices.add(edge.getSource());
