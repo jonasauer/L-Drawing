@@ -84,11 +84,11 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
 
 
-        HolderProvider.getAugmentationHolder().removeAugmentedParts();
         System.out.println(PrintColors.ANSI_WHITE + "    OriginalGraph");
         HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
         HolderProvider.getEmbeddingHolder().print(convertedGraph);
         HolderProvider.setStOrderingHolder(new STOrderingHolder(convertedGraph));
+        HolderProvider.getAugmentationHolder().removeAugmentedParts();
         HolderProvider.setCoordinatesHolder(new CoordinatesHolder(convertedGraph));
 
     }
@@ -117,16 +117,12 @@ public class LDrawing {
         Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNode();
         Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNode();
 
-        if(!convertedGraph.getEdges(source, target).isEmpty()){
-            backEdge = convertedGraph.getEdge(source, target);
-        }else{
-            Vertex newSource = convertedGraph.addVertex(new Vertex("s'"));
-            DirectedEdge augmentedE1 = convertedGraph.addEdge(newSource, source);
-            DirectedEdge augmentedE2 = backEdge = convertedGraph.addEdge(newSource, target);
+        Vertex newSource = convertedGraph.addVertex(new Vertex("s'"));
+        DirectedEdge augmentedE1 = convertedGraph.addEdge(newSource, source);
+        DirectedEdge augmentedE2 = backEdge = convertedGraph.addEdge(newSource, target);
 
-            HolderProvider.getAugmentationHolder().setAugmentedSource(newSource);
-            HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE1);
-            HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE2);
-        }
+        HolderProvider.getAugmentationHolder().setAugmentedSource(newSource);
+        HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE1);
+        HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE2);
     }
 }

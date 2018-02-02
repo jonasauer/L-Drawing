@@ -8,8 +8,8 @@ import java.util.*;
 
 public class CoordinatesHolder {
 
-    private static final int xDifference = 75;
-    private static final int yDifference = 75;
+    private static final int xDifference = 50;
+    private static final int yDifference = 50;
 
     private MultiDirectedGraph graph;
     private Map<Vertex, Integer> xCoordinates;
@@ -89,15 +89,6 @@ public class CoordinatesHolder {
             }
             int index = currentOrdering.indexOf(maxSTOrdering1) < currentOrdering.indexOf(maxSTOrdering2) ? currentOrdering.indexOf(maxSTOrdering1) + 1 : currentOrdering.indexOf(maxSTOrdering2) + 1;
             return index;
-
-
-            /**int minPredecessorIndex = graph.getVertices().size();
-            for(DirectedEdge incomingEdge : incomingEdges){
-                Vertex source = incomingEdge.getSource();
-                if(minPredecessorIndex > currentOrdering.indexOf(source))
-                    minPredecessorIndex = currentOrdering.indexOf(source);
-            }
-            return minPredecessorIndex+1;**/
         }
     }
 

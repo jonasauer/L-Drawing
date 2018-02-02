@@ -1,7 +1,6 @@
 package main.java.application;
 
 import com.yworks.yfiles.geometry.PointD;
-import com.yworks.yfiles.geometry.RectD;
 import com.yworks.yfiles.graph.*;
 import com.yworks.yfiles.graph.styles.*;
 import com.yworks.yfiles.view.*;
@@ -17,14 +16,14 @@ import main.java.algorithm.LDrawing;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.graphConverter.GraphConverterHolder;
-import main.java.algorithm.holder.CoordinatesHolder;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GUIController {
@@ -53,6 +52,7 @@ public class GUIController {
     private LabelSnapContext labelSnapContext;
 
     private static int nodes = 1;
+    private static final int BEND_SIZE = 10;
 
 
     @FXML
@@ -159,6 +159,7 @@ public class GUIController {
             new LDrawing().lDrawing(graph);
             replaceVertices();
             addBends();
+            handleCenterViewPort();
         }catch (GraphConditionsException exception){
             exception.printStackTrace();
             String message = exception.getMessage() + " The graph has to fulfill following conditions:\n" + "\tplanar\n" + "\tbiconnected\n" + "\tacyclic\n" + "\tst-graph";
@@ -183,11 +184,33 @@ public class GUIController {
         MultiDirectedGraph convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
         Map<Vertex, INode> vertex2INode = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getVertex2INode();
 
+        int numVertices = graph.getNodes().size();
+        List<Double> oldXCoords = new ArrayList<>(numVertices);
+        List<Double> oldYCoords = new ArrayList<>(numVertices);
+
+        double rangeX = 0;
+        double rangeY = 0;
         for(Vertex vertex : convertedGraph.getVertices()){
             INode originalNode = vertex2INode.get(vertex);
-            int x = xCoordinates.get(vertex);
-            int y = yCoordinates.get(vertex);
-            graph.setNodeCenter(originalNode, new PointD(x, -y));
+            oldXCoords.add(originalNode.getLayout().getX());
+            oldYCoords.add(originalNode.getLayout().getY());
+            rangeX = Math.max(rangeX, xCoordinates.get(vertex));
+            rangeY = Math.max(rangeY, yCoordinates.get(vertex));
+            System.out.println(vertex.getName() + "  " + originalNode.getLayout().getY());
+        }
+
+        double medianX = oldXCoords.get(numVertices/2);
+        double medianY = oldYCoords.get(numVertices/2);
+
+        double zeroX = medianX - rangeX/2.0;
+        double zeroY = medianY + rangeY/2.0;
+
+        for(Vertex vertex : convertedGraph.getVertices()){
+            INode originalNode = vertex2INode.get(vertex);
+
+            double x = zeroX + xCoordinates.get(vertex);
+            double y = zeroY - yCoordinates.get(vertex);
+            graph.setNodeCenter(originalNode, new PointD(x, y));
         }
     }
 
@@ -198,11 +221,11 @@ public class GUIController {
             INode source = edge.getSourceNode();
             INode target = edge.getTargetNode();
             graph.clearBends(edge);
-            graph.addBend(edge, new PointD(source.getLayout().getCenter().x, target.getLayout().getCenter().y+5));
+            graph.addBend(edge, new PointD(source.getLayout().getCenter().x, target.getLayout().getCenter().y+BEND_SIZE));
             if(source.getLayout().getCenter().x < target.getLayout().getCenter().x)
-                graph.addBend(edge, new PointD(source.getLayout().getCenter().x+5, target.getLayout().getCenter().y));
+                graph.addBend(edge, new PointD(source.getLayout().getCenter().x + BEND_SIZE, target.getLayout().getCenter().y));
             else
-                graph.addBend(edge, new PointD(source.getLayout().getCenter().x-5, target.getLayout().getCenter().y));
+                graph.addBend(edge, new PointD(source.getLayout().getCenter().x-BEND_SIZE, target.getLayout().getCenter().y));
         }
     }
 
