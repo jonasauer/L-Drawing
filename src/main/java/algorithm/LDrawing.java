@@ -36,7 +36,7 @@ public class LDrawing {
         this.convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
         HolderProvider.setAugmentationHolder(new AugmentationHolder(convertedGraph));
         HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
-        this.determineBackEdge();
+        this.augmentGraphWithNewSource();
         GraphConverterHolder.setMultiDirectedGraphToGraphConverter(new MultiDirectedGraphToGraphConverter(convertedGraph));
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
@@ -112,7 +112,7 @@ public class LDrawing {
     }
 
 
-    private void determineBackEdge(){
+    private void augmentGraphWithNewSource(){
 
         Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNode();
         Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNode();

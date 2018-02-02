@@ -51,8 +51,7 @@ public class CoordinatesHolder {
         Collection<DirectedEdge> incomingEdges = graph.getEdgesWithTarget(vertex);
 
         if(incomingEdges.size() == 1){
-            DirectedEdge incomingEdge = incomingEdges.iterator().next();
-            Vertex source = incomingEdge.getSource();
+            Vertex source = incomingEdges.iterator().next().getSource();
             List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
             int sourceIndex = currentOrdering.indexOf(source);
 
@@ -66,29 +65,22 @@ public class CoordinatesHolder {
             return sourceIndex;
         }else{
 
-            Vertex maxSTOrdering1 = null;
-            Vertex maxSTOrdering2 = null;
-            for(DirectedEdge incomingEdge : incomingEdges){
-                Vertex source = incomingEdge.getSource();
-                if(maxSTOrdering1 == null){
-                    maxSTOrdering1 = source;
-                    continue;
-                }
-                if(maxSTOrdering2 == null){
-                    maxSTOrdering2 = source;
-                    continue;
-                }
-                if(stOrdering.indexOf(maxSTOrdering1) < stOrdering.indexOf(maxSTOrdering2) && stOrdering.indexOf(maxSTOrdering1) < stOrdering.indexOf(source)) {
-                    maxSTOrdering1 = source;
-                    continue;
-                }
-                if(stOrdering.indexOf(maxSTOrdering2) < stOrdering.indexOf(maxSTOrdering1) && stOrdering.indexOf(maxSTOrdering2) < stOrdering.indexOf(source)) {
-                    maxSTOrdering2 = source;
-                    continue;
+            Iterator<DirectedEdge> edgeIterator = incomingEdges.iterator();
+            Vertex highestSTOrderIndexSource1 = edgeIterator.next().getSource();
+            Vertex highestSTOrderIndexSource2 = edgeIterator.next().getSource();
+            while(edgeIterator.hasNext()){
+
+                Vertex source = edgeIterator.next().getSource();
+                int source1Index = stOrdering.indexOf(highestSTOrderIndexSource1);
+                int source2Index = stOrdering.indexOf(highestSTOrderIndexSource2);
+
+                if(source1Index < source2Index && source1Index < stOrdering.indexOf(source)) {
+                    highestSTOrderIndexSource1 = source;
+                }else if(source2Index < source1Index && source2Index < stOrdering.indexOf(source)) {
+                    highestSTOrderIndexSource2 = source;
                 }
             }
-            int index = currentOrdering.indexOf(maxSTOrdering1) < currentOrdering.indexOf(maxSTOrdering2) ? currentOrdering.indexOf(maxSTOrdering1) + 1 : currentOrdering.indexOf(maxSTOrdering2) + 1;
-            return index;
+            return currentOrdering.indexOf(highestSTOrderIndexSource1) < currentOrdering.indexOf(highestSTOrderIndexSource2) ? currentOrdering.indexOf(highestSTOrderIndexSource1) + 1 : currentOrdering.indexOf(highestSTOrderIndexSource2) + 1;
         }
     }
 
@@ -103,11 +95,11 @@ public class CoordinatesHolder {
 
 
 
-    public Map<Vertex, Integer> getxCoordinates() {
+    public Map<Vertex, Integer> getXCoordinates() {
         return xCoordinates;
     }
 
-    public Map<Vertex, Integer> getyCoordinates() {
+    public Map<Vertex, Integer> getYCoordinates() {
         return yCoordinates;
     }
 }

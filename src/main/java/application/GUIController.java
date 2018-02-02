@@ -22,8 +22,6 @@ import main.java.decomposition.hyperGraph.Vertex;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class GUIController {
@@ -179,37 +177,15 @@ public class GUIController {
 
     private void replaceVertices(){
 
-        Map<Vertex, Integer> xCoordinates = HolderProvider.getCoordinatesHolder().getxCoordinates();
-        Map<Vertex, Integer> yCoordinates = HolderProvider.getCoordinatesHolder().getyCoordinates();
+        Map<Vertex, Integer> xCoordinates = HolderProvider.getCoordinatesHolder().getXCoordinates();
+        Map<Vertex, Integer> yCoordinates = HolderProvider.getCoordinatesHolder().getYCoordinates();
         MultiDirectedGraph convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
         Map<Vertex, INode> vertex2INode = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getVertex2INode();
 
-        int numVertices = graph.getNodes().size();
-        List<Double> oldXCoords = new ArrayList<>(numVertices);
-        List<Double> oldYCoords = new ArrayList<>(numVertices);
-
-        double rangeX = 0;
-        double rangeY = 0;
         for(Vertex vertex : convertedGraph.getVertices()){
             INode originalNode = vertex2INode.get(vertex);
-            oldXCoords.add(originalNode.getLayout().getX());
-            oldYCoords.add(originalNode.getLayout().getY());
-            rangeX = Math.max(rangeX, xCoordinates.get(vertex));
-            rangeY = Math.max(rangeY, yCoordinates.get(vertex));
-            System.out.println(vertex.getName() + "  " + originalNode.getLayout().getY());
-        }
-
-        double medianX = oldXCoords.get(numVertices/2);
-        double medianY = oldYCoords.get(numVertices/2);
-
-        double zeroX = medianX - rangeX/2.0;
-        double zeroY = medianY + rangeY/2.0;
-
-        for(Vertex vertex : convertedGraph.getVertices()){
-            INode originalNode = vertex2INode.get(vertex);
-
-            double x = zeroX + xCoordinates.get(vertex);
-            double y = zeroY - yCoordinates.get(vertex);
+            double x = + xCoordinates.get(vertex);
+            double y = - yCoordinates.get(vertex);
             graph.setNodeCenter(originalNode, new PointD(x, y));
         }
     }
@@ -218,14 +194,16 @@ public class GUIController {
     private void addBends(){
 
         for(IEdge edge : graph.getEdges()){
-            INode source = edge.getSourceNode();
-            INode target = edge.getTargetNode();
             graph.clearBends(edge);
-            graph.addBend(edge, new PointD(source.getLayout().getCenter().x, target.getLayout().getCenter().y+BEND_SIZE));
-            if(source.getLayout().getCenter().x < target.getLayout().getCenter().x)
-                graph.addBend(edge, new PointD(source.getLayout().getCenter().x + BEND_SIZE, target.getLayout().getCenter().y));
-            else
-                graph.addBend(edge, new PointD(source.getLayout().getCenter().x-BEND_SIZE, target.getLayout().getCenter().y));
+            double sourceX = edge.getSourceNode().getLayout().getCenter().x;
+            double targetX = edge.getTargetNode().getLayout().getCenter().x;
+            double targetY = edge.getTargetNode().getLayout().getCenter().y;
+            graph.addBend(edge, new PointD(sourceX, targetY + BEND_SIZE));
+            if(sourceX < targetX) {
+                graph.addBend(edge, new PointD(sourceX + BEND_SIZE, targetY));
+            } else {
+                graph.addBend(edge, new PointD(sourceX - BEND_SIZE, targetY));
+            }
         }
     }
 
