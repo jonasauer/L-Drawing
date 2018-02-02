@@ -12,18 +12,18 @@ public class STOrderingHolder {
     private MultiDirectedGraph graph;
     private List<Vertex> stOrdering;
     private Queue<Vertex> vertexQueue;
-    private Map<Vertex, Integer> incomingEdgesCount;
+    private Map<Vertex, Integer> incomingEdgesCounters;
     private int counter = 0;
 
     public STOrderingHolder(MultiDirectedGraph graph){
         this.graph = graph;
         this.stOrdering = new LinkedList<>();
         this.vertexQueue = new LinkedList<>();
-        this.incomingEdgesCount = new HashMap<>();
+        this.incomingEdgesCounters = new HashMap<>();
         for(Vertex vertex : graph.getVertices())
-            incomingEdgesCount.put(vertex, graph.getEdgesWithTarget(vertex).size());
+            incomingEdgesCounters.put(vertex, graph.getEdgesWithTarget(vertex).size());
 
-        orderVertices();
+        orderVertices(HolderProvider.getSourceTargetGraphHolder().getSourceNode());
 
         this.counter = 0;
         System.out.println(PrintColors.ANSI_PURPLE + "---------------------------");
@@ -35,21 +35,16 @@ public class STOrderingHolder {
 
 
 
-    private void orderVertices(){
+    private void orderVertices(Vertex vertex){
 
-        this.vertexQueue.offer(HolderProvider.getSourceTargetGraphHolder().getSourceNode());
-        while(!vertexQueue.isEmpty()){
-
-            Vertex source = vertexQueue.poll();
-            for(DirectedEdge edge : graph.getEdgesWithSource(source)){
-                Vertex target = edge.getTarget();
-                int incomingEdges = incomingEdgesCount.get(target) - 1;
-                incomingEdgesCount.remove(target);
-                incomingEdgesCount.put(target, incomingEdges);
-                if(incomingEdges < 1)
-                    vertexQueue.offer(target);
-            }
-            stOrdering.add(source);
+        stOrdering.add(vertex);
+        for(DirectedEdge outgoingEdge : HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex)){
+            Vertex target = outgoingEdge.getTarget();
+            int incomingEdgesCounter = incomingEdgesCounters.get(target);
+            incomingEdgesCounters.remove(target);
+            incomingEdgesCounters.put(target, --incomingEdgesCounter);
+            if(incomingEdgesCounter < 1)
+                orderVertices(target);
         }
     }
 

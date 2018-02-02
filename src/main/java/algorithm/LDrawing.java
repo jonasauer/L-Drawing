@@ -19,6 +19,7 @@ import main.java.algorithm.successorPathTypeDetermination.PTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.QTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.RTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.STypeDetermination;
+import main.java.test.Printer;
 
 public class LDrawing {
 
@@ -48,6 +49,8 @@ public class LDrawing {
         System.out.println(PrintColors.ANSI_GREEN + "LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
+
+        Printer.printTreePreOrder(tcTree);
 
 
         HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
