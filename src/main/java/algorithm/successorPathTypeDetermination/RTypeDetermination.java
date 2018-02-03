@@ -171,17 +171,15 @@ public class RTypeDetermination implements ITypeDetermination {
         List<DirectedEdge> outgoingEdges = new LinkedList<>();
         List<List<DirectedEdge>> facesOfVertex = facesOfSource.get(vertex);
 
-        for(List<DirectedEdge> face : facesOfVertex){
-            for(int j = 0; j < face.size(); j++) {
-                DirectedEdge e1 = face.get((j + 0) % face.size());
-                DirectedEdge e2 = face.get((j + 1) % face.size());
-                if (e1.getSource().equals(vertex) && !outgoingEdges.contains(e1))
-                    outgoingEdges.add(e1);
-                if (e2.getSource().equals(vertex) && !outgoingEdges.contains(e2))
-                    outgoingEdges.add(e2);
-            }
+        //add first edge
+        List<DirectedEdge> firstFace = facesOfVertex.get(0);
+        DirectedEdge firstEdge = leftEdge.get(firstFace);
+        outgoingEdges.add(firstEdge);
 
-        }
+        //add right edges of all faces
+        for(List<DirectedEdge> face : facesOfVertex)
+            outgoingEdges.add(rightEdge.get(face));
+
         return outgoingEdges;
     }
 
