@@ -22,7 +22,6 @@ public class PTypeDetermination implements ITypeDetermination {
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
 
-        if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_P)) return;
         TCTreeNode<DirectedEdge, Vertex> optTypeBNode = null;
         SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 

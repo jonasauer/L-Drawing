@@ -17,60 +17,45 @@ import java.util.Map;
 public class SuccessorConnector {
 
 
-    private static void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+    private static void mirrorNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
 
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
         Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode);
         Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(tcTreeNode);
+        List<DirectedEdge> pertEdges = null;
+        List<DirectedEdge> allEdges = null;
 
-        List<DirectedEdge> pertOutgoingEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
-        List<DirectedEdge> pertIncomingEdges = new LinkedList<>(pert.getEdgesWithTarget(pertTarget));
 
-        List<DirectedEdge> allOutgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(pertSource);
-        List<DirectedEdge> allIncomingEdges = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(pertTarget);
+        for(int loopCount = 0; loopCount < 2; loopCount++){
 
-        //flip relevant outgoing edges of the source node.
-        if(pertOutgoingEdges.size() > 1){
-            int insertIndex = 0;
-            for(DirectedEdge outgoingEdge : allOutgoingEdges){
-                if(pertOutgoingEdges.contains(outgoingEdge)){
+            switch (loopCount){
+                case 0:
+                    pertEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
+                    allEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(pertSource);
                     break;
-                }
-                insertIndex++;
-            }
-
-            List<DirectedEdge> temp = new ArrayList<>();
-            for(DirectedEdge outgoingEdge : allOutgoingEdges){
-                if(pertOutgoingEdges.contains(outgoingEdge))
-                    temp.add(outgoingEdge);
-            }
-            allOutgoingEdges.removeAll(temp);
-
-            for(int i = temp.size()-1; i >= 0; i--){
-                allOutgoingEdges.add(insertIndex++, temp.get(i));
-            }
-        }
-
-        //flip relevant incoming edges of the target node.
-        if(pertIncomingEdges.size() > 1){
-            int insertIndex = 0;
-            for(DirectedEdge incomingEdge : allIncomingEdges){
-                if(pertIncomingEdges.contains(incomingEdge)){
+                case 1:
+                    pertEdges = new ArrayList<>(pert.getEdgesWithTarget(pertTarget));
+                    allEdges = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(pertTarget);
                     break;
+            }
+
+            if(pertEdges.size() > 1){
+                int insertIndex = 0;
+                for(DirectedEdge edge : allEdges){
+                    if(pertEdges.contains(edge))
+                        break;
+                    insertIndex++;
                 }
-                insertIndex++;
-            }
 
-            List<DirectedEdge> temp = new ArrayList<>();
-            for(DirectedEdge incomingEdge : allIncomingEdges){
-                if(pertIncomingEdges.contains(incomingEdge))
-                    temp.add(incomingEdge);
-            }
+                List<DirectedEdge> temp = new ArrayList<>();
+                for(DirectedEdge edge : allEdges){
+                    if(pertEdges.contains(edge))
+                        temp.add(edge);
+                }
+                allEdges.removeAll(temp);
 
-            allIncomingEdges.removeAll(temp);
-
-            for(int i = temp.size()-1; i >= 0; i--){
-                allIncomingEdges.add(insertIndex++, temp.get(i));
+                for(int i = temp.size()-1; i >= 0; i--)
+                    allEdges.add(insertIndex++, temp.get(i));
             }
         }
 
@@ -201,7 +186,7 @@ public class SuccessorConnector {
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(child);
                     if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
-                        flipNodeInEmbedding(child);
+                        mirrorNode(child);
                 }
             }
         }
@@ -240,7 +225,7 @@ public class SuccessorConnector {
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
                     MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(child);
                     if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
-                        flipNodeInEmbedding(child);
+                        mirrorNode(child);
                 }
             }
         }

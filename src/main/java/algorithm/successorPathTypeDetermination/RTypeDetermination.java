@@ -10,7 +10,6 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
 
 import java.util.*;
 
@@ -18,7 +17,7 @@ public class RTypeDetermination implements ITypeDetermination {
 
     private TCTree<DirectedEdge, Vertex> tcTree;
     private TCTreeNode<DirectedEdge, Vertex> tcTreeNode;
-    private MultiDirectedGraph skeleton;
+    private MultiDirectedGraph skeletonGraph;
     private MultiDirectedGraph augmentedGraph;
 
     private List<List<DirectedEdge>> skeletonFaces;
@@ -41,13 +40,12 @@ public class RTypeDetermination implements ITypeDetermination {
         System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode));
 
 
-        if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
 
         this.tcTreeNode = tcTreeNode;
         this.tcTree = tcTree;
-        this.skeleton = convertSkeletonToGraph();
+        this.skeletonGraph = convertSkeletonToGraph();
         this.augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
-        this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRNode(tcTreeNode, skeleton);
+        this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRNode(tcTreeNode, skeletonGraph);
 
         this.sourceOfFace = new HashMap<>();
         this.facesOfSource = new HashMap<>();
@@ -65,7 +63,7 @@ public class RTypeDetermination implements ITypeDetermination {
         assignLabelsToFaces();
 
         System.out.println(PrintColors.ANSI_YELLOW + "    ConnectVertices");
-        for(Vertex vertex : skeleton.getVertices()){
+        for(Vertex vertex : skeletonGraph.getVertices()){
             connectVertices(vertex);
         }
 
@@ -101,7 +99,7 @@ public class RTypeDetermination implements ITypeDetermination {
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
             Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(child);
             Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(child);
-            DirectedEdge virtualEdge = skeleton.getEdge(pertSource, pertTarget);
+            DirectedEdge virtualEdge = skeletonGraph.getEdge(pertSource, pertTarget);
             virtualEdgeToTCTreeNode.put(virtualEdge, child);
         }
 
@@ -113,7 +111,7 @@ public class RTypeDetermination implements ITypeDetermination {
 
     private void calcSourceAndTargetOfFaces(){
 
-        for(Vertex vertex : skeleton.getVertices()){
+        for(Vertex vertex : skeletonGraph.getVertices()){
             facesOfSource.put(vertex, new LinkedList<>());
         }
 
