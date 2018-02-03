@@ -44,7 +44,7 @@ public class STOrderingHolder {
         return stOrderingList;
     }
 
-    public Map<Vertex, Integer> getSTOrderingMap() {
+    Map<Vertex, Integer> getSTOrderingMap() {
         return stOrderingMap;
     }
 }

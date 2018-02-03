@@ -113,7 +113,7 @@ public class RTypeDetermination implements ITypeDetermination {
             Vertex source = null;
 
             for(int i = 0; i < face.size(); i++){
-                DirectedEdge edge1 = face.get((i+0)%face.size());
+                DirectedEdge edge1 = face.get((i  )%face.size());
                 DirectedEdge edge2 = face.get((i+1)%face.size());
                 if(edge1.getSource().equals(edge2.getSource())) {
                     source = edge1.getSource();
@@ -175,10 +175,43 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
+    private List<List<DirectedEdge>> orderOutgoingFaces(List<List<DirectedEdge>> outgoingFaces){
+
+        if(outgoingFaces.size() < 2) return outgoingFaces;
+
+        List<List<DirectedEdge>> outgoingFacesOrdered = new LinkedList<>();
+        List<DirectedEdge> firstFace = outgoingFaces.get(0);
+        outgoingFacesOrdered.add(firstFace);
+        outgoingFaces.remove(firstFace);
+        DirectedEdge firstEdge = leftEdge.get(firstFace);
+        DirectedEdge lastEdge = rightEdge.get(firstFace);
+
+        while(!outgoingFaces.isEmpty()) {
+            for (List<DirectedEdge> face : outgoingFaces) {
+
+                DirectedEdge lEdge = leftEdge.get(face);
+                DirectedEdge rEdge = rightEdge.get(face);
+
+                if(rEdge.equals(firstEdge)){
+                    outgoingFacesOrdered.add(0, face);
+                    outgoingFaces.remove(face);
+                    firstEdge = lEdge;
+                }else if(lastEdge.equals(lEdge)){
+                    outgoingFacesOrdered.add(face);
+                    outgoingFaces.remove(face);
+                    lastEdge = rEdge;
+                }
+            }
+        }
+        return outgoingFacesOrdered;
+    }
 
 
 
-    //TODO: OK
+
+
+
+
     private void connectVertices(Vertex vertex) throws LDrawingNotPossibleException {
 
         List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
