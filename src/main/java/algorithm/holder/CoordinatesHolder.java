@@ -40,28 +40,49 @@ public class CoordinatesHolder {
         }
     }
 
-
+    //TODO: make constant runtime
     private int getXIndex(Vertex vertex, List<Vertex> currentOrdering){
 
         Collection<DirectedEdge> incomingEdges = graph.getEdgesWithTarget(vertex);
         Map<Vertex, Integer> stOrderingMap = HolderProvider.getStOrderingHolder().getSTOrderingMap();
 
-        if(incomingEdges.size() < 2){
+        if(incomingEdges.size() == 1){
             Vertex source = incomingEdges.iterator().next().getSource();
             List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
             int sourceIndex = currentOrdering.indexOf(source);
 
             for(DirectedEdge outgoingEdgeSource : outgoingEdgesSource){
                 Vertex sourceSuccessor = outgoingEdgeSource.getTarget();
+                if(vertex.equals(sourceSuccessor))
+                    break;
                 if(stOrderingMap.get(vertex) < stOrderingMap.get(sourceSuccessor))
                     return sourceIndex+1;
             }
             return sourceIndex;
         }else{
-            Iterator<DirectedEdge> edgeIterator = incomingEdges.iterator();
-            Vertex highestSTOrderIndexSource1 = edgeIterator.next().getSource();
-            Vertex highestSTOrderIndexSource2 = edgeIterator.next().getSource();
 
+            Vertex highestSTOrderIndexSource1 = null;
+            Vertex highestSTOrderIndexSource2 = null;
+            for(DirectedEdge edge : incomingEdges){
+
+                Vertex source = edge.getSource();
+                if(highestSTOrderIndexSource1 == null){
+                    highestSTOrderIndexSource1 = source;
+                    continue;
+                }
+                if(highestSTOrderIndexSource2 == null){
+                    highestSTOrderIndexSource2 = source;
+                    continue;
+                }
+
+                int source1Index = stOrderingMap.get(highestSTOrderIndexSource1);
+                int source2Index = stOrderingMap.get(highestSTOrderIndexSource2);
+                if(source1Index < source2Index && source1Index < stOrderingMap.get(source)) {
+                    highestSTOrderIndexSource1 = source;
+                }else if(source2Index < source1Index && source2Index < stOrderingMap.get(source)) {
+                    highestSTOrderIndexSource2 = source;
+                }
+            }
             return currentOrdering.indexOf(highestSTOrderIndexSource1) < currentOrdering.indexOf(highestSTOrderIndexSource2) ? currentOrdering.indexOf(highestSTOrderIndexSource1) + 1 : currentOrdering.indexOf(highestSTOrderIndexSource2) + 1;
         }
     }
