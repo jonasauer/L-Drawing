@@ -60,8 +60,6 @@ public class RTypeDetermination implements ITypeDetermination {
 
         calcSourceAndTargetOfFaces();
 
-        assignLabelsToFaces();
-
         System.out.println(PrintColors.ANSI_YELLOW + "    ConnectVertices");
         for(Vertex vertex : skeletonGraph.getVertices()){
             connectVertices(vertex);
@@ -128,6 +126,7 @@ public class RTypeDetermination implements ITypeDetermination {
                     source = edge1.getSource();
                     leftEdge.put(face, edge1);
                     rightEdge.put(face, edge2);
+                    assignLabelsToFace(face);
                 }
                 if(edge1.getTarget().equals(edge2.getTarget())) {
                     target = edge1.getTarget();
@@ -141,31 +140,24 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
-    //TODO: OK
-    private void assignLabelsToFaces(){
 
-        System.out.println(PrintColors.ANSI_RED + "    Faces:");
-        for(List<DirectedEdge> face : skeletonFaces){
-            FaceType faceType = FaceType.UNDEFINED;
-            Vertex target = targetOfFace.get(face);
-            Vertex vL = leftEdge.get(face).getTarget();
-            Vertex vR = rightEdge.get(face).getTarget();
-            if(target.equals(vL)) {
-                faceType = FaceType.TYPE_L;
-            }
-            if(target.equals(vR)){
-                faceType = FaceType.TYPE_R;
-            }
-            faceTypes.put(face, faceType);
-            System.out.print(PrintColors.ANSI_RED + "      Face: ");
-            for(DirectedEdge edge : face)
-                System.out.print(PrintColors.ANSI_RED + edge + "  ");
-            System.out.print(faceType + "  ");
-            System.out.print(PrintColors.ANSI_RED + "Source: " + sourceOfFace.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_RED + "Target: " + targetOfFace.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_RED + "LeftEdge: " + leftEdge.get(face) + "  ");
-            System.out.print(PrintColors.ANSI_RED + "RightEdge: " + rightEdge.get(face));
-            System.out.println();
+    private void assignLabelsToFace(List<DirectedEdge> face){
+
+        Vertex lVertex = leftEdge.get(face).getTarget();
+        Vertex rVertex = rightEdge.get(face).getTarget();
+        DirectedEdge lrEdge = skeletonGraph.getEdge(lVertex, rVertex);
+
+        if(lrEdge == null) {
+            faceTypes.put(face, FaceType.UNDEFINED);
+            return;
+        }
+
+        if (lrEdge.getTarget().equals(lVertex)) {
+            faceTypes.put(face, FaceType.TYPE_L);
+        } else if (lrEdge.getTarget().equals(rVertex)) {
+            faceTypes.put(face, FaceType.TYPE_R);
+        } else {
+            faceTypes.put(face, FaceType.UNDEFINED);
         }
     }
 
