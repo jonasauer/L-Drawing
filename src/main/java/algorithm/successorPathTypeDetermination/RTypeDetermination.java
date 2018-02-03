@@ -166,24 +166,12 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
-    private List<DirectedEdge> getOutgoingEdgesOfSeleton(Vertex vertex){
+    private List<DirectedEdge> getOutgoingEdgesOfSkeleton(Vertex vertex){
 
         List<DirectedEdge> outgoingEdges = new LinkedList<>();
         List<List<DirectedEdge>> facesOfVertex = facesOfSource.get(vertex);
 
-        int index = 0;
-        for(int i = 0; i < facesOfVertex.size(); i++){
-            List<DirectedEdge> face = facesOfVertex.get(i);
-            for(int j = 0; j < face.size(); j++){
-                DirectedEdge e1 = face.get((j+0)%face.size());
-                DirectedEdge e2 = face.get((j+1)%face.size());
-                if(e1.getTarget().equals(vertex) && e2.getSource().equals(vertex))
-                    index = i;
-            }
-        }
-
-        for(int i = index; i < index + facesOfVertex.size(); i++){
-            List<DirectedEdge> face = facesOfVertex.get(i);
+        for(List<DirectedEdge> face : facesOfVertex){
             for(int j = 0; j < face.size(); j++) {
                 DirectedEdge e1 = face.get((j + 0) % face.size());
                 DirectedEdge e2 = face.get((j + 1) % face.size());
@@ -238,7 +226,7 @@ public class RTypeDetermination implements ITypeDetermination {
         }
 
         //check if there is more than one type B child.
-        for(DirectedEdge edge : getOutgoingEdgesOfSeleton(vertex)){
+        for(DirectedEdge edge : getOutgoingEdgesOfSkeleton(vertex)){
             TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
             if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
