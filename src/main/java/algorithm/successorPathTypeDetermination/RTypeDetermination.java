@@ -22,9 +22,7 @@ public class RTypeDetermination implements ITypeDetermination {
 
     private List<List<DirectedEdge>> skeletonFaces;
 
-    private Map<List<DirectedEdge>, Vertex> sourceOfFace;
     private Map<Vertex, List<List<DirectedEdge>>> facesOfSource;
-    private Map<List<DirectedEdge>, Vertex> targetOfFace;
 
     private Map<List<DirectedEdge>, DirectedEdge> leftEdge;
     private Map<List<DirectedEdge>, DirectedEdge> rightEdge;
@@ -47,9 +45,7 @@ public class RTypeDetermination implements ITypeDetermination {
         this.augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
         this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRNode(tcTreeNode, skeletonGraph);
 
-        this.sourceOfFace = new HashMap<>();
         this.facesOfSource = new HashMap<>();
-        this.targetOfFace = new HashMap<>();
 
         this.leftEdge = new HashMap<>();
         this.rightEdge = new HashMap<>();
@@ -114,12 +110,9 @@ public class RTypeDetermination implements ITypeDetermination {
         }
 
         for(List<DirectedEdge> face : skeletonFaces){
-
             Vertex source = null;
-            Vertex target = null;
 
             for(int i = 0; i < face.size(); i++){
-
                 DirectedEdge edge1 = face.get((i+0)%face.size());
                 DirectedEdge edge2 = face.get((i+1)%face.size());
                 if(edge1.getSource().equals(edge2.getSource())) {
@@ -127,13 +120,9 @@ public class RTypeDetermination implements ITypeDetermination {
                     leftEdge.put(face, edge1);
                     rightEdge.put(face, edge2);
                     assignLabelsToFace(face);
-                }
-                if(edge1.getTarget().equals(edge2.getTarget())) {
-                    target = edge1.getTarget();
+                    break;
                 }
             }
-            sourceOfFace.put(face, source);
-            targetOfFace.put(face, target);
             facesOfSource.get(source).add(face);
         }
     }
