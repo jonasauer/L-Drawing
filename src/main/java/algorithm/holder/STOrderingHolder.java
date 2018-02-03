@@ -1,6 +1,5 @@
 package main.java.algorithm.holder;
 
-import main.java.printer.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -9,45 +8,44 @@ import java.util.*;
 
 public class STOrderingHolder {
 
-    private List<Vertex> stOrdering;
-    private Map<Vertex, Integer> incomingEdgesCounters;
-    private int counter = 0;
+    private List<Vertex> stOrderingList;
+    private Map<Vertex, Integer> stOrderingMap;
 
     public STOrderingHolder(MultiDirectedGraph graph){
 
-        this.stOrdering = new LinkedList<>();
-        this.incomingEdgesCounters = new HashMap<>();
+        this.stOrderingList = new LinkedList<>();
+        this.stOrderingMap = new HashMap<>();
+        Map<Vertex, Integer> incomingEdgesCounters = new HashMap<>();
         for(Vertex vertex : graph.getVertices())
-            incomingEdgesCounters.put(vertex, graph.getEdgesWithTarget(vertex).size());
+            incomingEdgesCounters.put(vertex, HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(vertex).size());
 
-        orderVertices(HolderProvider.getSourceTargetGraphHolder().getSourceNode());
-
-        this.counter = 0;
-        System.out.println(PrintColors.ANSI_PURPLE + "---------------------------");
-        System.out.println(PrintColors.ANSI_PURPLE + "ST-Ordering (y-Coordinates Ordering)");
-        for(Vertex vertex : stOrdering)
-            System.out.println(PrintColors.ANSI_PURPLE + "    Vertex " + vertex.getName() + ":\t" + counter++);
+        orderVertices(HolderProvider.getSourceTargetGraphHolder().getSourceNode(), incomingEdgesCounters);
     }
 
 
 
 
-    private void orderVertices(Vertex vertex){
+    private void orderVertices(Vertex vertex, Map<Vertex, Integer> incomingEdgesCounters){
 
-        stOrdering.add(vertex);
+        stOrderingMap.put(vertex, stOrderingMap.size());
+        stOrderingList.add(vertex);
 
         for(DirectedEdge outgoingEdge : HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex)){
             Vertex target = outgoingEdge.getTarget();
             int incomingEdgesCounter = incomingEdgesCounters.get(target);
             incomingEdgesCounters.replace(target, incomingEdgesCounter, incomingEdgesCounter-1);
             if(incomingEdgesCounter-1 < 1)
-                orderVertices(target);
+                orderVertices(target, incomingEdgesCounters);
         }
     }
 
 
-    public List<Vertex> getSTOrdering(){
-        return stOrdering;
+    public List<Vertex> getSTOrderingList(){
+        return stOrderingList;
+    }
+
+    public Map<Vertex, Integer> getSTOrderingMap() {
+        return stOrderingMap;
     }
 }
 

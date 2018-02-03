@@ -5,13 +5,11 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.printer.graphProvider.ComplexGraphProvider;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.holder.PertinentGraphHolder;
 import main.java.algorithm.holder.PostOrderNodesHolder;
 
 import java.util.List;
-import java.util.Map;
 
 public class Printer {
 
@@ -115,10 +113,12 @@ public class Printer {
 
 
 
-
-    public static void main(String[] args){
-
-        printTreePreOrder(ComplexGraphProvider.getComplexGraph(), ComplexGraphProvider.backEdge);
+    public static void printSTOrdering(){
+        int counter = 0;
+        System.out.println(PrintColors.ANSI_PURPLE + "---------------------------");
+        System.out.println(PrintColors.ANSI_PURPLE + "ST-Ordering (y-Coordinates Ordering)");
+        for(Vertex vertex : HolderProvider.getStOrderingHolder().getSTOrderingList())
+            System.out.println(PrintColors.ANSI_PURPLE + "    Vertex " + vertex.getName() + ":\t" + counter++);
     }
 
 

@@ -90,6 +90,7 @@ public class LDrawing {
         HolderProvider.setStOrderingHolder(new STOrderingHolder(convertedGraph));
         HolderProvider.getAugmentationHolder().removeAugmentedParts();
         HolderProvider.setCoordinatesHolder(new CoordinatesHolder(convertedGraph));
+        Printer.printSTOrdering();
 
     }
 
