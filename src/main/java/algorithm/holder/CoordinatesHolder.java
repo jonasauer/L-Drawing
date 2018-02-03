@@ -65,15 +65,22 @@ public class CoordinatesHolder {
             return sourceIndex;
         }else{
 
-            Iterator<DirectedEdge> edgeIterator = incomingEdges.iterator();
-            Vertex highestSTOrderIndexSource1 = edgeIterator.next().getSource();
-            Vertex highestSTOrderIndexSource2 = edgeIterator.next().getSource();
-            while(edgeIterator.hasNext()){
+            Vertex highestSTOrderIndexSource1 = null;
+            Vertex highestSTOrderIndexSource2 = null;
+            for(DirectedEdge edge : incomingEdges){
 
-                Vertex source = edgeIterator.next().getSource();
+                Vertex source = edge.getSource();
+                if(highestSTOrderIndexSource1 == null){
+                    highestSTOrderIndexSource1 = source;
+                    continue;
+                }
+                if(highestSTOrderIndexSource2 == null){
+                    highestSTOrderIndexSource2 = source;
+                    continue;
+                }
+
                 int source1Index = stOrdering.indexOf(highestSTOrderIndexSource1);
                 int source2Index = stOrdering.indexOf(highestSTOrderIndexSource2);
-
                 if(source1Index < source2Index && source1Index < stOrdering.indexOf(source)) {
                     highestSTOrderIndexSource1 = source;
                 }else if(source2Index < source1Index && source2Index < stOrdering.indexOf(source)) {

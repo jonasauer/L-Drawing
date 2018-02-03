@@ -1,7 +1,7 @@
 package main.java.algorithm.holder;
 
 import com.yworks.yfiles.algorithms.*;
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.graphConverter.GraphConverterHolder;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -173,7 +173,7 @@ public class EmbeddingHolder {
     public List<List<DirectedEdge>> getFacesOfRNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, MultiDirectedGraph skeleton){
 
 
-        MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
+        MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
 
         //determine all faces of the pertinent graph
         List<List<Dart>> allFacesOfPert = new LinkedList<>();

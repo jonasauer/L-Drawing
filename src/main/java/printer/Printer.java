@@ -1,14 +1,11 @@
-package main.java.test;
+package main.java.printer;
 
-import main.java.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
-import main.java.decomposition.graph.abs.AbstractEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
-import main.java.test.graphProvider.ComplexGraphProvider;
+import main.java.printer.graphProvider.ComplexGraphProvider;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.holder.PertinentGraphHolder;
 import main.java.algorithm.holder.PostOrderNodesHolder;
@@ -31,13 +28,12 @@ public class Printer {
         HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tctree));
         HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tctree));
         List<TCTreeNode<DirectedEdge, Vertex>> postOrderList = HolderProvider.getPostOrderNodesHolder().getPostOrderNodes();
-        Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> pertinentGraphs = HolderProvider.getPertinentGraphHolder().getPertinentGraphs();
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderList){
 
             System.out.println(node.getType());
             System.out.println("    Skeleton: " + node.getSkeleton().toString().replace("-", "->"));
-            System.out.println("    Pert    : " + pertinentGraphs.get(node));
+            System.out.println("    Pert    : " + HolderProvider.getPertinentGraphHolder().getPertinentGraph(node));
         }
     }
 

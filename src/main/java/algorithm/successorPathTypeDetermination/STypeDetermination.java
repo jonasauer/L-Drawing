@@ -1,6 +1,6 @@
 package main.java.algorithm.successorPathTypeDetermination;
 
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.types.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
@@ -17,14 +17,14 @@ public class STypeDetermination implements ITypeDetermination {
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_S)) return;
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
-        System.out.println(PrintColors.ANSI_RED + "SType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+        System.out.println(PrintColors.ANSI_RED + "SType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode));
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
-        Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
+        Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode);
 
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
 
-            Vertex childSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
+            Vertex childSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(child);
             if(source.equals(childSource)){
                 SuccessorPathType type = HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child);
                 HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, type);

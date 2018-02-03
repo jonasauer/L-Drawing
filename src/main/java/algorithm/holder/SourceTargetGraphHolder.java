@@ -10,13 +10,10 @@ import java.util.Set;
 
 public class SourceTargetGraphHolder {
 
-    private MultiDirectedGraph graph;
     private Vertex sourceNode;
     private Vertex targetNode;
 
     public SourceTargetGraphHolder(MultiDirectedGraph graph) throws GraphConditionsException {
-
-        this.graph = graph;
 
         Set<Vertex> sourceNodes = new HashSet<>(graph.getVertices());
         Set<Vertex> targetNodes = new HashSet<>(graph.getVertices());

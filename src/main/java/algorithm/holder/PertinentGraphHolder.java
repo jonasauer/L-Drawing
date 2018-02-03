@@ -42,8 +42,8 @@ public class PertinentGraphHolder {
     }
 
 
-    public Map<TCTreeNode<DirectedEdge, Vertex>, MultiDirectedGraph> getPertinentGraphs(){
-        return pertinentGraphs;
+    public MultiDirectedGraph getPertinentGraph(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+        return pertinentGraphs.get(tcTreeNode);
     }
 
 }

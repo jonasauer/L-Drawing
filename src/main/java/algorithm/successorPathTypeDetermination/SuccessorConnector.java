@@ -1,6 +1,6 @@
 package main.java.algorithm.successorPathTypeDetermination;
 
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.types.FaceType;
 import main.java.decomposition.graph.DirectedEdge;
@@ -19,9 +19,9 @@ public class SuccessorConnector {
 
     private static void flipNodeInEmbedding(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
 
-        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
-        Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
-        Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(tcTreeNode);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
+        Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode);
+        Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(tcTreeNode);
 
         List<DirectedEdge> pertOutgoingEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
         List<DirectedEdge> pertIncomingEdges = new LinkedList<>(pert.getEdgesWithTarget(pertTarget));
@@ -140,7 +140,7 @@ public class SuccessorConnector {
 
         int apexIndex = 0;
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
-        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(rl_Divider);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(rl_Divider);
         for(DirectedEdge edge : outgoingEdges){
             if(pert.getEdges().contains(edge))
                 break;
@@ -189,7 +189,7 @@ public class SuccessorConnector {
                                               int apexIndex){
 
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
-        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
 
         //flip nodes preceding the apex if they are not from left to right.
         for(int i = 0; i < apexIndex; i++){
@@ -199,7 +199,7 @@ public class SuccessorConnector {
 
             if(v1_v2 != null && v1_v2.getSource().equals(v2) && v1_v2.getTarget().equals(v1)){
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(child);
                     if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                         flipNodeInEmbedding(child);
                 }
@@ -228,7 +228,7 @@ public class SuccessorConnector {
                                               int apexIndex){
 
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
-        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
 
         //flip nodes following the apex if they are not from right to left.
         for(int i = apexIndex; i < outgoingEdges.size()-1; i++){
@@ -238,7 +238,7 @@ public class SuccessorConnector {
 
             if(v1_v2 != null && v1_v2.getSource().equals(v1) && v1_v2.getTarget().equals(v2)){
                 for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(child);
+                    MultiDirectedGraph childPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(child);
                     if(childPert.getVertices().contains(v1) && childPert.getVertices().contains(v2))
                         flipNodeInEmbedding(child);
                 }

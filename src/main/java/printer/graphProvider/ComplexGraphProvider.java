@@ -1,4 +1,4 @@
-package main.java.test.graphProvider;
+package main.java.printer.graphProvider;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;

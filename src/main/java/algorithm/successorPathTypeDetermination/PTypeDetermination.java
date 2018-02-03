@@ -1,6 +1,6 @@
 package main.java.algorithm.successorPathTypeDetermination;
 
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.types.SuccessorPathType;
 import main.java.decomposition.graph.DirectedEdge;
@@ -18,7 +18,7 @@ public class PTypeDetermination implements ITypeDetermination {
     public  void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
 
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
-        System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+        System.out.println(PrintColors.ANSI_RED + "PType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode));
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + tcTreeNode.getSkeleton());
 
 
@@ -39,9 +39,9 @@ public class PTypeDetermination implements ITypeDetermination {
         System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
         MultiDirectedGraph augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
 
-        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(tcTreeNode);
-        Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode);
-        Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(tcTreeNode);
+        MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
+        Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode);
+        Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(tcTreeNode);
         DirectedEdge sourceSinkEdge = augmentedGraph.getEdge(source, target);
         List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
         List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
@@ -107,7 +107,7 @@ public class PTypeDetermination implements ITypeDetermination {
             if(sourceSinkEdge != null)
                 throw new LDrawingNotPossibleException("P-Node contains one child assigned with Type-B and an edge reaching from the source to the target.");
 
-            MultiDirectedGraph typeBPert = HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(optTypeBNode);
+            MultiDirectedGraph typeBPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(optTypeBNode);
 
             List<DirectedEdge> typeBPertOutgoingEdges = new LinkedList<>(typeBPert.getEdgesWithSource(source));
             List<DirectedEdge> typeBPertIncomingEdges = new LinkedList<>(typeBPert.getEdgesWithTarget(target));

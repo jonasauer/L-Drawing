@@ -26,7 +26,7 @@ public class SourceTargetPertinentGraphsHolder {
 
         for(TCTreeNode<DirectedEdge, Vertex> node : postOrderNodes){
 
-            SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(HolderProvider.getPertinentGraphHolder().getPertinentGraphs().get(node));
+            SourceTargetGraphHolder sourceTargetGraphHolder = new SourceTargetGraphHolder(HolderProvider.getPertinentGraphHolder().getPertinentGraph(node));
             Vertex pertSourceNode = sourceTargetGraphHolder.getSourceNode();
             Vertex pertTargetNode = sourceTargetGraphHolder.getTargetNode();
             sourceNodes.put(node, pertSourceNode);
@@ -36,11 +36,11 @@ public class SourceTargetPertinentGraphsHolder {
 
 
 
-    public Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> getSourceNodes() {
-        return sourceNodes;
+    public Vertex getSourceNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+        return sourceNodes.get(tcTreeNode);
     }
 
-    public Map<TCTreeNode<DirectedEdge, Vertex>, Vertex> getTargetNodes() {
-        return targetNodes;
+    public Vertex getTargetNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+        return targetNodes.get(tcTreeNode);
     }
 }

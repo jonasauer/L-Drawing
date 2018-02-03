@@ -1,6 +1,6 @@
 package main.java.algorithm.successorPathTypeDetermination;
 
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.holder.HolderProvider;
 import main.java.algorithm.types.FaceType;
@@ -38,7 +38,7 @@ public class RTypeDetermination implements ITypeDetermination {
 
     public void determineType(TCTree<DirectedEdge, Vertex> tcTree, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
-        System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(tcTreeNode));
+        System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode));
 
 
         if(!tcTreeNode.getType().equals(TCTreeNodeType.TYPE_R)) return;
@@ -81,8 +81,8 @@ public class RTypeDetermination implements ITypeDetermination {
 
         MultiDirectedGraph skeletonGraph = new MultiDirectedGraph();
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-            Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
-            Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
+            Vertex source = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(child);
+            Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(child);
             skeletonGraph.addEdge(source, target);
         }
         System.out.println(PrintColors.ANSI_RED + "    Skeleton: " + skeletonGraph);
@@ -99,8 +99,8 @@ public class RTypeDetermination implements ITypeDetermination {
         Map<DirectedEdge, TCTreeNode<DirectedEdge, Vertex>> virtualEdgeToTCTreeNode = new HashMap<>();
 
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-            Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNodes().get(child);
-            Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNodes().get(child);
+            Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(child);
+            Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(child);
             DirectedEdge virtualEdge = skeleton.getEdge(pertSource, pertTarget);
             virtualEdgeToTCTreeNode.put(virtualEdge, child);
         }

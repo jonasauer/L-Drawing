@@ -3,7 +3,7 @@ package main.java.algorithm;
 import com.yworks.yfiles.algorithms.GraphChecker;
 import com.yworks.yfiles.graph.IGraph;
 import com.yworks.yfiles.layout.YGraphAdapter;
-import main.java.PrintColors;
+import main.java.printer.PrintColors;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.graphConverter.GraphConverterHolder;
@@ -19,7 +19,7 @@ import main.java.algorithm.successorPathTypeDetermination.PTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.QTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.RTypeDetermination;
 import main.java.algorithm.successorPathTypeDetermination.STypeDetermination;
-import main.java.test.Printer;
+import main.java.printer.Printer;
 
 public class LDrawing {
 
