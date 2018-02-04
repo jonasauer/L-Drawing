@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/holder/SuccessorPathTypeHolder.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/holder/SuccessorPathTypeHolder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/PTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/PTypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/QTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/QTypeDetermination.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/STypeDetermination.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/STypeDetermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/printer/Printer.java" afterPath="$PROJECT_DIR$/src/main/java/printer/Printer.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,16 +20,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SourceTargetGraphHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetGraphHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="21" column="49" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SourceTargetPertinentGraphsHolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -78,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RTypeDetermination.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RTypeDetermination.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1955">
-              <caret line="69" column="75" lean-forward="false" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
+            <state relative-caret-position="3442">
+              <caret line="244" column="26" lean-forward="true" selection-start-line="244" selection-start-column="26" selection-end-line="244" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -90,11 +75,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Printer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EmbeddingHolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="213" column="52" lean-forward="false" selection-start-line="213" selection-start-column="42" selection-end-line="213" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Printer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/printer/Printer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="106" column="41" lean-forward="true" selection-start-line="106" selection-start-column="41" selection-end-line="106" selection-end-column="41" />
+            <state relative-caret-position="351">
+              <caret line="99" column="36" lean-forward="false" selection-start-line="99" selection-start-column="36" selection-end-line="99" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -240,7 +235,6 @@
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/SourceTargetPertinentGraphsHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/holder/PertinentGraphHolderTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/printer/PrintColors.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/LDrawing.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/CoordinatesHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/SuccessorConnector.java" />
@@ -249,8 +243,9 @@
         <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/STypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/QTypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/PTypeDetermination.java" />
-        <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java" />
         <option value="$PROJECT_DIR$/src/main/java/printer/Printer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java" />
       </list>
     </option>
   </component>
@@ -689,7 +684,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="325489000" />
+    <option name="totallyTimeSpent" value="327173000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -868,7 +863,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -904,7 +898,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="59">
           <caret line="159" column="35" lean-forward="true" selection-start-line="159" selection-start-column="35" selection-end-line="159" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -924,7 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -954,9 +946,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="19" column="5" lean-forward="false" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding>
-            <element signature="method#AugmentationHolder#0;class#AugmentationHolder#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -964,17 +953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="42" column="11" lean-forward="true" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="175" column="105" lean-forward="false" selection-start-line="175" selection-start-column="105" selection-end-line="175" selection-end-column="105" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -982,7 +960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -990,7 +967,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="20" column="5" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1073,21 +1049,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/printer/Printer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1955">
-          <caret line="69" column="75" lean-forward="false" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="351">
+          <caret line="99" column="36" lean-forward="false" selection-start-line="99" selection-start-column="36" selection-end-line="99" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/printer/Printer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/holder/EmbeddingHolder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="106" column="41" lean-forward="true" selection-start-line="106" selection-start-column="41" selection-end-line="106" selection-end-column="41" />
+        <state relative-caret-position="306">
+          <caret line="213" column="52" lean-forward="false" selection-start-line="213" selection-start-column="42" selection-end-line="213" selection-end-column="52" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/successorPathTypeDetermination/RTypeDetermination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3442">
+          <caret line="244" column="26" lean-forward="true" selection-start-line="244" selection-start-column="26" selection-end-line="244" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
