@@ -8,7 +8,6 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.algorithm.holder.HolderProvider;
 
 import java.util.*;
@@ -26,7 +25,7 @@ public class PTypeDetermination implements ITypeDetermination {
         SuccessorPathType successorPathType = SuccessorPathType.TYPE_M;
 
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(tcTreeNode)){
-            if(HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child).equals(SuccessorPathType.TYPE_B)){
+            if(HolderProvider.getSuccessorPathTypeHolder().getNodeType(child).equals(SuccessorPathType.TYPE_B)){
                 if(optTypeBNode != null)
                     throw new LDrawingNotPossibleException("P-Node contains two children assigned with Type-B.");
                 optTypeBNode = child;
@@ -34,7 +33,7 @@ public class PTypeDetermination implements ITypeDetermination {
             }
         }
 
-        HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, successorPathType);
+        HolderProvider.getSuccessorPathTypeHolder().setNodeType(tcTreeNode, successorPathType);
         System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
         MultiDirectedGraph augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
 

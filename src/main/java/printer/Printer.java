@@ -101,7 +101,7 @@ public class Printer {
             else
                 System.out.print("|-> ");
         }
-        System.out.println(node.getType() +  "    " + HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(node));
+        System.out.println(node.getType() +  "    " + HolderProvider.getSuccessorPathTypeHolder().getNodeType(node));
 
         for(Object o : tcTree.getChildren(node)){
             TCTreeNode n = (TCTreeNode)o;

@@ -16,7 +16,11 @@ public class SuccessorPathTypeHolder {
         this.nodeTypes = new HashMap<>();
     }
 
-    public Map<TCTreeNode<DirectedEdge, Vertex>, SuccessorPathType> getNodeTypes(){
-        return nodeTypes;
+    public SuccessorPathType getNodeType(TCTreeNode<DirectedEdge, Vertex> tcTreeNode){
+        return nodeTypes.get(tcTreeNode);
+    }
+
+    public void setNodeType(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, SuccessorPathType type){
+        nodeTypes.put(tcTreeNode, type);
     }
 }

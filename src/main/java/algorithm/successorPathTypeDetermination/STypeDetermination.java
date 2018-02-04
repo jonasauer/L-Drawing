@@ -7,7 +7,6 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.decomposition.spqrTree.TCTreeNodeType;
 import main.java.algorithm.holder.HolderProvider;
 
 public class STypeDetermination implements ITypeDetermination {
@@ -24,8 +23,8 @@ public class STypeDetermination implements ITypeDetermination {
 
             Vertex childSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(child);
             if(source.equals(childSource)){
-                SuccessorPathType type = HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().get(child);
-                HolderProvider.getSuccessorPathTypeHolder().getNodeTypes().put(tcTreeNode, type);
+                SuccessorPathType type = HolderProvider.getSuccessorPathTypeHolder().getNodeType(child);
+                HolderProvider.getSuccessorPathTypeHolder().setNodeType(tcTreeNode, type);
                 System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + type);
                 return;
             }
