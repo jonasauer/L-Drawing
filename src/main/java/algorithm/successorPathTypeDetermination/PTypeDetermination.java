@@ -45,43 +45,33 @@ public class PTypeDetermination implements ITypeDetermination {
         List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
 
         //get index of start and end of the pert graph in the outgoing edges.
+        int sourcePertStart = 0;
+        int sourcePertEnd = outgoingEdgesSource.size();
         boolean lastEdgeWasInPert = false;
-        int sourcePertStart = outgoingEdgesSource.size()-1;
-        int sourcePertEnd = 0;
-        for (int i = sourcePertEnd; i < outgoingEdgesSource.size(); i++) {
-            DirectedEdge outgoingEdge = outgoingEdgesSource.get(i);
-            if (lastEdgeWasInPert && !pert.getEdges().contains(outgoingEdge))
-                sourcePertEnd = i;
-            if (!lastEdgeWasInPert && pert.getEdges().contains(outgoingEdge))
-                sourcePertStart = i;
-            lastEdgeWasInPert = pert.getEdges().contains(outgoingEdge);
-        }
-        if(sourcePertEnd == 0)
-            sourcePertEnd = 1;
-        if(pert.getEdges().contains(outgoingEdgesSource.get(outgoingEdgesSource.size()-1)))
-            sourcePertEnd = outgoingEdgesSource.size();
-        if(pert.getEdges().contains(outgoingEdgesSource.get(0))){
-            sourcePertStart = 0;
+        int edgeCount = 0;
+        for (DirectedEdge edge : outgoingEdgesSource) {
+            boolean thisEdgeIsInPert = pert.getEdge(edge.getSource(), edge.getTarget()) != null;
+            if (lastEdgeWasInPert && !thisEdgeIsInPert) {
+                sourcePertEnd = edgeCount;
+                break;
+            }
+            if (!lastEdgeWasInPert && thisEdgeIsInPert) {
+                sourcePertStart = edgeCount;
+            }
+            lastEdgeWasInPert = thisEdgeIsInPert;
+            edgeCount++;
         }
 
         //get index of start and end of the pert graph in the incoming edges.
         lastEdgeWasInPert = false;
-        int targetPertStart = incomingEdgesTarget.size()-1;
-        int targetPertEnd = 0;
-        for (int i = targetPertStart; i >= 0; i--) {
-            DirectedEdge incomingEdge = incomingEdgesTarget.get(i);
-            if (lastEdgeWasInPert && !pert.getEdges().contains(incomingEdge))
-                targetPertStart = i;
-            if (!lastEdgeWasInPert && pert.getEdges().contains(incomingEdge))
-                targetPertEnd = i;
-            lastEdgeWasInPert = pert.getEdges().contains(incomingEdge);
-        }
-        if(targetPertStart == incomingEdgesTarget.size()-1)
-            targetPertStart = incomingEdgesTarget.size()-2;
-        if(pert.getEdges().contains(incomingEdgesTarget.get(0)))
-            targetPertStart = -1;
-        if(pert.getEdges().contains(incomingEdgesTarget.get(incomingEdgesTarget.size()-1))){
-            targetPertEnd = 0;
+        int targetPertStart = -1;
+        edgeCount = 0;
+        for (DirectedEdge edge : incomingEdgesTarget) {
+            boolean thisEdgeIsInPert = pert.getEdge(edge.getSource(), edge.getTarget()) != null;
+            if (!lastEdgeWasInPert && thisEdgeIsInPert)
+                targetPertStart = edgeCount-1;
+            lastEdgeWasInPert = thisEdgeIsInPert;
+            edgeCount++;
         }
 
 

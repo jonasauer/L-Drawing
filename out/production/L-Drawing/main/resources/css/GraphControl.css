@@ -1,3 +1,236 @@
 .graph-control {
     -fx-background-color: #252525;
 }
+
+/**
+Label styles
+**/
+.greyedOut {
+    -fx-text-fill: #656565;
+    -fx-font-size: 11;
+}
+.defaultLabel {
+    -fx-text-fill: #A0A0A0;
+}
+
+
+/**
+Background styles
+**/
+.background {
+    -fx-background-color: #202020;
+}
+
+
+/**
+Button styles
+**/
+.defaultButton {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #202020;
+    -fx-border-color: #A0A0A0;
+    -fx-text-fill: #A0A0A0;
+    -fx-font-weight: bold;
+}
+.defaultButton:focused {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #202020;
+    -fx-border-color: #E0E0E0;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+}
+.defaultButton:pressed {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #303030;
+    -fx-border-color: #E0E0E0;
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+}
+
+
+/**
+Spinner styles
+**/
+.defaultSpinner {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #202020;
+    -fx-border-color: #A0A0A0;
+}
+.defaultSpinner .increment-arrow-button {
+    -fx-border-radius: 0;
+    -fx-body-radius: 0;
+    -fx-body-color: #202020;
+    -fx-border-color: #202020 #202020 #A0A0A0 #202020;
+}
+.defaultSpinner .decrement-arrow-button {
+    -fx-border-radius: 0;
+    -fx-body-radius: 0;
+    -fx-body-color: #202020;
+    -fx-border-color: #A0A0A0 #202020 #202020 #202020;
+}
+.defaultSpinner .text-field {
+    -fx-background-color: #202020;
+    -fx-border-color: #202020 #A0A0A0 #202020 #202020;
+    -fx-text-fill: #A0A0A0;
+}
+.defaultSpinner .increment-arrow-button:pressed {
+    -fx-border-radius: 0;
+    -fx-body-radius: 0;
+    -fx-border-color: #202020 #202020 #E0E0E0 #202020;
+    -fx-body-color: #303030;
+}
+.defaultSpinner .decrement-arrow-button:pressed {
+    -fx-border-radius: 0;
+    -fx-body-radius: 0;
+    -fx-border-color: #E0E0E0 #202020 #202020 #202020;
+    -fx-body-color: #303030;
+}
+.defaultSpinner .increment-arrow-button .increment-arrow,
+.defaultSpinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: #A0A0A0;
+}
+.defaultSpinner .decrement-arrow-button:pressed .decrement-arrow,
+.defaultSpinner .increment-arrow-button:pressed .increment-arrow {
+    -fx-background-color: #E0E0E0;
+}
+
+
+/**
+Slider styles
+**/
+.defaultSlider .track {
+    -fx-background-color: #A0A0A0;
+    -fx-pref-height: 5;
+}
+.defaultSlider .thumb {
+    -fx-background-color: #E0E0E0;
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
+}
+
+
+/**
+ColorPicker styles
+**/
+.defaultColorPicker{
+    -fx-background-color: #202020;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: #A0A0A0;
+}
+.defaultColorPicker .arrow {
+    -fx-background-color: #A0A0A0;
+}
+.defaultColorPicker .color-picker-label {
+    -fx-text-fill: #A0A0A0;
+}
+.defaultColorPicker .picker-color {
+    -fx-border-color: transparent;
+}
+.defaultColorPicker:pressed {
+    -fx-background-color: #303030;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: #E0E0E0;
+}
+.defaultColorPicker:pressed .arrow {
+    -fx-background-color: #E0E0E0;
+}
+.defaultColorPicker:pressed .color-picker-label {
+    -fx-text-fill: #E0E0E0;
+}
+.defaultColorPicker:focused {
+    -fx-background-color: #202020;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-color: #E0E0E0;
+}
+.defaultColorPicker:focused .arrow {
+    -fx-background-color: #E0E0E0;
+}
+.defaultColorPicker:focused .color-picker-label {
+    -fx-text-fill: #E0E0E0;
+}
+.defaultColorPicker .color-palette {
+    -fx-background-color: #303030;
+}
+.defaultColorPicker .color-palette .hyperlink {
+    -fx-text-fill: transparent;
+    -fx-border-color: transparent;
+}
+.defaultColorPicker .color-palette .hyperlink:hover {
+    -fx-cursor: default;
+}
+
+
+/**
+Checkbox styles
+**/
+.defaultCheckbox{
+    -fx-text-fill: #A0A0A0;
+}
+.defaultCheckbox .box {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #202020;
+    -fx-border-color: A0A0A0;
+}
+.defaultCheckbox:selected .box {
+    -fx-background-color: #303030;
+    -fx-border-color: #E0E0E0;
+}
+.defaultCheckbox:selected .mark {
+    -fx-background-color: #A0A0A0;
+}
+
+
+/**
+MenuBar styles
+**/
+.menuBar {
+    -fx-background-radius: 0;
+    -fx-background-color: #202020;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+    -fx-border-color: #202020;
+}
+
+.menuBar .label {
+    -fx-text-fill: #A0A0A0;
+}
+
+.menuBar .menu-button:hover,
+.menuBar .menu-button:focused,
+.menuBar .menu-button:showing {
+    -fx-background-color: #303030;
+}
+
+.context-menu {
+    -fx-background-color: #303030;
+    -fx-border-radius: 0;
+}
+
+.menu-item {
+    -fx-background-color: #303030;
+}
+
+.menu-item:hover .label {
+    -fx-text-fill: #E0E0E0;
+}
+
+.menu-item: hover,
+.menu-item: selected,
+.menu-item: focused {
+    -fx-background-color: #303030;
+}
+
+
+
+
+
+
+
