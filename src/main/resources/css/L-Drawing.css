@@ -222,9 +222,9 @@ MenuBar styles
     -fx-text-fill: #E0E0E0;
 }
 
-.menu-item: hover,
-.menu-item: selected,
-.menu-item: focused {
+.menu-item:hover,
+.menu-item:selected,
+.menu-item:focused {
     -fx-background-color: #303030;
 }
 

@@ -6,20 +6,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.java.decomposition.graph.Graph;
-import main.java.decomposition.hyperGraph.Vertex;
-import main.java.decomposition.spqrTree.TCTree;
 
 public class MainApplication  extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main/resources/fxml/new.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main/resources/fxml/L-Drawing.fxml"));
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root, 1365, 768);
-        scene.getStylesheets().add("/main/resources/css/GraphControl.css");
+        scene.getStylesheets().add("/main/resources/css/L-Drawing.css");
 
         stage.setOnShown((windowEvent) -> fxmlLoader.<GUIController>getController().onLoaded());
         stage.setMinWidth(200);
