@@ -15,7 +15,6 @@ public class EmbeddingHolder {
     private Map<Vertex, Node> vertex2NodeMap;
     private Map<Edge, DirectedEdge> edge2DirectedEdge;
 
-    private Map<Vertex, List<DirectedEdge>> incomingEdgesCircularOrdering = new HashMap<>();
     private Map<Vertex, List<DirectedEdge>> outgoingEdgesCircularOrdering = new HashMap<>();
     private List<List<DirectedEdge>> convertedFaces = null;
     private List<DirectedEdge> outerFace = null;
@@ -30,7 +29,6 @@ public class EmbeddingHolder {
 
         for(Vertex vertex : graph.getVertices()) {
             outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>());
-            incomingEdgesCircularOrdering.put(vertex, new LinkedList<>());
             calculateOrderedEdgesCircular(vertex);
         }
     }
@@ -39,13 +37,6 @@ public class EmbeddingHolder {
     public void print(MultiDirectedGraph graph){
         System.out.println(PrintColors.ANSI_CYAN + "---------------------------");
         System.out.println(PrintColors.ANSI_CYAN + "Embedding");
-        System.out.println(PrintColors.ANSI_CYAN + "    Incoming:");
-        for(Vertex vertex : graph.getVertices()) {
-            System.out.print(PrintColors.ANSI_CYAN + "      " + vertex + ": ");
-            for (DirectedEdge edge : incomingEdgesCircularOrdering.get(vertex))
-                System.out.print(PrintColors.ANSI_CYAN + edge + " ");
-            System.out.println();
-        }
         System.out.println(PrintColors.ANSI_CYAN + "    Outgoing:");
         for(Vertex vertex : graph.getVertices()) {
             System.out.print(PrintColors.ANSI_CYAN + "      " + vertex + ": ");
@@ -83,40 +74,11 @@ public class EmbeddingHolder {
             }
         }
 
-        //get all edges with vertex as target.
-        index = 0;
-        while(index < edgesCircular.size()){
-
-            DirectedEdge edge1 = edgesCircular.get((index+0)%edgesCircular.size());
-            DirectedEdge edge2 = edgesCircular.get((index+1)%edgesCircular.size());
-            index++;
-            if(edge1.getSource().equals(vertex) && edge2.getTarget().equals(vertex)) {
-
-                List<DirectedEdge> orderedEdgesCircularIncoming = incomingEdgesCircularOrdering.get(vertex);
-                for (int i = index; i < index + edgesCircular.size(); i++) {
-                    DirectedEdge edge = edgesCircular.get(i % edgesCircular.size());
-                    if(edge.getTarget().equals(vertex))
-                        orderedEdgesCircularIncoming.add(edge);
-                }
-                break;
-            }
-        }
-
         //in case nothing has been added (there are not incoming AND outgoing edges)
         for(DirectedEdge edge : edgesCircular){
             if(!outgoingEdgesCircularOrdering.get(vertex).contains(edge) && edge.getSource().equals(vertex))
                 outgoingEdgesCircularOrdering.get(vertex).add(edge);
-            if(!incomingEdgesCircularOrdering.get(vertex).contains(edge) && edge.getTarget().equals(vertex))
-                incomingEdgesCircularOrdering.get(vertex).add(edge);
         }
-    }
-
-
-
-
-
-    public List<DirectedEdge> getIncomingEdgesCircularOrdering(Vertex vertex){
-        return incomingEdgesCircularOrdering.get(vertex);
     }
 
 

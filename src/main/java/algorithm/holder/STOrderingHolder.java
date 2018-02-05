@@ -17,7 +17,7 @@ public class STOrderingHolder {
         this.stOrderingMap = new HashMap<>();
         Map<Vertex, Integer> incomingEdgesCounters = new HashMap<>();
         for(Vertex vertex : graph.getVertices())
-            incomingEdgesCounters.put(vertex, HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(vertex).size());
+            incomingEdgesCounters.put(vertex, graph.getEdgesWithTarget(vertex).size());
 
         orderVertices(HolderProvider.getSourceTargetGraphHolder().getSourceNode(), incomingEdgesCounters);
     }

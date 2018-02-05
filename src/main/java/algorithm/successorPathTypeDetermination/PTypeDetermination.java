@@ -42,7 +42,6 @@ public class PTypeDetermination implements ITypeDetermination {
         Vertex target = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(tcTreeNode);
         DirectedEdge sourceSinkEdge = augmentedGraph.getEdge(source, target);
         List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
-        List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
 
         //get index of start and end of the pert graph in the outgoing edges.
         int sourcePertStart = 0;
@@ -62,18 +61,6 @@ public class PTypeDetermination implements ITypeDetermination {
             edgeCount++;
         }
 
-        //get index of start and end of the pert graph in the incoming edges.
-        lastEdgeWasInPert = false;
-        int targetPertStart = -1;
-        edgeCount = 0;
-        for (DirectedEdge edge : incomingEdgesTarget) {
-            boolean thisEdgeIsInPert = pert.getEdge(edge.getSource(), edge.getTarget()) != null;
-            if (!lastEdgeWasInPert && thisEdgeIsInPert)
-                targetPertStart = edgeCount-1;
-            lastEdgeWasInPert = thisEdgeIsInPert;
-            edgeCount++;
-        }
-
 
         if(successorPathType.equals(SuccessorPathType.TYPE_M)){
 
@@ -82,10 +69,6 @@ public class PTypeDetermination implements ITypeDetermination {
                 //remove edge and add it at the last index so that it lies on the right path
                 outgoingEdgesSource.remove(sourceSinkEdge);
                 outgoingEdgesSource.add(sourcePertEnd-1, sourceSinkEdge);
-
-                //remove edge and add it on the first index so that it lies on the right path
-                incomingEdgesTarget.remove(sourceSinkEdge);
-                incomingEdgesTarget.add(targetPertStart + 1, sourceSinkEdge);
             }
 
             SuccessorConnector.connectSuccessorsLeftToRight(augmentedGraph, source, tcTree, tcTreeNode, outgoingEdgesSource.size()-1);
@@ -106,17 +89,6 @@ public class PTypeDetermination implements ITypeDetermination {
                 if(typeBPertOutgoingEdges.contains(edge)) {
                     outgoingEdgesSource.remove(edge);
                     outgoingEdgesSource.add(sourcePertEnd-1, edge);
-                }
-            }
-
-            //iterate over all incoming edges from right to left and if it is part of the typeB pertGraph, remove it and
-            //add it again on the insertIndex, which starts at zero (right path) and increases
-            int insertIndex = 0;
-            List<DirectedEdge> incomingEdgesCopy = new ArrayList<>(incomingEdgesTarget);
-            for(DirectedEdge edge : incomingEdgesCopy){
-                if(typeBPertIncomingEdges.contains(edge)){
-                    incomingEdgesTarget.remove(edge);
-                    incomingEdgesTarget.add(targetPertStart + 1 + insertIndex++, edge);
                 }
             }
 

@@ -22,41 +22,27 @@ public class SuccessorConnector {
         MultiDirectedGraph pert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
         Vertex pertSource = HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode);
         Vertex pertTarget = HolderProvider.getSourceTargetPertinentGraphsHolder().getTargetNode(tcTreeNode);
-        List<DirectedEdge> pertEdges = null;
-        List<DirectedEdge> allEdges = null;
+        List<DirectedEdge> pertEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
+        List<DirectedEdge> allEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(pertSource);
 
 
-        for(int loopCount = 0; loopCount < 2; loopCount++){
-
-            switch (loopCount){
-                case 0:
-                    pertEdges = new LinkedList<>(pert.getEdgesWithSource(pertSource));
-                    allEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(pertSource);
+        if(pertEdges.size() > 1){
+            int insertIndex = 0;
+            for(DirectedEdge edge : allEdges){
+                if(pertEdges.contains(edge))
                     break;
-                case 1:
-                    pertEdges = new ArrayList<>(pert.getEdgesWithTarget(pertTarget));
-                    allEdges = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(pertTarget);
-                    break;
+                insertIndex++;
             }
 
-            if(pertEdges.size() > 1){
-                int insertIndex = 0;
-                for(DirectedEdge edge : allEdges){
-                    if(pertEdges.contains(edge))
-                        break;
-                    insertIndex++;
-                }
-
-                List<DirectedEdge> temp = new ArrayList<>();
-                for(DirectedEdge edge : allEdges){
-                    if(pertEdges.contains(edge))
-                        temp.add(edge);
-                }
-                allEdges.removeAll(temp);
-
-                for(int i = temp.size()-1; i >= 0; i--)
-                    allEdges.add(insertIndex++, temp.get(i));
+            List<DirectedEdge> temp = new ArrayList<>();
+            for(DirectedEdge edge : allEdges){
+                if(pertEdges.contains(edge))
+                    temp.add(edge);
             }
+            allEdges.removeAll(temp);
+
+            for(int i = temp.size()-1; i >= 0; i--)
+                allEdges.add(insertIndex++, temp.get(i));
         }
 
 
@@ -72,13 +58,6 @@ public class SuccessorConnector {
             for(DirectedEdge edge : outgoingEdgesCopy){
                 outgoingEdges.add(0, edge);
             }
-
-            List<DirectedEdge> incomingEdges = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(vertex);
-            List<DirectedEdge> incomingEdgesCopy = new ArrayList<>(incomingEdges);
-            incomingEdges.clear();
-            for(DirectedEdge edge : incomingEdgesCopy){
-                incomingEdges.add(0, edge);
-            }
         }
     }
 
@@ -86,7 +65,7 @@ public class SuccessorConnector {
 
 
 
-    public static void connectWithTypeB(MultiDirectedGraph graph,
+    static void connectWithTypeB(MultiDirectedGraph graph,
                                   TCTree<DirectedEdge, Vertex> tcTree,
                                   TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                   Vertex vertex){
@@ -117,7 +96,7 @@ public class SuccessorConnector {
 
 
 
-    public static void connectWithBothTypes(MultiDirectedGraph graph,
+    static void connectWithBothTypes(MultiDirectedGraph graph,
                                       TCTree<DirectedEdge, Vertex> tcTree,
                                       TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                       TCTreeNode<DirectedEdge, Vertex> rl_Divider,
@@ -138,7 +117,7 @@ public class SuccessorConnector {
 
 
 
-    public static void connectWithOnlyOneType(MultiDirectedGraph graph,
+    static void connectWithOnlyOneType(MultiDirectedGraph graph,
                                         TCTree<DirectedEdge, Vertex> tcTree,
                                         TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
                                         Map<Vertex, List<List<DirectedEdge>>> facesOfSource,
@@ -167,7 +146,7 @@ public class SuccessorConnector {
     }
 
 
-    public static void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
+    static void connectSuccessorsLeftToRight(MultiDirectedGraph graph,
                                               Vertex vertex,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
@@ -201,12 +180,11 @@ public class SuccessorConnector {
                 DirectedEdge augmentedEdge = graph.addEdge(v1, v2);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v1).add(augmentedEdge);
-                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(v2).add(augmentedEdge);
             }
         }
     }
 
-    public static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
+    static void connectSuccessorsRightToLeft(MultiDirectedGraph graph,
                                               Vertex vertex,
                                               TCTree<DirectedEdge, Vertex> tcTree,
                                               TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
@@ -240,7 +218,6 @@ public class SuccessorConnector {
                 DirectedEdge augmentedEdge = graph.addEdge(v2, v1);
                 HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedEdge);
                 HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(v2).add(0, augmentedEdge);
-                HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(v1).add(0 ,augmentedEdge);
             }
         }
     }

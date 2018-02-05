@@ -36,11 +36,8 @@ public class AugmentationHolder {
         for(DirectedEdge augmentedEdge : augmentedEdges) {
             augmentedGraph.removeEdge(augmentedEdge);
             Vertex source = augmentedEdge.getSource();
-            Vertex target = augmentedEdge.getTarget();
             List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
             outgoingEdgesSource.remove(augmentedEdge);
-            List<DirectedEdge> incomingEdgesTarget = HolderProvider.getEmbeddingHolder().getIncomingEdgesCircularOrdering(target);
-            incomingEdgesTarget.remove(augmentedEdge);
         }
         augmentedGraph.removeVertex(augmentedSource);
 
