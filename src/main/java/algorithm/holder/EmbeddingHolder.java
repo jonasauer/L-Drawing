@@ -16,8 +16,6 @@ public class EmbeddingHolder {
     private Map<Edge, DirectedEdge> edge2DirectedEdge;
 
     private Map<Vertex, List<DirectedEdge>> outgoingEdgesCircularOrdering = new HashMap<>();
-    private List<List<DirectedEdge>> convertedFaces = null;
-    private List<DirectedEdge> outerFace = null;
     private PlanarEmbedding planarEmbedding;
 
     public EmbeddingHolder(MultiDirectedGraph graph){
@@ -28,7 +26,7 @@ public class EmbeddingHolder {
         planarEmbedding = new PlanarEmbedding(convertedGraph);
 
         for(Vertex vertex : graph.getVertices()) {
-            outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>());
+            outgoingEdgesCircularOrdering.put(vertex, new LinkedList<>()); //has to be a linked list because inserting at different positions is necessary.
             calculateOrderedEdgesCircular(vertex);
         }
     }

@@ -22,7 +22,7 @@ public class RTypeDetermination implements ITypeDetermination {
 
     private List<List<DirectedEdge>> skeletonFaces;
 
-    private Map<Vertex, List<List<DirectedEdge>>> facesOfSource;
+    private Map<Vertex, List<List<DirectedEdge>>> outgoingFacesOfVertices;
 
     private Map<List<DirectedEdge>, DirectedEdge> lEdgeOfFace;
     private Map<List<DirectedEdge>, DirectedEdge> rEdgeOfFace;
@@ -48,7 +48,7 @@ public class RTypeDetermination implements ITypeDetermination {
         this.augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
         this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRSkeleton(skeletonGraph, tcTreeNode);
 
-        this.facesOfSource = new HashMap<>();
+        this.outgoingFacesOfVertices = new HashMap<>();
 
         this.lEdgeOfFace = new HashMap<>();
         this.rEdgeOfFace = new HashMap<>();
@@ -60,12 +60,14 @@ public class RTypeDetermination implements ITypeDetermination {
 
         this.faceTypes = new HashMap<>();
 
-        calcSourceAndTargetOfFaces();
+        calculateSourceAndLREdgesOfFaces();
 
-        System.out.println(PrintColors.ANSI_YELLOW + "    ConnectVertices");
-        for(Vertex vertex : skeletonGraph.getVertices()){
-            connectVertices(vertex);
-        }
+        orderOutgoingFaces();
+
+        System.out.println(PrintColors.ANSI_YELLOW + "    Augment Graph");
+
+        augmentGraph();
+
 
         HolderProvider.getSuccessorPathTypeHolder().setNodeType(tcTreeNode, successorPathType);
         System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
@@ -109,17 +111,16 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
-    private void calcSourceAndTargetOfFaces(){
+    private void calculateSourceAndLREdgesOfFaces(){
 
         for(Vertex vertex : skeletonGraph.getVertices()){
-            facesOfSource.put(vertex, new ArrayList<>());
+            outgoingFacesOfVertices.put(vertex, new ArrayList<>());
         }
 
         for(List<DirectedEdge> face : skeletonFaces){
             Vertex source = null;
 
             for(int i = 0; i < face.size(); i++){
-                //TODO: make sure every face is an arraylist for constant access.
                 DirectedEdge edge1 = face.get((i  )%face.size());
                 DirectedEdge edge2 = face.get((i+1)%face.size());
                 if(edge1.getSource().equals(edge2.getSource())) {
@@ -132,12 +133,7 @@ public class RTypeDetermination implements ITypeDetermination {
                     break;
                 }
             }
-            facesOfSource.get(source).add(face);
-        }
-
-        //order the faces
-        for(Vertex vertex : skeletonGraph.getVertices()){
-            orderOutgoingFaces(facesOfSource.get(vertex));
+            outgoingFacesOfVertices.get(source).add(face);
         }
     }
 
@@ -172,7 +168,7 @@ public class RTypeDetermination implements ITypeDetermination {
     private List<DirectedEdge> getOutgoingEdgesOfSkeleton(Vertex vertex){
 
         List<DirectedEdge> outgoingEdges = new LinkedList<>();
-        List<List<DirectedEdge>> facesOfVertex = facesOfSource.get(vertex);
+        List<List<DirectedEdge>> facesOfVertex = outgoingFacesOfVertices.get(vertex);
 
         //add first edge
         List<DirectedEdge> firstFace = facesOfVertex.get(0);
@@ -189,37 +185,44 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
-    private List<List<DirectedEdge>> orderOutgoingFaces(List<List<DirectedEdge>> outgoingFacesList){
+    private void orderOutgoingFaces(){
 
-        if(outgoingFacesList.size() < 2)
-            return outgoingFacesList;
+        for(Vertex vertex : skeletonGraph.getVertices()) {
 
-        Set<List<DirectedEdge>> outgoingFacesSet = new HashSet<>(outgoingFacesList);
-        List<DirectedEdge> face = outgoingFacesList.get(0);
-        outgoingFacesList.clear();
-        outgoingFacesList.add(face);
-        outgoingFacesSet.remove(face);
-        DirectedEdge firstEdge = lEdgeOfFace.get(face);
-        DirectedEdge lastEdge = rEdgeOfFace.get(face);
+            List<List<DirectedEdge>> outgoingFacesList = outgoingFacesOfVertices.get(vertex);
+            Set<List<DirectedEdge>> outgoingFacesSet = new HashSet<>(outgoingFacesList);
+            DirectedEdge firstEdge = null;
+            DirectedEdge lastEdge = null;
 
-        while(!outgoingFacesSet.isEmpty()){
+            if (outgoingFacesList.size() < 2)
+                continue;
 
-            List<DirectedEdge> firstFace = lFaceOfEdge.get(firstEdge);
-            if(firstFace != null){
-                //TODO: make sure the list is a linkedList for constant insert time on index 0 and last
-                outgoingFacesList.add(0, firstFace);
-                firstEdge = lEdgeOfFace.get(firstFace);
-                outgoingFacesSet.remove(firstFace);
-            }
+            outgoingFacesOfVertices.replace(vertex, outgoingFacesList, new LinkedList<>());
+            outgoingFacesList = outgoingFacesOfVertices.get(vertex);
 
-            List<DirectedEdge> lastFace = rFaceOfEdge.get(lastEdge);
-            if(lastFace != null){
-                outgoingFacesList.add(lastFace);
-                lastEdge = rEdgeOfFace.get(lastFace);
-                outgoingFacesSet.remove(lastFace);
+            while (!outgoingFacesSet.isEmpty()) {
+                if(outgoingFacesList.isEmpty()){
+                    List<DirectedEdge> face = outgoingFacesSet.iterator().next();
+                    outgoingFacesList.add(face);
+                    outgoingFacesSet.remove(face);
+                    firstEdge = lEdgeOfFace.get(face);
+                    lastEdge = rEdgeOfFace.get(face);
+                    continue;
+                }
+                List<DirectedEdge> firstFace = lFaceOfEdge.get(firstEdge);
+                if (firstFace != null) {
+                    outgoingFacesList.add(0, firstFace);
+                    firstEdge = lEdgeOfFace.get(firstFace);
+                    outgoingFacesSet.remove(firstFace);
+                }
+                List<DirectedEdge> lastFace = rFaceOfEdge.get(lastEdge);
+                if (lastFace != null) {
+                    outgoingFacesList.add(lastFace);
+                    lastEdge = rEdgeOfFace.get(lastFace);
+                    outgoingFacesSet.remove(lastFace);
+                }
             }
         }
-        return outgoingFacesList;
     }
 
 
@@ -228,73 +231,75 @@ public class RTypeDetermination implements ITypeDetermination {
 
 
 
-    private void connectVertices(Vertex vertex) throws LDrawingNotPossibleException {
+    private void augmentGraph() throws LDrawingNotPossibleException {
 
+        for(Vertex vertex : skeletonGraph.getVertices()) {
 
-        TCTreeNode<DirectedEdge, Vertex> typeBNode = null;
-        DirectedEdge typeBEdge = null;
-        boolean bothTypeOfFacesContained = false;
-        List<List<DirectedEdge>> outgoingFaces = facesOfSource.get(vertex);
-
-        if(outgoingFaces.isEmpty())
-            return;
-
-        System.out.println(PrintColors.ANSI_YELLOW + "      Vertex " + vertex + ": ");
-        for(List<DirectedEdge> face : outgoingFaces){
-            System.out.print(PrintColors.ANSI_YELLOW + "        Face: ");
-            for(DirectedEdge edge : face)
-                System.out.print(PrintColors.ANSI_YELLOW + edge + "  ");
-            System.out.println();
-        }
-
-        //check if there is more than one type B child.
-        for(DirectedEdge edge : getOutgoingEdgesOfSkeleton(vertex)){
-            TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
-            if(HolderProvider.getSuccessorPathTypeHolder().getNodeType(child).equals(SuccessorPathType.TYPE_B)){
-                if(typeBNode != null)
-                    throw new LDrawingNotPossibleException("R-Node contains two children assigned with Type-B that have the same source.");
-                typeBNode = child;
-                typeBEdge = edge;
-                successorPathType = SuccessorPathType.TYPE_B;
-            }
-        }
-
-        //check if all R faces are before typeB node and all L faces are after typeB node.
-        if(typeBEdge != null && faceTypes.get(lFaceOfEdge.get(typeBEdge)).equals(FaceType.TYPE_L)){
-            throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the right edge of a face assigned with Type-L. Vertex: " + vertex.getName());
-        }
-        if(typeBEdge != null && faceTypes.get(rFaceOfEdge.get(typeBEdge)).equals(FaceType.TYPE_R)){
-            throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the left edge of a face assigned with Type-R. Vertex: " + vertex.getName());
-        }
-
-        //check if all faces with type L are after all faces with type R.
-        TCTreeNode<DirectedEdge, Vertex> nodeWithApex = null;
-        List<DirectedEdge> face1 = null;
-        List<DirectedEdge> face2 = null;
-        for(List<DirectedEdge> face : outgoingFaces) {
-
-            face1 = face2;
-            face2 = face;
-            if(face1 == null || face2 == null)
+            List<List<DirectedEdge>> outgoingFacesOfVertex = outgoingFacesOfVertices.get(vertex);
+            if (outgoingFacesOfVertex.isEmpty())
                 continue;
-            if (faceTypes.get(face1).equals(FaceType.TYPE_L) && faceTypes.get(face2).equals(FaceType.TYPE_R))
-                throw new LDrawingNotPossibleException("R-Node contains a vertex with a face assigned with Type-L placed before a face assigned with Type-R.");
-            if (faceTypes.get(face1).equals(FaceType.TYPE_R) && faceTypes.get(face2).equals(FaceType.TYPE_L)) {
-                bothTypeOfFacesContained = true;
-                successorPathType = SuccessorPathType.TYPE_B;
-                nodeWithApex = virtualEdgeToTCTreeNode.get(rEdgeOfFace.get(face1));
-            }
-        }
 
-        if(typeBNode != null){
-            SuccessorConnector.connectWithTypeB(augmentedGraph, tcTree, tcTreeNode, vertex);
-            System.out.println(PrintColors.ANSI_YELLOW + "        Finished with TypeB in successors!");
-        }else if(bothTypeOfFacesContained){
-            SuccessorConnector.connectWithBothTypes(augmentedGraph, tcTree, tcTreeNode, nodeWithApex, vertex);
-            System.out.println(PrintColors.ANSI_YELLOW + "        Finished with both types of faces!");
-        }else{
-            SuccessorConnector.connectWithOnlyOneType(augmentedGraph, tcTree, tcTreeNode, facesOfSource, faceTypes, vertex);
-            System.out.println(PrintColors.ANSI_YELLOW + "        Finished with only one type of faces!");
+            TCTreeNode<DirectedEdge, Vertex> typeBNode = null;
+            DirectedEdge typeBEdge = null;
+            boolean bothTypeOfFacesContained = false;
+
+            System.out.println(PrintColors.ANSI_YELLOW + "      Vertex " + vertex + ": ");
+            for (List<DirectedEdge> face : outgoingFacesOfVertex) {
+                System.out.print(PrintColors.ANSI_YELLOW + "        Face: ");
+                for (DirectedEdge edge : face)
+                    System.out.print(PrintColors.ANSI_YELLOW + edge + "  ");
+                System.out.println();
+            }
+
+            //check if there is more than one type B child.
+            for (DirectedEdge edge : getOutgoingEdgesOfSkeleton(vertex)) {
+                TCTreeNode<DirectedEdge, Vertex> child = virtualEdgeToTCTreeNode.get(edge);
+                if (HolderProvider.getSuccessorPathTypeHolder().getNodeType(child).equals(SuccessorPathType.TYPE_B)) {
+                    if (typeBNode != null)
+                        throw new LDrawingNotPossibleException("R-Node contains two children assigned with Type-B that have the same source.");
+                    typeBNode = child;
+                    typeBEdge = edge;
+                    successorPathType = SuccessorPathType.TYPE_B;
+                }
+            }
+
+            //check if all R faces are before typeB node and all L faces are after typeB node.
+            if (typeBEdge != null && faceTypes.get(lFaceOfEdge.get(typeBEdge)).equals(FaceType.TYPE_L)) {
+                throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the right edge of a face assigned with Type-L. Vertex: " + vertex.getName());
+            }
+            if (typeBEdge != null && faceTypes.get(rFaceOfEdge.get(typeBEdge)).equals(FaceType.TYPE_R)) {
+                throw new LDrawingNotPossibleException("R-Node contains a child assigned with Type-B that is the left edge of a face assigned with Type-R. Vertex: " + vertex.getName());
+            }
+
+            //check if all faces with type L are after all faces with type R.
+            TCTreeNode<DirectedEdge, Vertex> nodeWithApex = null;
+            List<DirectedEdge> face1 = null;
+            List<DirectedEdge> face2 = null;
+
+            for (List<DirectedEdge> face : outgoingFacesOfVertex) {
+                face1 = face2;
+                face2 = face;
+                if (face1 == null || face2 == null)
+                    continue;
+                if (faceTypes.get(face1).equals(FaceType.TYPE_L) && faceTypes.get(face2).equals(FaceType.TYPE_R))
+                    throw new LDrawingNotPossibleException("R-Node contains a vertex with a face assigned with Type-L placed before a face assigned with Type-R.");
+                if (faceTypes.get(face1).equals(FaceType.TYPE_R) && faceTypes.get(face2).equals(FaceType.TYPE_L)) {
+                    bothTypeOfFacesContained = true;
+                    successorPathType = SuccessorPathType.TYPE_B;
+                    nodeWithApex = virtualEdgeToTCTreeNode.get(rEdgeOfFace.get(face1));
+                }
+            }
+
+            if (typeBNode != null) {
+                SuccessorConnector.connectWithTypeB(augmentedGraph, tcTree, tcTreeNode, vertex);
+                System.out.println(PrintColors.ANSI_YELLOW + "        Finished with TypeB in successors!");
+            } else if (bothTypeOfFacesContained) {
+                SuccessorConnector.connectWithBothTypes(augmentedGraph, tcTree, tcTreeNode, nodeWithApex, vertex);
+                System.out.println(PrintColors.ANSI_YELLOW + "        Finished with both types of faces!");
+            } else {
+                SuccessorConnector.connectWithOnlyOneType(augmentedGraph, tcTree, tcTreeNode, outgoingFacesOfVertices, faceTypes, vertex);
+                System.out.println(PrintColors.ANSI_YELLOW + "        Finished with only one type of faces!");
+            }
         }
     }
 }

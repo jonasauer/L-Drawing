@@ -81,7 +81,6 @@ public class PTypeDetermination implements ITypeDetermination {
             MultiDirectedGraph typeBPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(optTypeBNode);
 
             List<DirectedEdge> typeBPertOutgoingEdges = new LinkedList<>(typeBPert.getEdgesWithSource(source));
-            List<DirectedEdge> typeBPertIncomingEdges = new LinkedList<>(typeBPert.getEdgesWithTarget(target));
 
             //iterate over all outgoing edges and if it is part of the typeB pertGraph, remove it and add it again.
             List<DirectedEdge> outgoingEdgesCopy = new ArrayList<>(outgoingEdgesSource);
