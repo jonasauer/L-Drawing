@@ -15,184 +15,191 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="borderPane_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.application.GUIController">
-   <top>
-      <VBox styleClass="background" BorderPane.alignment="CENTER">
-         <children>
-            <MenuBar styleClass="menuBar">
-              <menus>
-                <Menu text="File">
-                  <items>
-                        <MenuItem onAction="#handleOpen" text="Open" />
-                    <MenuItem onAction="#handleSave" text="Save" />
-                        <MenuItem onAction="#handleSaveAs" text="Save as ..." />
-                        <SeparatorMenuItem />
-                        <MenuItem onAction="#handleClose" text="Close" />
-                  </items>
-                </Menu>
-                <Menu text="Edit">
-                  <items>
-                        <MenuItem onAction="#handleUndo" text="Undo" />
-                        <MenuItem onAction="#handleRedo" text="Redo" />
-                        <SeparatorMenuItem />
-                        <MenuItem onAction="#handleCut" text="Cut" />
-                        <MenuItem onAction="#handleCopy" text="Copy" />
-                        <MenuItem onAction="#handlePaste" text="Paste" />
-                    <MenuItem onAction="#handleDelete" text="Delete" />
-                        <SeparatorMenuItem />
-                        <MenuItem onAction="#handleSelectAll" text="Select all" />
-                  </items>
-                </Menu>
-                <Menu text="Help">
-                  <items>
-                    <MenuItem onAction="#handleAbout" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="background">
-              <items>
-                  <Button onAction="#handleOpen" styleClass="defaultButton">
-                     <graphic>
-                        <ImageView>
-                            <Image url="@/main/resources/icons/open.png" />
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button onAction="#handleSave" styleClass="defaultButton">
-                     <graphic>
-                         <ImageView>
-                             <Image url="@/main/resources/icons/save.png" />
-                         </ImageView>
-                     </graphic>
-                  </Button>
-                  <Separator orientation="VERTICAL" prefWidth="10.0">
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding>
-                  </Separator>
-                  <Button onAction="#handleCut" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/cut.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handleCopy" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/copy.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handlePaste" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/paste.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handleDelete" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/delete.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Separator orientation="VERTICAL" prefWidth="10.0">
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding>
-                  </Separator>
-                  <Button fx:id="button_undo" onAction="#handleUndo" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/undo.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button fx:id="button_redo" onAction="#handleRedo" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/redo.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Separator orientation="VERTICAL" prefWidth="10.0">
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding>
-                  </Separator>
-                  <Button onAction="#handleZoomIn" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/zoomOut.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handleZoomOut" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/zoomIn.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handleResetZoom" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/zoomOriginal.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Button onAction="#handleCenterViewPort" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/fitBounds.png" />
-                          </ImageView>
-                      </graphic>
-                  </Button>
-                  <Separator orientation="VERTICAL" prefWidth="10.0">
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding>
-                  </Separator>
-                  <ToggleButton fx:id="toggleButton_orthogonalEdges" onAction="#handleOrthogonal" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/orthogonalEdges.png" />
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="toggleButton_showGrid" onAction="#handleGrid" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/grid.png" />
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="toggleButton_Snapping" layoutX="641.0" layoutY="13.0" onAction="#handleSnapping" styleClass="defaultButton">
-                      <graphic>
-                          <ImageView>
-                              <Image url="@/main/resources/icons/snap.png" />
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
-                  <Separator orientation="VERTICAL" prefWidth="10.0">
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding>
-                  </Separator>
-                  <ToggleButton fx:id="toggleButton_LDrawing" onAction="#handleLDrawing" styleClass="defaultButton" text="L-Drawing">
-                     <graphic>
-                        <ImageView>
-                           <image>
-                              <Image url="@/main/resources/icons/snap.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-              </items>
-            </ToolBar>
-         </children>
-      </VBox>
-   </top>
+    <top>
+        <VBox styleClass="background" BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar styleClass="menuBar">
+                    <menus>
+                        <Menu text="File">
+                            <items>
+                                <MenuItem onAction="#handleOpen" text="Open" />
+                                <MenuItem onAction="#handleSave" text="Save" />
+                                <MenuItem onAction="#handleSaveAs" text="Save as ..." />
+                                <SeparatorMenuItem />
+                                <MenuItem onAction="#handleClose" text="Close" />
+                            </items>
+                        </Menu>
+                        <Menu text="Edit">
+                            <items>
+                                <MenuItem fx:id="menuItem_Undo" onAction="#handleUndo" text="Undo" />
+                                <MenuItem fx:id="menuItem_Redo" onAction="#handleRedo" text="Redo" />
+                                <SeparatorMenuItem />
+                                <MenuItem onAction="#handleCut" text="Cut" />
+                                <MenuItem onAction="#handleCopy" text="Copy" />
+                                <MenuItem onAction="#handlePaste" text="Paste" />
+                                <MenuItem onAction="#handleDelete" text="Delete" />
+                                <SeparatorMenuItem />
+                                <MenuItem onAction="#handleSelectAll" text="Select all" />
+                            </items>
+                        </Menu>
+                        <Menu text="Help">
+                            <items>
+                                <MenuItem onAction="#handleAbout" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="background">
+                    <items>
+                        <Button onAction="#handleOpen" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/open.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleSave" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/save.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <Button onAction="#handleCut" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/cut.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleCopy" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/copy.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handlePaste" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/paste.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleDelete" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/delete.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <Button fx:id="button_undo" onAction="#handleUndo" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/undo.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="button_redo" onAction="#handleRedo" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/redo.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <Button onAction="#handleZoomIn" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/zoomOut.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleZoomOut" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/zoomIn.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleResetZoom" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/zoomOriginal.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#handleCenterViewPort" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/fitBounds.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <ToggleButton fx:id="toggleButton_orthogonalEdges" onAction="#handleOrthogonal" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/orthogonalEdges.png" />
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleButton_showGrid" onAction="#handleGrid" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/grid.png" />
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toggleButton_Snapping" layoutX="641.0" layoutY="13.0" onAction="#handleSnapping" styleClass="defaultButton">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@/main/resources/icons/snap.png" />
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <Button onAction="#handleResetIndex" styleClass="defaultButton" text="Reset Index"/>
+                        <Button onAction="#handleMaxIndex" styleClass="defaultButton" text="Max Index"/>
+                        <Separator orientation="VERTICAL" prefWidth="10.0">
+                            <padding>
+                                <Insets left="2.0" />
+                            </padding>
+                        </Separator>
+                        <ToggleButton fx:id="toggleButton_LDrawing" onAction="#handleLDrawing" styleClass="defaultButton" text="L-Drawing">
+                            <graphic>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@/main/resources/icons/LD.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
+                    </items>
+                </ToolBar>
+            </children>
+        </VBox>
+    </top>
 </BorderPane>

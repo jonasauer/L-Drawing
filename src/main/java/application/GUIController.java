@@ -42,6 +42,10 @@ public class GUIController {
     private ToggleButton toggleButton_orthogonalEdges;
     @FXML
     private ToggleButton toggleButton_LDrawing;
+    @FXML
+    private MenuItem menuItem_Undo;
+    @FXML
+    private MenuItem menuItem_Redo;
 
     private IGraph graph;
 
@@ -49,7 +53,7 @@ public class GUIController {
     private GraphSnapContext graphSnapContext;
     private LabelSnapContext labelSnapContext;
 
-    private static int nodes = 1;
+    private static int NODES = 0;
     private static final int BEND_SIZE = 10;
 
 
@@ -67,6 +71,7 @@ public class GUIController {
         initializeGrid();
         initializeIOInteractions();
         initializeStyle();
+        updateUndoRedo();
     }
 
     void onLoaded(){
@@ -79,7 +84,8 @@ public class GUIController {
         GraphEditorInputMode graphEditorInputMode = new GraphEditorInputMode();
         graphEditorInputMode.setGroupingOperationsAllowed(true);
         graphEditorInputMode.addNodeCreatedListener((source, args) -> {
-            graph.addLabel(args.getItem(), "" + nodes++);
+            graph.addLabel(args.getItem(), "" + NODES++);
+            updateUndoRedo();
         });
 
         graphControl.setInputMode(graphEditorInputMode);
@@ -133,6 +139,13 @@ public class GUIController {
         edgeStyle.setTargetArrow(new Arrow(ArrowType.DEFAULT, Color.WHITE));
         edgeStyle.setPen(Pen.getWhite());
         this.graphControl.getGraph().getEdgeDefaults().setStyle(edgeStyle);
+    }
+
+    private void updateUndoRedo(){
+        button_undo.setDisable(!graph.getUndoEngine().canUndo());
+        button_redo.setDisable(!graph.getUndoEngine().canRedo());
+        menuItem_Undo.setDisable(!graph.getUndoEngine().canUndo());
+        menuItem_Redo.setDisable(!graph.getUndoEngine().canRedo());
     }
 
     private boolean isGridVisible() {
@@ -267,7 +280,7 @@ public class GUIController {
 
     @FXML
     void handleAbout() {
-        //TODO: implement me
+
     }
 
     @FXML
@@ -304,6 +317,7 @@ public class GUIController {
     void handleOpen() {
 
         ICommand.OPEN.execute(null, graphControl);
+        handleMaxIndex();
     }
 
     @FXML
@@ -318,6 +332,8 @@ public class GUIController {
         ICommand.REDO.execute(null, graphControl);
         button_undo.setDisable(!graph.getUndoEngine().canUndo());
         button_redo.setDisable(!graph.getUndoEngine().canRedo());
+        menuItem_Undo.setDisable(!graph.getUndoEngine().canUndo());
+        menuItem_Redo.setDisable(!graph.getUndoEngine().canRedo());
     }
 
     @FXML
@@ -362,5 +378,15 @@ public class GUIController {
     void handleZoomOut() {
 
         graphControl.setZoom(graphControl.getZoom() * 1.25);
+    }
+
+    @FXML
+    void handleResetIndex(){
+        NODES = 0;
+    }
+
+    @FXML
+    void handleMaxIndex(){
+        NODES = graphControl.getGraph().getNodes().size();
     }
 }
