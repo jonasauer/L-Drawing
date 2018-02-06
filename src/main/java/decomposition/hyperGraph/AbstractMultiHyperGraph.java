@@ -150,6 +150,11 @@ public class AbstractMultiHyperGraph <E extends IHyperEdge<V>,V extends IVertex>
 		return (result==null) ? (Collections.<V>emptyList()) : (new ArrayList<V>(result));
 	}
 
+	public Set<V> vertexSet() {
+		Collection<V> result = this.vertices.keySet();
+		return new HashSet<>(result);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see de.hpi.bpt.hypergraph.abs.IHyperGraph#getEdges()

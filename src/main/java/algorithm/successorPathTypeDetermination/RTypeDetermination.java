@@ -46,7 +46,7 @@ public class RTypeDetermination implements ITypeDetermination {
         this.tcTree = tcTree;
         this.skeletonGraph = convertSkeletonToGraph();
         this.augmentedGraph = HolderProvider.getAugmentationHolder().getAugmentedGraph();
-        this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRNode(tcTreeNode, skeletonGraph);
+        this.skeletonFaces = HolderProvider.getEmbeddingHolder().getFacesOfRSkeleton(skeletonGraph, tcTreeNode);
 
         this.facesOfSource = new HashMap<>();
 

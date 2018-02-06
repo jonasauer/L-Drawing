@@ -56,28 +56,22 @@ public class EmbeddingHolder {
             edgesCircular.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
 
         //get all the edges with vertex as source.
-        int index = 0;
-        while(index < edgesCircular.size()){
+        int start = 0;
+        for(; start < edgesCircular.size(); start++){
 
-            DirectedEdge edge1 = edgesCircular.get((index+0)%edgesCircular.size());
-            DirectedEdge edge2 = edgesCircular.get((index+1)%edgesCircular.size());
-            index++;
+            DirectedEdge edge1 = edgesCircular.get((start  )%edgesCircular.size());
+            DirectedEdge edge2 = edgesCircular.get((start+1)%edgesCircular.size());
+
             if(edge1.getTarget().equals(vertex) && edge2.getSource().equals(vertex)) {
-
-                List<DirectedEdge> orderedEdgesCircularOutgoing = outgoingEdgesCircularOrdering.get(vertex);
-                for (int i = index; i < index + edgesCircular.size(); i++) {
-                    DirectedEdge edge = edgesCircular.get(i % edgesCircular.size());
-                    if(edge.getSource().equals(vertex))
-                        orderedEdgesCircularOutgoing.add(edge);
-                }
                 break;
             }
         }
 
-        //in case nothing has been added (there are not incoming AND outgoing edges)
-        for(DirectedEdge edge : edgesCircular){
-            if(!outgoingEdgesCircularOrdering.get(vertex).contains(edge) && edge.getSource().equals(vertex))
-                outgoingEdgesCircularOrdering.get(vertex).add(edge);
+        List<DirectedEdge> orderedEdgesCircularOutgoing = outgoingEdgesCircularOrdering.get(vertex);
+        for (int i = start; i < start + edgesCircular.size(); i++) {
+            DirectedEdge edge = edgesCircular.get(i % edgesCircular.size());
+            if(edge.getSource().equals(vertex))
+                orderedEdgesCircularOutgoing.add(edge);
         }
     }
 
@@ -93,96 +87,58 @@ public class EmbeddingHolder {
 
 
 
-    public List<List<DirectedEdge>> getFaces(){
+    public List<List<DirectedEdge>> getFacesOfRSkeleton(MultiDirectedGraph skeleton, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
-        if(convertedFaces != null)
-            return convertedFaces;
+        Set<Vertex> pertVertexSet = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode).vertexSet();
+        Set<Vertex> skeletonVertexSet = skeleton.vertexSet();
+        List<List<Vertex>> verticesOfFaces = new ArrayList<>();
 
-        convertedFaces = new LinkedList<>();
         for(List<Dart> face : planarEmbedding.getFaces()){
+            List<Vertex> verticesOfFaceList = new ArrayList<>();
+            Set<Vertex> verticesOfFaceSet = new HashSet<>();
+            boolean faceIsOutsideOfPert = false;
 
-            if(face.equals(planarEmbedding.getOuterFace()))
-                continue;
-
-            List<DirectedEdge> convertedFace = new LinkedList<>();
-            for(Dart dart : face)
-                convertedFace.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
-
-            convertedFaces.add(convertedFace);
-        }
-        return convertedFaces;
-    }
-
-
-
-
-
-    public List<DirectedEdge> getOuterFace(){
-
-        if(outerFace != null)
-            return outerFace;
-
-        List<Dart> outerFace = planarEmbedding.getOuterFace();
-        this.outerFace = new LinkedList<>();
-        for(Dart dart : outerFace){
-            this.outerFace.add(edge2DirectedEdge.get(dart.getAssociatedEdge()));
-        }
-        return this.outerFace;
-    }
-
-
-
-    public List<List<DirectedEdge>> getFacesOfRNode(TCTreeNode<DirectedEdge, Vertex> tcTreeNode, MultiDirectedGraph skeleton){
-
-
-        MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
-
-        //determine all faces of the pertinent graph
-        List<List<Dart>> allFacesOfPert = new LinkedList<>();
-        for(List<Dart> face : planarEmbedding.getFaces()){
-            boolean isFaceOfPert = true;
             for(Dart dart : face){
-                if(!rPert.contains(edge2DirectedEdge.get(dart.getAssociatedEdge())))
-                    isFaceOfPert = false;
-            }
-            if(isFaceOfPert)
-                allFacesOfPert.add(new LinkedList<>(face));
-        }
-
-        //determine if a face is also a face of the skeleton and if so, determine the relevant vertices.
-        List<List<Vertex>> allFacesOfSkeleton = new LinkedList<>();
-        for(List<Dart> face : allFacesOfPert){
-            List<Vertex> realFaceVertices = new LinkedList<>();
-            for(Dart dart : face){
-                DirectedEdge edge = edge2DirectedEdge.get(dart.getAssociatedEdge());
-                if(!dart.isReversed()){
-                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
-                        realFaceVertices.add(edge.getSource());
-                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
-                        realFaceVertices.add(edge.getTarget());
-                }else{
-                    if(skeleton.getVertices().contains(edge.getTarget()) && !realFaceVertices.contains(edge.getTarget()))
-                        realFaceVertices.add(edge.getTarget());
-                    if(skeleton.getVertices().contains(edge.getSource()) && !realFaceVertices.contains(edge.getSource()))
-                        realFaceVertices.add(edge.getSource());
+                Vertex source = edge2DirectedEdge.get(dart.getAssociatedEdge()).getSource();
+                Vertex target = edge2DirectedEdge.get(dart.getAssociatedEdge()).getTarget();
+                if(!pertVertexSet.contains(source) || !pertVertexSet.contains(target)){
+                    faceIsOutsideOfPert = true;
+                    break;
+                }
+                if (!dart.isReversed() && skeletonVertexSet.contains(source) && !verticesOfFaceSet.contains(source)) {
+                    verticesOfFaceList.add(source);
+                    verticesOfFaceSet.add(source);
+                }
+                if (!dart.isReversed() && skeletonVertexSet.contains(target) && !verticesOfFaceSet.contains(target)) {
+                    verticesOfFaceList.add(target);
+                    verticesOfFaceSet.add(target);
+                }
+                if (dart.isReversed() && skeletonVertexSet.contains(target) && !verticesOfFaceSet.contains(target)) {
+                    verticesOfFaceList.add(target);
+                    verticesOfFaceSet.add(target);
+                }
+                if (dart.isReversed() && skeletonVertexSet.contains(source) && !verticesOfFaceSet.contains(source)) {
+                    verticesOfFaceList.add(source);
+                    verticesOfFaceSet.add(source);
                 }
             }
-            if(realFaceVertices.size() >= 3)
-                allFacesOfSkeleton.add(realFaceVertices);
+            if(verticesOfFaceList.size() >= 3 && !faceIsOutsideOfPert)
+                verticesOfFaces.add(verticesOfFaceList);
         }
 
-        List<List<DirectedEdge>> skeletonFaces = new LinkedList<>();
-        for(List<Vertex> faceVertices : allFacesOfSkeleton){
-            List<DirectedEdge> face = new LinkedList<>();
-            for(int i = 0; i < faceVertices.size(); i++){
-                Vertex v1 = faceVertices.get((i+0)%faceVertices.size());
-                Vertex v2 = faceVertices.get((i+1)%faceVertices.size());
+
+        List<List<DirectedEdge>> faces = new ArrayList<>();
+
+        for(List<Vertex> verticesOfFace : verticesOfFaces){
+            List<DirectedEdge> face = new ArrayList<>();
+            for(int i = 0; i < verticesOfFace.size(); i++){
+                Vertex v1 = verticesOfFace.get((i  )%verticesOfFace.size());
+                Vertex v2 = verticesOfFace.get((i+1)%verticesOfFace.size());
                 face.add(skeleton.getEdge(v1, v2));
             }
-            skeletonFaces.add(face);
+            faces.add(face);
         }
-
-        return skeletonFaces;
+        return faces;
     }
 }
 
