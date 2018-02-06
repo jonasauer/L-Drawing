@@ -22,7 +22,7 @@ public class MainApplication  extends Application {
         stage.setMinWidth(200);
         stage.setMinHeight(200);
         stage.setTitle("L-Drawings");
-        stage.getIcons().add(new Image("/main/resources/icons/Red1_.png"));
+        stage.getIcons().add(new Image("/main/resources/icons/applicationIcon.png"));
         stage.setScene(scene);
 
         stage.show();
