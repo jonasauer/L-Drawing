@@ -37,8 +37,6 @@ public class RTypeDetermination implements ITypeDetermination {
         System.out.println(PrintColors.ANSI_RED + "---------------------------");
         System.out.println(PrintColors.ANSI_RED + "RType Determination! Source Vertex is " + HolderProvider.getSourceTargetPertinentGraphsHolder().getSourceNode(tcTreeNode));
 
-
-
         this.tcTreeNode = tcTreeNode;
         this.tcTree = tcTree;
         this.skeletonGraph = convertSkeletonToGraph();
@@ -50,9 +48,9 @@ public class RTypeDetermination implements ITypeDetermination {
         this.lFaceOfEdge = new HashMap<>();
         this.rFaceOfEdge = new HashMap<>();
 
-        this.virtualEdgeToTCTreeNode = calcTCNodeOfVirtualEdge();
-
         this.faceTypes = new HashMap<>();
+
+        this.virtualEdgeToTCTreeNode = calcTCNodeOfVirtualEdge();
 
         calculateSourceAndLREdgesOfFaces();
 
@@ -61,7 +59,6 @@ public class RTypeDetermination implements ITypeDetermination {
         System.out.println(PrintColors.ANSI_YELLOW + "    Augment Graph");
 
         augmentGraph();
-
 
         HolderProvider.getSuccessorPathTypeHolder().setNodeType(tcTreeNode, successorPathType);
         System.out.println(PrintColors.ANSI_GREEN + "    SucessorPathType: " + successorPathType);
