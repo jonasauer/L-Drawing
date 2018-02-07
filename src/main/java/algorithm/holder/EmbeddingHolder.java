@@ -87,56 +87,65 @@ public class EmbeddingHolder {
 
     public List<List<DirectedEdge>> getFacesOfRSkeleton(MultiDirectedGraph skeleton, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
-        Set<Vertex> pertVertexSet = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode).vertexSet();
-        Set<Vertex> skeletonVertexSet = skeleton.vertexSet();
-        List<List<Vertex>> verticesOfFaces = new ArrayList<>();
+        MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
 
+        //determine all faces of the pertinent graph
+        Set<List<Dart>> facesOfPert = new HashSet<>();
         for(List<Dart> face : planarEmbedding.getFaces()){
-            List<Vertex> verticesOfFaceList = new ArrayList<>();
-            Set<Vertex> verticesOfFaceSet = new HashSet<>();
-            boolean faceIsOutsideOfPert = false;
+            facesOfPert.add(face);
+            for(Dart dart : face){
+                if(!rPert.contains(edge2DirectedEdge.get(dart.getAssociatedEdge()))) {//TODO: make hashcode and do that with hashset
+                    facesOfPert.remove(face);
+                    break;
+                }
+            }
+        }
 
+        //determine if a face is also a face of the skeleton and if so, determine the relevant vertices.
+        Set<Vertex> skeletonVertexSet = skeleton.vertexSet();
+        List<List<Vertex>> relevantVerticesOfFaces = new ArrayList<>();
+        for(List<Dart> face : facesOfPert){
+            List<Vertex> relevantVerticesOfFaceList = new ArrayList<>();
+            Set<Vertex> relevantVerticesOfFaceSet = new HashSet<>();
             for(Dart dart : face){
                 Vertex source = edge2DirectedEdge.get(dart.getAssociatedEdge()).getSource();
                 Vertex target = edge2DirectedEdge.get(dart.getAssociatedEdge()).getTarget();
-                if(!pertVertexSet.contains(source) || !pertVertexSet.contains(target)){
-                    faceIsOutsideOfPert = true;
-                    break;
-                }
-                if (!dart.isReversed() && skeletonVertexSet.contains(source) && !verticesOfFaceSet.contains(source)) {
-                    verticesOfFaceList.add(source);
-                    verticesOfFaceSet.add(source);
-                }
-                if (!dart.isReversed() && skeletonVertexSet.contains(target) && !verticesOfFaceSet.contains(target)) {
-                    verticesOfFaceList.add(target);
-                    verticesOfFaceSet.add(target);
-                }
-                if (dart.isReversed() && skeletonVertexSet.contains(target) && !verticesOfFaceSet.contains(target)) {
-                    verticesOfFaceList.add(target);
-                    verticesOfFaceSet.add(target);
-                }
-                if (dart.isReversed() && skeletonVertexSet.contains(source) && !verticesOfFaceSet.contains(source)) {
-                    verticesOfFaceList.add(source);
-                    verticesOfFaceSet.add(source);
+                if(!dart.isReversed()){
+                    if(skeletonVertexSet.contains(source) && !relevantVerticesOfFaceSet.contains(source)) {
+                        relevantVerticesOfFaceList.add(source);
+                        relevantVerticesOfFaceSet.add(source);
+                    }
+                    if(skeletonVertexSet.contains(target) && !relevantVerticesOfFaceSet.contains(target)) {
+                        relevantVerticesOfFaceList.add(target);
+                        relevantVerticesOfFaceSet.add(target);
+                    }
+                }else{
+                    if(skeletonVertexSet.contains(target) && !relevantVerticesOfFaceSet.contains(target)) {
+                        relevantVerticesOfFaceList.add(target);
+                        relevantVerticesOfFaceSet.add(target);
+                    }
+                    if(skeletonVertexSet.contains(source) && !relevantVerticesOfFaceSet.contains(source)) {
+                        relevantVerticesOfFaceList.add(source);
+                        relevantVerticesOfFaceSet.add(source);
+                    }
                 }
             }
-            if(verticesOfFaceList.size() >= 3 && !faceIsOutsideOfPert)
-                verticesOfFaces.add(verticesOfFaceList);
+            if(relevantVerticesOfFaceList.size() >= 3)
+                relevantVerticesOfFaces.add(relevantVerticesOfFaceList);
         }
 
-
-        List<List<DirectedEdge>> faces = new ArrayList<>();
-
-        for(List<Vertex> verticesOfFace : verticesOfFaces){
+        List<List<DirectedEdge>> skeletonFaces = new ArrayList<>();
+        for(List<Vertex> faceVertices : relevantVerticesOfFaces){
             List<DirectedEdge> face = new ArrayList<>();
-            for(int i = 0; i < verticesOfFace.size(); i++){
-                Vertex v1 = verticesOfFace.get((i  )%verticesOfFace.size());
-                Vertex v2 = verticesOfFace.get((i+1)%verticesOfFace.size());
+            for(int i = 0; i < faceVertices.size(); i++){
+                Vertex v1 = faceVertices.get((i+0)%faceVertices.size());
+                Vertex v2 = faceVertices.get((i+1)%faceVertices.size());
                 face.add(skeleton.getEdge(v1, v2));
             }
-            faces.add(face);
+            skeletonFaces.add(face);
         }
-        return faces;
+
+        return skeletonFaces;
     }
 }
 

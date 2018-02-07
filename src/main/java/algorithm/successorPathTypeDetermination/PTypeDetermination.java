@@ -49,7 +49,7 @@ public class PTypeDetermination implements ITypeDetermination {
         boolean lastEdgeWasInPert = false;
         int edgeCount = 0;
         for (DirectedEdge edge : outgoingEdgesSource) {
-            boolean thisEdgeIsInPert = pert.getEdge(edge.getSource(), edge.getTarget()) != null;
+            boolean thisEdgeIsInPert = pert.getEdge(edge.getSource(), edge.getTarget()) != null; //TODO: change with hashset and make hashcode for edge.
             if (lastEdgeWasInPert && !thisEdgeIsInPert) {
                 sourcePertEnd = edgeCount;
                 break;

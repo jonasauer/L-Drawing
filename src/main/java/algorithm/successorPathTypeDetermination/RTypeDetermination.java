@@ -118,6 +118,13 @@ public class RTypeDetermination implements ITypeDetermination {
         }
 
         for(List<DirectedEdge> face : skeletonFaces){
+            for(DirectedEdge edge : face){
+                System.out.println(edge);
+            }
+            System.out.println();
+        }
+
+        for(List<DirectedEdge> face : skeletonFaces){
             Vertex source = null;
 
             for(int i = 0; i < face.size(); i++){
