@@ -135,6 +135,7 @@ public class AbstractDirectedEdge<V extends IVertex> extends AbstractDirectedHyp
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
+		if (obj == null) return false;
 		if (!(obj instanceof AbstractDirectedEdge)) return false;
 		AbstractDirectedEdge<V> e = (AbstractDirectedEdge<V>) obj;
 		
