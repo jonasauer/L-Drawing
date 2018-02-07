@@ -1,6 +1,7 @@
 package main.java.algorithm.holder;
 
 import com.yworks.yfiles.algorithms.*;
+import main.java.algorithm.successorPathTypeDetermination.Face;
 import main.java.printer.PrintColors;
 import main.java.algorithm.graphConverter.GraphConverterHolder;
 import main.java.decomposition.graph.DirectedEdge;
@@ -85,7 +86,7 @@ public class EmbeddingHolder {
 
 
 
-    public List<List<DirectedEdge>> getFacesOfRSkeleton(MultiDirectedGraph skeleton, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
+    public List<Face> getFacesOfRSkeleton(MultiDirectedGraph skeleton, TCTreeNode<DirectedEdge, Vertex> tcTreeNode) {
 
         MultiDirectedGraph rPert = HolderProvider.getPertinentGraphHolder().getPertinentGraph(tcTreeNode);
 
@@ -134,13 +135,13 @@ public class EmbeddingHolder {
                 relevantVerticesOfFaces.add(relevantVerticesOfFaceList);
         }
 
-        List<List<DirectedEdge>> skeletonFaces = new ArrayList<>();
+        List<Face> skeletonFaces = new ArrayList<>();
         for(List<Vertex> faceVertices : relevantVerticesOfFaces){
-            List<DirectedEdge> face = new ArrayList<>();
+            Face face = new Face();
             for(int i = 0; i < faceVertices.size(); i++){
                 Vertex v1 = faceVertices.get((i+0)%faceVertices.size());
                 Vertex v2 = faceVertices.get((i+1)%faceVertices.size());
-                face.add(skeleton.getEdge(v1, v2));
+                face.addEdge(skeleton.getEdge(v1, v2));
             }
             skeletonFaces.add(face);
         }

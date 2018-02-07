@@ -120,8 +120,8 @@ public class SuccessorConnector {
     static void connectWithOnlyOneType(MultiDirectedGraph graph,
                                         TCTree<DirectedEdge, Vertex> tcTree,
                                         TCTreeNode<DirectedEdge, Vertex> tcTreeNode,
-                                        Map<Vertex, List<List<DirectedEdge>>> facesOfSource,
-                                        Map<List<DirectedEdge>, FaceType> faceTypes,
+                                        Map<Vertex, List<Face>> facesOfSource,
+                                        Map<Face, FaceType> faceTypes,
                                         Vertex vertex){
 
         List<DirectedEdge> outgoingEdges = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex);
@@ -131,7 +131,7 @@ public class SuccessorConnector {
             return;
 
         FaceType faceType = FaceType.UNDEFINED;
-        for(List<DirectedEdge> face : facesOfSource.get(vertex)){
+        for(Face face: facesOfSource.get(vertex)){
             if(!faceTypes.get(face).equals(FaceType.UNDEFINED)){
                 faceType = faceTypes.get(face);
                 break;
