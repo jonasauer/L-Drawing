@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="logback-classic-1.2.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/logger/logback-classic-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logger/logback-core-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logger/slf4j-api-1.7.21.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

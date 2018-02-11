@@ -82,20 +82,4 @@ public class AbstractEmbedding {
     public List<DirectedEdge> getOutgoingEdges(Vertex vertex){
         return outgoingEdges.get(vertex);
     }
-
-
-
-    public String toString(){
-
-        String toString = "";
-        for(List<DirectedEdge> outgoingEdges : outgoingEdges.values()){
-            if(!outgoingEdges.isEmpty())
-                toString = "    " + toString + outgoingEdges.iterator().next().getSource() + "\n";
-            for(DirectedEdge edge : outgoingEdges){
-                toString = toString + "      " + edge + "\n";
-            }
-        }
-
-        return toString;
-    }
 }

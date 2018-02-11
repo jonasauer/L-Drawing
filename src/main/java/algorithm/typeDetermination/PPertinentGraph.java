@@ -3,21 +3,25 @@ package main.java.algorithm.typeDetermination;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.utils.Augmentation;
 import main.java.algorithm.types.SuccessorPathType;
+import main.java.algorithm.utils.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PPertinentGraph extends AbstractPertinentGraph{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPertinentGraph.class);
+
     private List<AbstractPertinentGraph> orderedChildPerts;
 
     public PPertinentGraph(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
         super(tcTreeNode);
-        augmentGraph();
     }
 
     @Override
@@ -61,19 +65,24 @@ public class PPertinentGraph extends AbstractPertinentGraph{
         setRightmostVertex(rChildPert.getRightmostVertex());
         setSuccessorPathType(rChildPert.getSuccessorPathType());
         setTcTreeNodeType(TCTreeNodeType.TYPE_P);
+
+        LOGGER.debug(PrintColors.ANSI_BLUE + "-----------------------");
+        LOGGER.debug(PrintColors.ANSI_BLUE + "    R-Node with source: " + getSource());
+        LOGGER.debug(PrintColors.ANSI_BLUE + "      Skeleton: " + getTcTreeNode().getSkeleton());
+        augmentGraph();
+        LOGGER.debug(PrintColors.ANSI_BLUE + "      " + getSuccessorPathType());
     }
 
 
     private void augmentGraph(){
 
-        System.out.println("Vertex: " + getSource());
         for(int i = 0; i < orderedChildPerts.size()-1; i++){
             AbstractPertinentGraph childPert1 = orderedChildPerts.get(i);
             AbstractPertinentGraph childPert2 = orderedChildPerts.get(i+1);
             if(childPert1.getRightmostVertex() != childPert2.getLeftmostVertex()) {
                 DirectedEdge augmentedEdge = Augmentation.getAugmentation().getAugmentedGraph().addEdge(childPert1.getRightmostVertex(), childPert2.getLeftmostVertex());
                 Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                System.out.println(    "Insert Edge: " + augmentedEdge);
+                LOGGER.debug(PrintColors.ANSI_BLUE + "        Insert Edge: " + augmentedEdge);
             }
         }
     }

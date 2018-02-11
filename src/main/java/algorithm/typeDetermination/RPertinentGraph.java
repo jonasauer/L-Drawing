@@ -5,16 +5,20 @@ import main.java.algorithm.embedding.RNodeEmbedding;
 import main.java.algorithm.types.FaceType;
 import main.java.algorithm.types.SuccessorPathType;
 import main.java.algorithm.utils.Augmentation;
+import main.java.algorithm.utils.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class RPertinentGraph extends AbstractPertinentGraph{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RPertinentGraph.class);
 
     private MultiDirectedGraph convertedSkeleton;
     private RNodeEmbedding embedding;
@@ -50,7 +54,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
             sourceNodes.remove(edge.getTarget());
             targetNodes.remove(edge.getSource());
         }
-        System.out.println("RNode " + convertedSkeleton);
         Vertex source = sourceNodes.iterator().next();
         Vertex target = targetNodes.iterator().next();
         setSource(source);
@@ -87,7 +90,12 @@ public class RPertinentGraph extends AbstractPertinentGraph{
             setRightmostVertex(rPert.getRightmostVertex());
         }
 
+
+        LOGGER.debug(PrintColors.ANSI_GREEN + "-----------------------");
+        LOGGER.debug(PrintColors.ANSI_GREEN + "    R-Node with source: " + getSource());
+        LOGGER.debug(PrintColors.ANSI_GREEN + "      Skeleton: " + getTcTreeNode().getSkeleton());
         augmentGraph();
+        LOGGER.debug(PrintColors.ANSI_GREEN + "      " + getSuccessorPathType());
     }
 
 
@@ -289,7 +297,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
     private void augmentGraph() throws LDrawingNotPossibleException {
 
         for(Vertex vertex : convertedSkeleton.getVertices()) {
-            System.out.println("Vertex: " + vertex);
             List<Face> outgoingFaces = outgoingFacesOfVertices.get(vertex);
             MultiDirectedGraph augmentedGraph = Augmentation.getAugmentation().getAugmentedGraph();
             boolean changedDirection = false;
@@ -304,7 +311,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
                     DirectedEdge augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                    System.out.println("Insert Edge: " + augmentedEdge);
+                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
             }
             //all left faces and undefined if they are after the first L-Face
@@ -315,7 +322,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
                     DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                    System.out.println("Insert Edge: " + augmentedEdge);
+                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
             }
 
@@ -324,38 +331,31 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                 if(face.getFaceType() == FaceType.UNDEFINED){
                     AbstractPertinentGraph lPert = virtualEdges2PertinentGraphs.get(face.getLEdge());
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
+                    DirectedEdge augmentedEdge = null;
 
                     if(containsL && containsR){
                         if(!changedDirection) {
-                            DirectedEdge augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
-                            Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                            augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                             face.setFaceType(FaceType.TYPE_R);
-                            System.out.println(    "Insert Edge: " + augmentedEdge);
                         }else {
-                            DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
-                            Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                            augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
                             face.setFaceType(FaceType.TYPE_L);
-                            System.out.println(    "Insert Edge: " + augmentedEdge);
                         }
                         continue;
                     }else if(containsR){
-                        DirectedEdge augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
-                        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                        augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                         face.setFaceType(FaceType.TYPE_R);
-                        System.out.println(    "Insert Edge: " + augmentedEdge);
                         continue;
                     }else if(containsL){
-                        DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
-                        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                        augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
                         face.setFaceType(FaceType.TYPE_L);
-                        System.out.println(    "Insert Edge: " + augmentedEdge);
                         continue;
                     }else{
-                        DirectedEdge augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
-                        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                        augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                         face.setFaceType(FaceType.TYPE_R);
-                        System.out.println(    "Insert Edge: " + augmentedEdge);
                     }
+                    Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
+                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
 
                 }
                 if(face.getFaceType() == FaceType.TYPE_L){

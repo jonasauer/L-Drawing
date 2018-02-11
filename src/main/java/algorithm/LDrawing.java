@@ -13,11 +13,15 @@ import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Set;
 
 public class LDrawing {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LDrawing.class);
 
     private IGraph initialGraph;
     private MultiDirectedGraph convertedGraph;
@@ -27,6 +31,11 @@ public class LDrawing {
 
 
     public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
+
+        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
+        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
+        LOGGER.debug(PrintColors.ANSI_RESET + "---------------------------LDRAWING_LDRAWING-LDRAWING_LDRAWING-LDRAWING_LDRAWING--");
+        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
 
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
@@ -60,12 +69,8 @@ public class LDrawing {
             }
         }
 
-        //TODO: why do that?
-        calculateSourceAndTarget();
         GraphEmbedding.getEmbedding().clear();
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructEmbedding();
-        System.out.println(GraphEmbedding.getEmbedding());
-
         STOrdering.createSTOrdering(convertedGraph, source);
         Augmentation.getAugmentation().removeAugmentedParts();
         Coordinates.createCoordinates(convertedGraph);

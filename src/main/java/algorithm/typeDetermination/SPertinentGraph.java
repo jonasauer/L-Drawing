@@ -1,16 +1,20 @@
 package main.java.algorithm.typeDetermination;
 
 import main.java.algorithm.exception.LDrawingNotPossibleException;
+import main.java.algorithm.utils.PrintColors;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTreeNode;
 import main.java.decomposition.spqrTree.TCTreeNodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class SPertinentGraph extends AbstractPertinentGraph{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SPertinentGraph.class);
 
     public SPertinentGraph(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
         super(tcTreeNode);
@@ -19,7 +23,6 @@ public class SPertinentGraph extends AbstractPertinentGraph{
 
     @Override
     void construct(){
-        System.out.println("P Node");
 
         Set<Vertex> sources = new HashSet<>(getTcTreeNode().getSkeleton().getVertices());
         Set<Vertex> targets = new HashSet<>(getTcTreeNode().getSkeleton().getVertices());
@@ -40,6 +43,11 @@ public class SPertinentGraph extends AbstractPertinentGraph{
             }
         }
         setTcTreeNodeType(TCTreeNodeType.TYPE_S);
+
+        LOGGER.debug(PrintColors.ANSI_PURPLE + "-----------------------");
+        LOGGER.debug(PrintColors.ANSI_PURPLE + "    S-Node with source: " + getSource());
+        LOGGER.debug(PrintColors.ANSI_PURPLE + "      Skeleton: " + getTcTreeNode().getSkeleton());
+        LOGGER.debug(PrintColors.ANSI_PURPLE + "      " + getSuccessorPathType());
     }
 
 
