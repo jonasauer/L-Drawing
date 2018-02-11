@@ -1,4 +1,4 @@
-package main.java.algorithm.holder;
+package main.java.algorithm.utils;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
@@ -6,20 +6,33 @@ import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.*;
 
-public class STOrderingHolder {
+public class STOrdering {
 
-    private List<Vertex> stOrderingList;
-    private Map<Vertex, Integer> stOrderingMap;
+    private List<Vertex> stOrderingList = new ArrayList<>();
+    private Map<Vertex, Integer> stOrderingMap = new HashMap<>();
+    private MultiDirectedGraph graph;
 
-    public STOrderingHolder(MultiDirectedGraph graph){
+    //Singleton
+    private static STOrdering singleton;
 
-        this.stOrderingList = new LinkedList<>();
-        this.stOrderingMap = new HashMap<>();
+
+    public static STOrdering getSTOrdering(){
+        return singleton;
+    }
+
+    public static STOrdering createSTOrdering(MultiDirectedGraph graph, Vertex source){
+        singleton = new STOrdering(graph, source);
+        return singleton;
+    }
+
+    private STOrdering(MultiDirectedGraph graph, Vertex source){
+
+        this.graph = graph;
         Map<Vertex, Integer> incomingEdgesCounters = new HashMap<>();
         for(Vertex vertex : graph.getVertices())
             incomingEdgesCounters.put(vertex, graph.getEdgesWithTarget(vertex).size());
 
-        orderVertices(HolderProvider.getSourceTargetGraphHolder().getSourceNode(), incomingEdgesCounters);
+        orderVertices(source, incomingEdgesCounters);
     }
 
 
@@ -30,7 +43,7 @@ public class STOrderingHolder {
         stOrderingMap.put(vertex, stOrderingMap.size());
         stOrderingList.add(vertex);
 
-        for(DirectedEdge outgoingEdge : HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(vertex)){
+        for(DirectedEdge outgoingEdge : graph.getEdgesWithSource(vertex)){
             Vertex target = outgoingEdge.getTarget();
             int incomingEdgesCounter = incomingEdgesCounters.get(target);
             incomingEdgesCounters.replace(target, incomingEdgesCounter, incomingEdgesCounter-1);

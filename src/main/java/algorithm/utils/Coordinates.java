@@ -1,21 +1,33 @@
-package main.java.algorithm.holder;
+package main.java.algorithm.utils;
 
+import main.java.algorithm.embedding.GraphEmbedding;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.*;
 
-public class CoordinatesHolder {
+public class Coordinates {
 
     private static final int xDifference = 50;
     private static final int yDifference = 50;
-
     private MultiDirectedGraph graph;
     private Map<Vertex, Integer> xCoordinates;
     private Map<Vertex, Integer> yCoordinates;
+    //Singleton
+    private static Coordinates singleton;
 
-    public CoordinatesHolder(MultiDirectedGraph graph){
+
+    public static Coordinates getCoordinates(){
+        return singleton;
+    }
+
+    public static Coordinates createCoordinates(MultiDirectedGraph graph){
+        singleton = new Coordinates(graph);
+        return singleton;
+    }
+
+    private Coordinates(MultiDirectedGraph graph){
         this.graph = graph;
         this.xCoordinates = new HashMap<>();
         this.yCoordinates = new HashMap<>();
@@ -25,7 +37,7 @@ public class CoordinatesHolder {
 
     private void calculateXCoordinates(){
 
-        List<Vertex> stOrdering = HolderProvider.getStOrderingHolder().getSTOrderingList();
+        List<Vertex> stOrdering = STOrdering.getSTOrdering().getSTOrderingList();
         List<Vertex> xOrdering = new ArrayList<>(stOrdering.size());
         xOrdering.add(stOrdering.get(0)); //add s' because we know it has to be the first vertex.
         xOrdering.add(stOrdering.get(1)); //add the real source because it has to be the second vertex.
@@ -44,11 +56,11 @@ public class CoordinatesHolder {
     private int getXIndex(Vertex vertex, List<Vertex> currentOrdering){
 
         Collection<DirectedEdge> incomingEdges = graph.getEdgesWithTarget(vertex);
-        Map<Vertex, Integer> stOrderingMap = HolderProvider.getStOrderingHolder().getSTOrderingMap();
+        Map<Vertex, Integer> stOrderingMap = STOrdering.getSTOrdering().getSTOrderingMap();
 
         if(incomingEdges.size() == 1){
             Vertex source = incomingEdges.iterator().next().getSource();
-            List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
+            List<DirectedEdge> outgoingEdgesSource = GraphEmbedding.getEmbedding().getOutgoingEdges(source);
             int sourceIndex = currentOrdering.indexOf(source);
 
             for(DirectedEdge outgoingEdgeSource : outgoingEdgesSource){
@@ -89,7 +101,7 @@ public class CoordinatesHolder {
 
     private void calculateYCoordinates(){
 
-        List<Vertex> stOrdering = HolderProvider.getStOrderingHolder().getSTOrderingList();
+        List<Vertex> stOrdering = STOrdering.getSTOrdering().getSTOrderingList();
         int counter = 0;
 
         for(Vertex vertex : stOrdering)

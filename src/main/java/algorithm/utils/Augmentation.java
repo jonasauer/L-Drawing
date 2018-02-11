@@ -1,20 +1,32 @@
-package main.java.algorithm.holder;
+package main.java.algorithm.utils;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-public class AugmentationHolder {
+public class Augmentation {
 
     private Set<DirectedEdge> augmentedEdges;
     private MultiDirectedGraph augmentedGraph;
     private Vertex augmentedSource;
+    //Singleton
+    private static Augmentation singleton;
 
-    public AugmentationHolder(MultiDirectedGraph augmentedGraph){
+
+    public static Augmentation getAugmentation(){
+        return singleton;
+    }
+
+    public static Augmentation createAugmentation(MultiDirectedGraph augmentedGraph){
+        singleton = new Augmentation(augmentedGraph);
+        return singleton;
+    }
+
+
+    private Augmentation(MultiDirectedGraph augmentedGraph){
         this.augmentedEdges = new HashSet<>();
         this.augmentedGraph = augmentedGraph;
     }
@@ -33,12 +45,8 @@ public class AugmentationHolder {
 
     public void removeAugmentedParts(){
 
-        for(DirectedEdge augmentedEdge : augmentedEdges) {
+        for(DirectedEdge augmentedEdge : augmentedEdges)
             augmentedGraph.removeEdge(augmentedEdge);
-            Vertex source = augmentedEdge.getSource();
-            List<DirectedEdge> outgoingEdgesSource = HolderProvider.getEmbeddingHolder().getOutgoingEdgesCircularOrdering(source);
-            outgoingEdgesSource.remove(augmentedEdge);
-        }
         augmentedGraph.removeVertex(augmentedSource);
 
     }

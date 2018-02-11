@@ -15,8 +15,8 @@ import javafx.scene.paint.Color;
 import main.java.algorithm.LDrawing;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
-import main.java.algorithm.graphConverter.GraphConverterHolder;
-import main.java.algorithm.holder.HolderProvider;
+import main.java.algorithm.utils.GraphConverter;
+import main.java.algorithm.utils.Coordinates;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
@@ -190,10 +190,10 @@ public class GUIController {
 
     private void replaceVertices(){
 
-        Map<Vertex, Integer> xCoordinates = HolderProvider.getCoordinatesHolder().getXCoordinates();
-        Map<Vertex, Integer> yCoordinates = HolderProvider.getCoordinatesHolder().getYCoordinates();
-        MultiDirectedGraph convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
-        Map<Vertex, INode> vertex2INode = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getVertex2INode();
+        Map<Vertex, Integer> xCoordinates = Coordinates.getCoordinates().getXCoordinates();
+        Map<Vertex, Integer> yCoordinates = Coordinates.getCoordinates().getYCoordinates();
+        MultiDirectedGraph convertedGraph = GraphConverter.getGraphConverter().getConvertedGraph();
+        Map<Vertex, INode> vertex2INode = GraphConverter.getGraphConverter().getConvV2OrigV();
 
         for(Vertex vertex : convertedGraph.getVertices()){
             INode originalNode = vertex2INode.get(vertex);

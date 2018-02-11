@@ -3,95 +3,72 @@ package main.java.algorithm;
 import com.yworks.yfiles.algorithms.GraphChecker;
 import com.yworks.yfiles.graph.IGraph;
 import com.yworks.yfiles.layout.YGraphAdapter;
-import main.java.printer.PrintColors;
+import main.java.algorithm.embedding.GraphEmbedding;
+import main.java.algorithm.typeDetermination.*;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
-import main.java.algorithm.graphConverter.GraphConverterHolder;
-import main.java.algorithm.graphConverter.IGraphToMultiDirectedGraphConverter;
-import main.java.algorithm.graphConverter.MultiDirectedGraphToGraphConverter;
+import main.java.algorithm.utils.*;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 import main.java.decomposition.spqrTree.TCTree;
 import main.java.decomposition.spqrTree.TCTreeNode;
-import main.java.algorithm.holder.*;
-import main.java.algorithm.successorPathTypeDetermination.PTypeDetermination;
-import main.java.algorithm.successorPathTypeDetermination.QTypeDetermination;
-import main.java.algorithm.successorPathTypeDetermination.RTypeDetermination;
-import main.java.algorithm.successorPathTypeDetermination.STypeDetermination;
-import main.java.printer.Printer;
+
+import java.util.HashMap;
+import java.util.Set;
 
 public class LDrawing {
 
     private IGraph initialGraph;
     private MultiDirectedGraph convertedGraph;
     private DirectedEdge backEdge;
+    private Vertex source;
+    private Vertex target;
 
 
     public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
 
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
-        GraphConverterHolder.setIGraphToMultiDirectedGraphConverter(new IGraphToMultiDirectedGraphConverter(graph));
-        this.convertedGraph = GraphConverterHolder.getiGraphToMultiDirectedGraphConverter().getConvertedGraph();
-        HolderProvider.setAugmentationHolder(new AugmentationHolder(convertedGraph));
-        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
+        this.convertedGraph = GraphConverter.createGraphConverter(graph).getConvertedGraph();
+
+        Augmentation.createAugmentation(convertedGraph);
+        calculateSourceAndTarget();
         this.augmentGraphWithNewSource();
-        GraphConverterHolder.setMultiDirectedGraphToGraphConverter(new MultiDirectedGraphToGraphConverter(convertedGraph));
 
         TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
+        AbstractPertinentGraph.tcTree = tcTree;
+        AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes = new HashMap<>();
 
+        NodesPostOrder.createNodesPostOrder(tcTree);
+        GraphEmbedding.createEmbedding(convertedGraph);
 
-
-        System.out.println();
-        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println(PrintColors.ANSI_GREEN + "LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING-LDRAWING");
-        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println(PrintColors.ANSI_GREEN + "-----------------------------------------------------------------------------------------------------------------------------");
-
-        Printer.printTreePreOrder(tcTree);
-
-
-        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
-        HolderProvider.setPostOrderNodesHolder(new PostOrderNodesHolder(tcTree));
-        HolderProvider.setPertinentGraphHolder(new PertinentGraphHolder(tcTree));
-        HolderProvider.setSourceTargetPertinentGraphsHolder(new SourceTargetPertinentGraphsHolder());
-        HolderProvider.setSuccessorPathTypeHolder(new SuccessorPathTypeHolder());
-        HolderProvider.setEmbeddingHolder(new EmbeddingHolder(convertedGraph));
-        HolderProvider.getEmbeddingHolder().print(convertedGraph);
-
-        for(TCTreeNode<DirectedEdge, Vertex> node : HolderProvider.getPostOrderNodesHolder().getPostOrderNodes()){
+        for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder().getOrderedNodes()){
             switch (node.getType()){
                 case TYPE_Q:
-                    new QTypeDetermination().determineType(tcTree, node);
+                    new QPertinentGraph(node);
                     break;
                 case TYPE_S:
-                    new STypeDetermination().determineType(tcTree, node);
+                    new SPertinentGraph(node);
                     break;
                 case TYPE_P:
-                    new PTypeDetermination().determineType(tcTree, node);
+                    new PPertinentGraph(node);
                     break;
                 case TYPE_R:
-                    new RTypeDetermination().determineType(tcTree, node);
+                    new RPertinentGraph(node);
                     break;
             }
         }
 
+        //TODO: why do that?
+        calculateSourceAndTarget();
+        GraphEmbedding.getEmbedding().clear();
+        AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructEmbedding();
+        System.out.println(GraphEmbedding.getEmbedding());
 
-        System.out.println(PrintColors.ANSI_WHITE + "---------------------------");
-        System.out.println(PrintColors.ANSI_WHITE + "Finish");
-        System.out.println(PrintColors.ANSI_WHITE + "    AugmentedGraph: " + HolderProvider.getAugmentationHolder().getAugmentedGraph());
-
-
-        System.out.println(PrintColors.ANSI_WHITE + "    OriginalGraph");
-        HolderProvider.setSourceTargetGraphHolder(new SourceTargetGraphHolder(convertedGraph));
-        HolderProvider.getEmbeddingHolder().print(convertedGraph);
-        HolderProvider.setStOrderingHolder(new STOrderingHolder(convertedGraph));
-        HolderProvider.getAugmentationHolder().removeAugmentedParts();
-        HolderProvider.setCoordinatesHolder(new CoordinatesHolder(convertedGraph));
-        Printer.printSTOrdering();
-
+        STOrdering.createSTOrdering(convertedGraph, source);
+        Augmentation.getAugmentation().removeAugmentedParts();
+        Coordinates.createCoordinates(convertedGraph);
     }
 
 
@@ -115,15 +92,35 @@ public class LDrawing {
 
     private void augmentGraphWithNewSource(){
 
-        Vertex source = HolderProvider.getSourceTargetGraphHolder().getSourceNode();
-        Vertex target = HolderProvider.getSourceTargetGraphHolder().getTargetNode();
-
         Vertex newSource = convertedGraph.addVertex(new Vertex("s'"));
         DirectedEdge augmentedE1 = convertedGraph.addEdge(newSource, source);
         DirectedEdge augmentedE2 = backEdge = convertedGraph.addEdge(newSource, target);
+        source = newSource;
 
-        HolderProvider.getAugmentationHolder().setAugmentedSource(newSource);
-        HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE1);
-        HolderProvider.getAugmentationHolder().getAugmentedEdges().add(augmentedE2);
+        Augmentation.getAugmentation().setAugmentedSource(newSource);
+        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedE1);
+        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedE2);
+    }
+
+
+    private void calculateSourceAndTarget() throws GraphConditionsException {
+
+        Set<Vertex> sources = convertedGraph.vertexSet();
+        Set<Vertex> targets = convertedGraph.vertexSet();
+
+        for(DirectedEdge edge : convertedGraph.getEdges()){
+            sources.remove(edge.getTarget());
+            targets.remove(edge.getSource());
+        }
+
+        if(sources.size() != 1) {
+            throw new GraphConditionsException("The input graph contains more than one source. Please add edges to the graph until it contains exactly one source.");
+        }
+        if(targets.size() != 1) {
+            throw new GraphConditionsException("The input graph contains more than one target. Please add edges to the graph until it contains exactly one target.");
+        }
+        this.source = sources.iterator().next();
+        this.target = targets.iterator().next();
+
     }
 }

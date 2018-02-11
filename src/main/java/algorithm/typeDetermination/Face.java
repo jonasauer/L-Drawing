@@ -1,19 +1,20 @@
-package main.java.algorithm.successorPathTypeDetermination;
+package main.java.algorithm.typeDetermination;
 
+import main.java.algorithm.types.FaceType;
 import main.java.decomposition.graph.DirectedEdge;
+import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Face {
 
+    private Vertex source;
+    private Vertex target;
     private DirectedEdge lEdge;
     private DirectedEdge rEdge;
     private List<DirectedEdge> edges;
-
-    public Face(List<DirectedEdge> edges){
-        this.edges = edges;
-    }
+    private FaceType faceType;
 
     public Face(){
         this.edges = new ArrayList<>();
@@ -49,5 +50,37 @@ public class Face {
 
     public List<DirectedEdge> getEdges() {
         return edges;
+    }
+
+    public Vertex getSource() {
+        return source;
+    }
+
+    public Vertex getTarget() {
+        return target;
+    }
+
+    public void setSource(Vertex source) {
+        this.source = source;
+    }
+
+    public void setTarget(Vertex target) {
+        this.target = target;
+    }
+
+    public Vertex getLVertex(){
+        return lEdge.getTarget();
+    }
+
+    public Vertex getRVertex(){
+        return rEdge.getTarget();
+    }
+
+    public FaceType getFaceType() {
+        return faceType;
+    }
+
+    public void setFaceType(FaceType faceType) {
+        this.faceType = faceType;
     }
 }
