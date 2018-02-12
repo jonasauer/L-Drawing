@@ -8,9 +8,8 @@ import main.java.decomposition.spqrTree.TCTreeNode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodesPostOrder {
+public class NodesPostOrder extends ArrayList<TCTreeNode<DirectedEdge, Vertex>> {
 
-    private List<TCTreeNode<DirectedEdge, Vertex>> orderedNodes;
     private TCTree<DirectedEdge, Vertex> tcTree;
     //Singleton
     private static NodesPostOrder singleton;
@@ -27,7 +26,7 @@ public class NodesPostOrder {
 
 
     private NodesPostOrder(TCTree<DirectedEdge, Vertex> tcTree){
-        this.orderedNodes = new ArrayList<>();
+        super(tcTree.countVertices());
         this.tcTree = tcTree;
         orderNodes(tcTree.getRoot());
     }
@@ -37,10 +36,6 @@ public class NodesPostOrder {
         for(TCTreeNode<DirectedEdge, Vertex> child : tcTree.getChildren(node))
             orderNodes(child);
 
-        orderedNodes.add(node);
-    }
-
-    public List<TCTreeNode<DirectedEdge, Vertex>> getOrderedNodes(){
-        return orderedNodes;
+        add(node);
     }
 }

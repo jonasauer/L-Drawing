@@ -52,7 +52,7 @@ public class LDrawing {
         NodesPostOrder.createNodesPostOrder(tcTree);
         GraphEmbedding.createEmbedding(convertedGraph);
 
-        for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder().getOrderedNodes()){
+        for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder()){
             switch (node.getType()){
                 case TYPE_Q:
                     new QPertinentGraph(node);

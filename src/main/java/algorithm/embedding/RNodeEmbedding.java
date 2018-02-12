@@ -47,7 +47,7 @@ public class RNodeEmbedding extends AbstractEmbedding{
                     containsTarget = true;
                 if(edge.getSource().equals(augmentedSource))
                     containsAugmentedSource = true;
-                convertedFace.addEdge(edge);
+                convertedFace.add(edge);
             }
             if((!containsSource || !containsTarget) && !containsAugmentedSource)
                 convertedFaces.add(convertedFace);

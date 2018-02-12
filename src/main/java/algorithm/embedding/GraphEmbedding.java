@@ -2,6 +2,7 @@ package main.java.algorithm.embedding;
 
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
+import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.*;
 
@@ -28,7 +29,9 @@ public class GraphEmbedding extends AbstractEmbedding{
 
 
     public void clear(){
-        for(List<DirectedEdge> outgoingEdges : outgoingEdges.values())
-            outgoingEdges.clear();
+        for(Vertex vertex : originalGraph.getVertices()) {
+            outgoingEdges.remove(vertex);
+            outgoingEdges.put(vertex, new ArrayList<>());
+        }
     }
 }

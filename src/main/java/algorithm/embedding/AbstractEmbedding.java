@@ -13,13 +13,11 @@ import java.util.Map;
 public class AbstractEmbedding {
 
     MultiDirectedGraph originalGraph;
-    Graph convertedGraph;
+    private Graph convertedGraph;
 
-    Map<Vertex, Node> origV2ConvV = new HashMap<>();
+    private Map<Vertex, Node> origV2ConvV = new HashMap<>();
     Map<Edge, DirectedEdge> convE2OrigE = new HashMap<>();
-
     Map<Vertex, List<DirectedEdge>> outgoingEdges = new HashMap<>();
-
     PlanarEmbedding planarEmbedding;
 
     public AbstractEmbedding(MultiDirectedGraph graph){

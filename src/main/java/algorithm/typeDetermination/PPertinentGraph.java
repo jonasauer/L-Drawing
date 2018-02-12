@@ -67,7 +67,7 @@ public class PPertinentGraph extends AbstractPertinentGraph{
         setTcTreeNodeType(TCTreeNodeType.TYPE_P);
 
         LOGGER.debug(PrintColors.ANSI_BLUE + "-----------------------");
-        LOGGER.debug(PrintColors.ANSI_BLUE + "    R-Node with source: " + getSource());
+        LOGGER.debug(PrintColors.ANSI_BLUE + "    P-Node with source: " + getSource());
         LOGGER.debug(PrintColors.ANSI_BLUE + "      Skeleton: " + getTcTreeNode().getSkeleton());
         augmentGraph();
         LOGGER.debug(PrintColors.ANSI_BLUE + "      " + getSuccessorPathType());

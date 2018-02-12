@@ -7,29 +7,16 @@ import main.java.decomposition.hyperGraph.Vertex;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Face {
+public class Face extends ArrayList<DirectedEdge>{
 
     private Vertex source;
     private Vertex target;
     private DirectedEdge lEdge;
     private DirectedEdge rEdge;
-    private List<DirectedEdge> edges;
     private FaceType faceType;
 
     public Face(){
-        this.edges = new ArrayList<>();
-    }
-
-    public void addEdge(DirectedEdge edge){
-        this.edges.add(edge);
-    }
-
-    public int size(){
-        return this.edges.size();
-    }
-
-    public DirectedEdge get(int index){
-        return this.edges.get(index);
+        super();
     }
 
     public void setLEdge(DirectedEdge lEdge){
@@ -46,10 +33,6 @@ public class Face {
 
     public DirectedEdge getREdge() {
         return rEdge;
-    }
-
-    public List<DirectedEdge> getEdges() {
-        return edges;
     }
 
     public Vertex getSource() {
