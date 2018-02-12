@@ -1,6 +1,5 @@
 package main.java.algorithm.embedding;
 
-import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
@@ -10,8 +9,6 @@ public class GraphEmbedding extends AbstractEmbedding{
 
     //Singleton
     private static GraphEmbedding singleton;
-
-
 
     public static GraphEmbedding getEmbedding(){
         return singleton;

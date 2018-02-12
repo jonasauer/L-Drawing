@@ -5,7 +5,6 @@ import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Face extends ArrayList<DirectedEdge>{
 
@@ -15,8 +14,8 @@ public class Face extends ArrayList<DirectedEdge>{
     private DirectedEdge rEdge;
     private FaceType faceType;
 
-    public Face(){
-        super();
+    public Face(int size){
+        super(size);
     }
 
     public void setLEdge(DirectedEdge lEdge){

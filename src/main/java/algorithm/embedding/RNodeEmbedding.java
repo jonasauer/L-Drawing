@@ -37,7 +37,7 @@ public class RNodeEmbedding extends AbstractEmbedding{
             boolean containsSource = false;
             boolean containsTarget = false;
             boolean containsAugmentedSource = false;
-            Face convertedFace = new Face();
+            Face convertedFace = new Face(originalFace.size());
 
             for(Dart dart : originalFace) {
                 DirectedEdge edge = convE2OrigE.get(dart.getAssociatedEdge());
