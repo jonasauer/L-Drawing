@@ -7,12 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8c3b205-68af-4e2c-b217-bc8f9d709cf4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/embedding/GraphEmbedding.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/embedding/GraphEmbedding.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/embedding/RNodeEmbedding.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/embedding/RNodeEmbedding.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/Face.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/Face.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphml/ComplexR.graphml" afterPath="$PROJECT_DIR$/graphml/ComplexR.graphml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/RPertinentGraph.java" afterPath="$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/RPertinentGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/application/GUIController.java" afterPath="$PROJECT_DIR$/src/main/java/application/GUIController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -87,8 +83,8 @@
       <file leaf-file-name="RPertinentGraph.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/RPertinentGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="354" column="70" lean-forward="true" selection-start-line="354" selection-start-column="70" selection-end-line="354" selection-end-column="70" />
+            <state relative-caret-position="484">
+              <caret line="329" column="0" lean-forward="true" selection-start-line="329" selection-start-column="0" selection-end-line="329" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -683,7 +679,7 @@
       <workItem from="1518257704193" duration="8859000" />
       <workItem from="1518278602941" duration="789000" />
       <workItem from="1518353115054" duration="24839000" />
-      <workItem from="1518439136339" duration="695000" />
+      <workItem from="1518439136339" duration="2723000" />
     </task>
     <servers />
   </component>
@@ -720,7 +716,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="439704000" />
+    <option name="totallyTimeSpent" value="441732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1057,8 +1053,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/algorithm/typeDetermination/RPertinentGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="354" column="70" lean-forward="true" selection-start-line="354" selection-start-column="70" selection-end-line="354" selection-end-column="70" />
+        <state relative-caret-position="484">
+          <caret line="329" column="0" lean-forward="true" selection-start-line="329" selection-start-column="0" selection-end-line="329" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

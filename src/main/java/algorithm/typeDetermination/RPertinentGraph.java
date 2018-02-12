@@ -320,7 +320,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     containsL = true;
                     AbstractPertinentGraph lPert = virtualEdges2PertinentGraphs.get(face.getLEdge());
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
-                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
+                    DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getRightmostVertex(), lPert.getLeftmostVertex());
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
                     LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
@@ -337,15 +337,15 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                         if(!changedDirection) {
                             augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                             face.setFaceType(FaceType.TYPE_R);
-                        }else {
-                            augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
+                        } else {
+                            augmentedEdge = augmentedGraph.addEdge(rPert.getRightmostVertex(), lPert.getLeftmostVertex());
                             face.setFaceType(FaceType.TYPE_L);
                         }
                     }else if(containsR){
                         augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                         face.setFaceType(FaceType.TYPE_R);
                     }else if(containsL){
-                        augmentedEdge = augmentedGraph.addEdge(rPert.getLeftmostVertex(), lPert.getRightmostVertex());
+                        augmentedEdge = augmentedGraph.addEdge(rPert.getRightmostVertex(), lPert.getLeftmostVertex());
                         face.setFaceType(FaceType.TYPE_L);
                     }else{
                         augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
