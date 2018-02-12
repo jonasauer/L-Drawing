@@ -43,6 +43,10 @@ public class Augmentation {
         this.augmentedSource = augmentedSource;
     }
 
+    public Vertex getAugmentedSource() {
+        return augmentedSource;
+    }
+
     public void removeAugmentedParts(){
 
         for(DirectedEdge augmentedEdge : augmentedEdges)

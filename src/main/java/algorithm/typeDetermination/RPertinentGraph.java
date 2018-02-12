@@ -59,7 +59,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
         setSource(source);
         setTarget(target);
 
-
         Vertex augmentedSource = new Vertex("s'");
         convertedSkeleton.addVertex(augmentedSource);
         DirectedEdge augmentedEdge1 = convertedSkeleton.addEdge(augmentedSource, source);
@@ -111,6 +110,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
             DirectedEdge virtualEdge = convertedSkeleton.addEdge(source, target);
             virtualEdges2PertinentGraphs.put(virtualEdge, childPert);
         }
+        convertedSkeleton.removeVertex(Augmentation.getAugmentation().getAugmentedSource());
     }
 
 
@@ -122,7 +122,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
 
         for(Face face : embedding.getFaces()){
             Vertex source = null;
-            Vertex target = null;
+            Vertex target;
 
             for(int i = 0; i < face.size(); i++){
                 DirectedEdge edge1 = face.get((i  )%face.size());
@@ -353,7 +353,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     }
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
                     LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
-
                 }
                 if(face.getFaceType() == FaceType.TYPE_L){
                     changedDirection = true;
