@@ -1,7 +1,7 @@
 package main.java.algorithm.typeDetermination;
 
-import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.embedding.RNodeEmbedding;
+import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.types.FaceType;
 import main.java.algorithm.types.SuccessorPathType;
 import main.java.algorithm.utils.Augmentation;

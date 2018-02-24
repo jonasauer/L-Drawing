@@ -1,12 +1,14 @@
 package main.java.algorithm.embedding;
 
+import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.*;
 
-public class GraphEmbedding extends AbstractEmbedding{
+public class GraphEmbedding{
 
+    private Map<Vertex, List<DirectedEdge>> outgoingEdges = new HashMap<>();
     //Singleton
     private static GraphEmbedding singleton;
 
@@ -21,14 +23,12 @@ public class GraphEmbedding extends AbstractEmbedding{
 
 
     private GraphEmbedding(MultiDirectedGraph graph){
-        super(graph);
-    }
-
-
-    public void clear(){
-        for(Vertex vertex : originalGraph.getVertices()) {
-            outgoingEdges.remove(vertex);
+        for(Vertex vertex : graph.getVertices()){
             outgoingEdges.put(vertex, new ArrayList<>());
         }
+    }
+
+    public List<DirectedEdge> getOutgoingEdges(Vertex vertex){
+        return outgoingEdges.get(vertex);
     }
 }

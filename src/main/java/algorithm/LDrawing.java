@@ -50,7 +50,6 @@ public class LDrawing {
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes = new HashMap<>();
 
         NodesPostOrder.createNodesPostOrder(tcTree);
-        GraphEmbedding.createEmbedding(convertedGraph);
 
         for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder()){
             switch (node.getType()){
@@ -69,7 +68,7 @@ public class LDrawing {
             }
         }
 
-        GraphEmbedding.getEmbedding().clear();
+        GraphEmbedding.createEmbedding(convertedGraph);
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructEmbedding();
         STOrdering.createSTOrdering(convertedGraph, source);
         Augmentation.getAugmentation().removeAugmentedParts();
