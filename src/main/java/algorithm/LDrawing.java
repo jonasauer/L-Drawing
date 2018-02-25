@@ -81,14 +81,12 @@ public class LDrawing {
         YGraphAdapter graphAdapter = new YGraphAdapter(graph);
         if(initialGraph.getNodes().size() < 2)
             throw new GraphConditionsException("The input graph contains less than two nodes. Please add nodes to the graph until it contains at least two nodes.");
-        if(initialGraph.getEdges().size() < 2)
-            throw new GraphConditionsException("The input graph contains less than two edges. Please add edges to the graph until it contains at least two edges.");
+        if(initialGraph.getEdges().size() < 1)
+            throw new GraphConditionsException("The input graph contains no edges. Please add edges to the graph until it contains at least one edges.");
         if(!GraphChecker.isConnected(graphAdapter.getYGraph()))
             throw new GraphConditionsException("The input graph is not connected. Please connect all nodes of the graph to a biconnected graph.");
         if(GraphChecker.isCyclic(graphAdapter.getYGraph()))
             throw new GraphConditionsException("The input graph is cyclic. Please remove or change edges to make the graph acyclic.");
-        if(!GraphChecker.isBiconnected(graphAdapter.getYGraph()))
-            throw new GraphConditionsException("The input graph is not biconnected. Please add edges to make the graph biconnected.");
         if(!GraphChecker.isPlanar(graphAdapter.getYGraph()))
             throw new GraphConditionsException("The input graph is not planar. Please make sure the graph admits a planar embedding.");
     }
@@ -98,12 +96,14 @@ public class LDrawing {
 
         Vertex newSource = convertedGraph.addVertex(new Vertex("s'"));
         DirectedEdge augmentedE1 = convertedGraph.addEdge(newSource, source);
-        DirectedEdge augmentedE2 = backEdge = convertedGraph.addEdge(newSource, target);
+        DirectedEdge augmentedE2 = convertedGraph.addEdge(newSource, target);
+        DirectedEdge augmentedE3 = backEdge = convertedGraph.addEdge(newSource, target);
         source = newSource;
 
         Augmentation.getAugmentation().setAugmentedSource(newSource);
         Augmentation.getAugmentation().getAugmentedEdges().add(augmentedE1);
         Augmentation.getAugmentation().getAugmentedEdges().add(augmentedE2);
+        Augmentation.getAugmentation().getAugmentedEdges().add(augmentedE3);
     }
 
 
