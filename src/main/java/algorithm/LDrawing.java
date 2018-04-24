@@ -67,7 +67,6 @@ public class LDrawing {
                     break;
             }
         }
-
         GraphEmbedding.createEmbedding(convertedGraph);
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructEmbedding();
         STOrdering.createSTOrdering(convertedGraph, source);

@@ -34,5 +34,8 @@ public class QPertinentGraph extends AbstractPertinentGraph {
     public void reconstructEmbedding(){
         List<DirectedEdge> outgoingEdges = GraphEmbedding.getEmbedding().getOutgoingEdges(getSource());
         outgoingEdges.add(this.getTcTreeNode().getSkeleton().getOriginalEdges().iterator().next());
+
+        List<DirectedEdge> incomingEdges = GraphEmbedding.getEmbedding().getIncomingEdges(getTarget());
+        incomingEdges.add(this.getTcTreeNode().getSkeleton().getOriginalEdges().iterator().next());
     }
 }

@@ -9,6 +9,7 @@ import java.util.*;
 public class GraphEmbedding{
 
     private Map<Vertex, List<DirectedEdge>> outgoingEdges = new HashMap<>();
+    private Map<Vertex, List<DirectedEdge>> incomingEdges = new HashMap<>();
     //Singleton
     private static GraphEmbedding singleton;
 
@@ -25,10 +26,15 @@ public class GraphEmbedding{
     private GraphEmbedding(MultiDirectedGraph graph){
         for(Vertex vertex : graph.getVertices()){
             outgoingEdges.put(vertex, new ArrayList<>());
+            incomingEdges.put(vertex, new ArrayList<>());
         }
     }
 
     public List<DirectedEdge> getOutgoingEdges(Vertex vertex){
         return outgoingEdges.get(vertex);
+    }
+
+    public List<DirectedEdge> getIncomingEdges(Vertex vertex) {
+        return incomingEdges.get(vertex);
     }
 }
