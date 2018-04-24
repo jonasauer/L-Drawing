@@ -8,6 +8,9 @@ package main.java.decomposition.hyperGraph;
 public class Vertex extends GObject implements IVertex
 {	
 	private int x = 0, y = 0, w = 0, h = 0;
+
+	private Vertex left = null;
+	private Vertex right = null;
 	
 	public Vertex() {
 		super();
@@ -113,4 +116,20 @@ public class Vertex extends GObject implements IVertex
 		this.w = w;
 		this.h = h;
 	}
+
+	public Vertex getLeft(){
+	    return left;
+    }
+
+    public Vertex getRight() {
+        return right;
+    }
+
+    public void setLeft(Vertex left){
+	    this.left = left;
+    }
+
+    public void setRight(Vertex right){
+        this.right = right;
+    }
 }

@@ -70,8 +70,8 @@ public class LDrawing {
         GraphEmbedding.createEmbedding(convertedGraph);
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructEmbedding();
         STOrdering.createSTOrdering(convertedGraph, source);
-        Augmentation.getAugmentation().removeAugmentedParts();
         Coordinates.createCoordinates(convertedGraph);
+        Augmentation.getAugmentation().removeAugmentedParts();
     }
 
 
