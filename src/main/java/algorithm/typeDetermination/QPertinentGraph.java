@@ -31,10 +31,13 @@ public class QPertinentGraph extends AbstractPertinentGraph {
 
 
     @Override
-    public void reconstructEmbedding(){
+    public void reconstructOutgoingEmbedding(){
         List<DirectedEdge> outgoingEdges = GraphEmbedding.getEmbedding().getOutgoingEdges(getSource());
         outgoingEdges.add(this.getTcTreeNode().getSkeleton().getOriginalEdges().iterator().next());
+    }
 
+    @Override
+    public void reconstructIncomingEmbedding(){
         List<DirectedEdge> incomingEdges = GraphEmbedding.getEmbedding().getIncomingEdges(getTarget());
         incomingEdges.add(this.getTcTreeNode().getSkeleton().getOriginalEdges().iterator().next());
     }

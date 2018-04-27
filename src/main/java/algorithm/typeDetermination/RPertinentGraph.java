@@ -59,7 +59,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
         setSource(source);
         setTarget(target);
 
-        Vertex augmentedSource = new Vertex("s'");
+        Vertex augmentedSource = new Vertex("s*");
         convertedSkeleton.addVertex(augmentedSource);
         DirectedEdge augmentedEdge1 = convertedSkeleton.addEdge(augmentedSource, source);
         DirectedEdge augmentedEdge2 = convertedSkeleton.addEdge(augmentedSource, target);
@@ -363,7 +363,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
 
 
     @Override
-    public void reconstructEmbedding() {
+    public void reconstructOutgoingEmbedding() {
 
         Face firstFace = outgoingFacesOfVertices.get(getSource()).get(0);
 
@@ -373,7 +373,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                 for(int i = 0; i < outgoingEdges.size(); i++){
                     DirectedEdge virtualEdge = outgoingEdges.get(i);
                     AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
-                    pert.reconstructEmbedding();
+                    pert.reconstructOutgoingEmbedding();
                 }
             }
         }else{
@@ -382,7 +382,37 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                 for(int i = outgoingEdges.size()-1; i >= 0; i--){
                     DirectedEdge virtualEdge = outgoingEdges.get(i);
                     AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
-                    pert.reconstructEmbedding();
+                    pert.reconstructOutgoingEmbedding();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void reconstructIncomingEmbedding() {
+
+        Face firstFace = outgoingFacesOfVertices.get(getSource()).get(0);
+
+        if(firstFace.getFaceType() == FaceType.TYPE_R){
+            for(Vertex vertex : convertedSkeleton.getVertices()){
+                List<DirectedEdge> incomingEdges = embedding.getIncomingEdges(vertex);
+                for(int i = 0; i < incomingEdges.size(); i++){
+                    DirectedEdge virtualEdge = incomingEdges.get(i);
+                    System.out.println(virtualEdge);
+                    AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
+                    if(pert != null) //can happen because edges with augmented source s* are also included
+                        pert.reconstructIncomingEmbedding();
+                }
+            }
+        }else{
+            for(Vertex vertex : convertedSkeleton.getVertices()){
+                List<DirectedEdge> incomingEdges = embedding.getIncomingEdges(vertex);
+                for(int i = incomingEdges.size()-1; i >= 0; i--){
+                    DirectedEdge virtualEdge = incomingEdges.get(i);
+                    System.out.println(virtualEdge);
+                    AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
+                    if(pert != null) //can happen because edges with augmented source s* are also included
+                        pert.reconstructIncomingEmbedding();
                 }
             }
         }

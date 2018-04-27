@@ -52,9 +52,16 @@ public class SPertinentGraph extends AbstractPertinentGraph{
 
 
     @Override
-    public void reconstructEmbedding(){
+    public void reconstructOutgoingEmbedding(){
 
         for(TCTreeNode<DirectedEdge, Vertex> childNode : tcTree.getChildren(getTcTreeNode()))
-            pertinentGraphsOfTCTreeNodes.get(childNode).reconstructEmbedding();
+            pertinentGraphsOfTCTreeNodes.get(childNode).reconstructOutgoingEmbedding();
+    }
+
+    @Override
+    public void reconstructIncomingEmbedding(){
+
+        for(TCTreeNode<DirectedEdge, Vertex> childNode : tcTree.getChildren(getTcTreeNode()))
+            pertinentGraphsOfTCTreeNodes.get(childNode).reconstructIncomingEmbedding();
     }
 }

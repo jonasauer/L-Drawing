@@ -94,5 +94,7 @@ public abstract class AbstractPertinentGraph {
         this.target = target;
     }
 
-    public abstract void reconstructEmbedding();
+    public abstract void reconstructOutgoingEmbedding();
+
+    public abstract void reconstructIncomingEmbedding();
 }

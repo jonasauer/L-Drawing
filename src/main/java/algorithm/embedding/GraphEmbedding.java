@@ -37,4 +37,20 @@ public class GraphEmbedding{
     public List<DirectedEdge> getIncomingEdges(Vertex vertex) {
         return incomingEdges.get(vertex);
     }
+
+    public void printEmbedding(){
+        for(Vertex vertex : outgoingEdges.keySet()){
+            System.out.println(vertex.getName() + ":");
+            System.out.print("    ");
+            for(DirectedEdge edge : outgoingEdges.get(vertex)){
+                System.out.print(edge + "  ");
+            }
+            System.out.println();
+            System.out.print("    ");
+            for(DirectedEdge edge : incomingEdges.get(vertex)){
+                System.out.print(edge + "  ");
+            }
+            System.out.println();
+        }
+    }
 }

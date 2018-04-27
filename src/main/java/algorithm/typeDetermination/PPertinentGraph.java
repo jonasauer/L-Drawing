@@ -89,10 +89,17 @@ public class PPertinentGraph extends AbstractPertinentGraph{
 
 
 
-    public void reconstructEmbedding(){
+    public void reconstructOutgoingEmbedding(){
 
         for(AbstractPertinentGraph childPert : orderedChildPerts){
-            childPert.reconstructEmbedding();
+            childPert.reconstructOutgoingEmbedding();
+        }
+    }
+
+
+    public void reconstructIncomingEmbedding(){
+        for(int i = orderedChildPerts.size()-1; i >= 0; i--){
+            orderedChildPerts.get(i).reconstructIncomingEmbedding();
         }
     }
 }

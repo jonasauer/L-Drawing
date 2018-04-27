@@ -37,65 +37,81 @@ public class Coordinates {
 
     private void calculateXCoordinates(){
 
-        List<Vertex> stOrdering = STOrdering.getSTOrdering().getSTOrderingList();
-        List<Vertex> xOrdering = new ArrayList<>(stOrdering.size());
-        xOrdering.add(stOrdering.get(0)); //add s' because we know it has to be the first vertex.
-        xOrdering.add(stOrdering.get(1)); //add the real source because it has to be the second vertex.
+        List<Vertex> stOrderingList = STOrdering.getSTOrdering().getSTOrderingList();
 
-        for(int i = 2; i < stOrdering.size(); i++){
-            Vertex vertex = stOrdering.get(i);
-            xOrdering.add(getXIndex(vertex, xOrdering), vertex);
+        for(int i = 1; i < stOrderingList.size(); i++){
+            Vertex vertex = stOrderingList.get(i);
+            placeVertexInXDirection(vertex);
         }
 
-        for(int i = 0; i < xOrdering.size(); i++){
-            xCoordinates.put(xOrdering.get(i), xDifference * i);
+
+        //find the leftmost vertex in the x-ordering
+        Vertex leftmost = null;
+        for(Vertex vertex : stOrderingList){
+            if(vertex.getLeft() == null) {
+                leftmost = vertex;
+                break;
+            }
+        }
+
+        //assign x-coordinates to the vertices
+        Vertex currentVertex = leftmost;
+        int index = 0;
+        while(currentVertex.getRight() != null){
+            xCoordinates.put(currentVertex, index++*xDifference);
+            currentVertex = currentVertex.getRight();
         }
     }
 
     //TODO: make constant runtime
-    private int getXIndex(Vertex vertex, List<Vertex> currentOrdering){
+    private void placeVertexInXDirection(Vertex vertex){
 
-        Collection<DirectedEdge> incomingEdges = graph.getEdgesWithTarget(vertex);
-        Map<Vertex, Integer> stOrderingMap = STOrdering.getSTOrdering().getSTOrderingMap();
+        List<DirectedEdge> incomingEdgesOfVertex = GraphEmbedding.getEmbedding().getIncomingEdges(vertex);
+        int sizeOfIncomingEdges = incomingEdgesOfVertex.size();
+        System.out.println(vertex.getName());
+        if(sizeOfIncomingEdges == 1){
 
-        if(incomingEdges.size() == 1){
-            Vertex source = incomingEdges.iterator().next().getSource();
-            List<DirectedEdge> outgoingEdgesSource = GraphEmbedding.getEmbedding().getOutgoingEdges(source);
-            int sourceIndex = currentOrdering.indexOf(source);
-
-            for(DirectedEdge outgoingEdgeSource : outgoingEdgesSource){
-                Vertex sourceSuccessor = outgoingEdgeSource.getTarget();
-                if(vertex.equals(sourceSuccessor))
+            Vertex source = incomingEdgesOfVertex.get(0).getSource();
+            List<DirectedEdge> siblingEdges = GraphEmbedding.getEmbedding().getOutgoingEdges(source);
+            boolean placeLeft = true;
+            for(DirectedEdge siblingEdge : siblingEdges){
+                Vertex sibling = siblingEdge.getTarget();
+                if(sibling == vertex)
                     break;
-                if(stOrderingMap.get(vertex) < stOrderingMap.get(sourceSuccessor))
-                    return sourceIndex+1;
+                if(STOrdering.getSTOrdering().getSTOrderingMap().get(vertex) < STOrdering.getSTOrdering().getSTOrderingMap().get(sibling)){
+                    placeLeft = false;
+                    break;
+                }
             }
-            return sourceIndex;
+
+            if(placeLeft){
+                Vertex left = source.getLeft();
+                if(left != null){
+                    left.setRight(vertex);
+                    vertex.setLeft(left);
+                }
+                source.setLeft(vertex);
+                vertex.setRight(source);
+            }else{
+                Vertex right = source.getRight();
+                if(right != null){
+                    right.setLeft(vertex);
+                    vertex.setRight(right);
+                }
+                source.setRight(vertex);
+                vertex.setLeft(source);
+            }
         }else{
+            DirectedEdge rightmostIncomingEdge = incomingEdgesOfVertex.get(sizeOfIncomingEdges-1);
+            Vertex right = rightmostIncomingEdge.getSource();
+            Vertex left = right.getLeft();
 
-            Vertex highestSTOrderIndexSource1 = null;
-            Vertex highestSTOrderIndexSource2 = null;
-            for(DirectedEdge edge : incomingEdges){
-
-                Vertex source = edge.getSource();
-                if(highestSTOrderIndexSource1 == null){
-                    highestSTOrderIndexSource1 = source;
-                    continue;
-                }
-                if(highestSTOrderIndexSource2 == null){
-                    highestSTOrderIndexSource2 = source;
-                    continue;
-                }
-
-                int source1Index = stOrderingMap.get(highestSTOrderIndexSource1);
-                int source2Index = stOrderingMap.get(highestSTOrderIndexSource2);
-                if(source1Index < source2Index && source1Index < stOrderingMap.get(source)) {
-                    highestSTOrderIndexSource1 = source;
-                }else if(source2Index < source1Index && source2Index < stOrderingMap.get(source)) {
-                    highestSTOrderIndexSource2 = source;
-                }
+            if(left != null) {
+                left.setRight(vertex);
+                vertex.setLeft(left);
             }
-            return currentOrdering.indexOf(highestSTOrderIndexSource1) < currentOrdering.indexOf(highestSTOrderIndexSource2) ? currentOrdering.indexOf(highestSTOrderIndexSource1) + 1 : currentOrdering.indexOf(highestSTOrderIndexSource2) + 1;
+            right.setLeft(vertex);
+            vertex.setRight(right);
         }
     }
 

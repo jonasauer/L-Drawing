@@ -19,6 +19,7 @@ public class RNodeEmbedding {
     private Map<Vertex, Node> origV2ConvV = new HashMap<>();
     private Map<Edge, DirectedEdge> convE2OrigE = new HashMap<>();
     private Map<Vertex, List<DirectedEdge>> outgoingEdges = new HashMap<>();
+    private Map<Vertex, List<DirectedEdge>> incomingEdges = new HashMap<>();
     private PlanarEmbedding planarEmbedding;
 
     private List<Face> convertedFaces;
@@ -64,6 +65,7 @@ public class RNodeEmbedding {
 
         for(Vertex vertex : originalGraph.getVertices()) {
             outgoingEdges.put(vertex, new ArrayList<>());
+            incomingEdges.put(vertex, new ArrayList<>());
 
             List<DirectedEdge> edges = new ArrayList<>();
             for (Dart dart : planarEmbedding.getOutgoingDarts(origV2ConvV.get(vertex)))
@@ -77,11 +79,20 @@ public class RNodeEmbedding {
                     break;
             }
 
+            //outgoing edges
             List<DirectedEdge> outgoingEdges = this.outgoingEdges.get(vertex);
             for (int i = start; i < start + edges.size(); i++) {
                 DirectedEdge edge = edges.get(i % edges.size());
                 if (edge.getSource().equals(vertex))
                     outgoingEdges.add(edge);
+            }
+
+            //incoming edges
+            List<DirectedEdge> incomingEdges = this.incomingEdges.get(vertex);
+            for(int i = start; i < start + edges.size(); i++){
+                DirectedEdge edge = edges.get(i % edges.size());
+                if(edge.getTarget().equals(vertex))
+                    incomingEdges.add(edge);
             }
         }
     }
@@ -89,6 +100,10 @@ public class RNodeEmbedding {
 
     public List<DirectedEdge> getOutgoingEdges(Vertex vertex){
         return outgoingEdges.get(vertex);
+    }
+
+    public List<DirectedEdge> getIncomingEdges(Vertex vertex){
+        return incomingEdges.get(vertex);
     }
 
 
