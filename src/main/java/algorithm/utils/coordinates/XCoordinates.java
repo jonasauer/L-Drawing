@@ -63,7 +63,6 @@ public class XCoordinates extends AbstractCoordinates{
 
         List<DirectedEdge> incomingEdgesOfVertex = GraphEmbedding.getEmbedding().getIncomingEdges(vertex);
         int sizeOfIncomingEdges = incomingEdgesOfVertex.size();
-        System.out.println(vertex.getName());
         if(sizeOfIncomingEdges == 1){
 
             Vertex source = incomingEdgesOfVertex.get(0).getSource();

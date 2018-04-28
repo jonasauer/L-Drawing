@@ -130,7 +130,6 @@ public class RNodeEmbedding {
                     containsAugmentedSource = true;
                 convertedFace.add(edge);
             }
-            convertedFace.print();
             if((!containsSource || !containsTarget) && !containsAugmentedSource)
                 convertedFaces.add(convertedFace);
         }

@@ -398,7 +398,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                 List<DirectedEdge> incomingEdges = embedding.getIncomingEdges(vertex);
                 for(int i = 0; i < incomingEdges.size(); i++){
                     DirectedEdge virtualEdge = incomingEdges.get(i);
-                    System.out.println(virtualEdge);
                     AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
                     if(pert != null) //can happen because edges with augmented source s* are also included
                         pert.reconstructIncomingEmbedding();
@@ -409,7 +408,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                 List<DirectedEdge> incomingEdges = embedding.getIncomingEdges(vertex);
                 for(int i = incomingEdges.size()-1; i >= 0; i--){
                     DirectedEdge virtualEdge = incomingEdges.get(i);
-                    System.out.println(virtualEdge);
                     AbstractPertinentGraph pert = virtualEdges2PertinentGraphs.get(virtualEdge);
                     if(pert != null) //can happen because edges with augmented source s* are also included
                         pert.reconstructIncomingEmbedding();

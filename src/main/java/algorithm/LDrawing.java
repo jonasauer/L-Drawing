@@ -72,7 +72,6 @@ public class LDrawing {
         GraphEmbedding.createEmbedding(convertedGraph);
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructOutgoingEmbedding();
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructIncomingEmbedding();
-        GraphEmbedding.getEmbedding().printEmbedding();
         STOrdering.createSTOrdering(convertedGraph, source);
         Augmentation.getAugmentation().removeAugmentedParts();
         XCoordinates.createCoordinates(convertedGraph);

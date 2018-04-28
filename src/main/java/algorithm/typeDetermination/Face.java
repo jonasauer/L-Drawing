@@ -65,11 +65,4 @@ public class Face extends ArrayList<DirectedEdge>{
     public void setFaceType(FaceType faceType) {
         this.faceType = faceType;
     }
-
-    public void print(){
-        for(DirectedEdge edge : this){
-            System.out.print(edge + " ");
-        }
-        System.out.println();
-    }
 }
