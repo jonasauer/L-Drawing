@@ -1,38 +1,33 @@
-package main.java.algorithm.utils;
+package main.java.algorithm.utils.coordinates;
 
 import main.java.algorithm.embedding.GraphEmbedding;
+import main.java.algorithm.utils.STOrdering;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
 import java.util.*;
 
-public class Coordinates {
+public class XCoordinates extends AbstractCoordinates{
 
-    private static final int xDifference = 50;
-    private static final int yDifference = 50;
-    private MultiDirectedGraph graph;
-    private Map<Vertex, Integer> xCoordinates;
-    private Map<Vertex, Integer> yCoordinates;
+    private Map<Vertex, Map<Vertex, Boolean>> isLeftPlacementPossible = new HashMap<>();
+
     //Singleton
-    private static Coordinates singleton;
+    private static XCoordinates singleton;
 
-
-    public static Coordinates getCoordinates(){
+    public static XCoordinates getXCoordinates(){
         return singleton;
     }
 
-    public static Coordinates createCoordinates(MultiDirectedGraph graph){
-        singleton = new Coordinates(graph);
+    public static XCoordinates createCoordinates(MultiDirectedGraph graph){
+        singleton = new XCoordinates(graph);
         return singleton;
     }
 
-    private Coordinates(MultiDirectedGraph graph){
-        this.graph = graph;
-        this.xCoordinates = new HashMap<>();
-        this.yCoordinates = new HashMap<>();
+    private XCoordinates(MultiDirectedGraph graph){
+        super(graph);
+        calculateIsLeftPlacementPossible();
         calculateXCoordinates();
-        calculateYCoordinates();
     }
 
     private void calculateXCoordinates(){
@@ -58,12 +53,12 @@ public class Coordinates {
         Vertex currentVertex = leftmost;
         int index = 0;
         while(currentVertex.getRight() != null){
-            xCoordinates.put(currentVertex, index++*xDifference);
+            coordinates.put(currentVertex, index++*DISTANCE);
             currentVertex = currentVertex.getRight();
         }
     }
 
-    //TODO: make constant runtime
+
     private void placeVertexInXDirection(Vertex vertex){
 
         List<DirectedEdge> incomingEdgesOfVertex = GraphEmbedding.getEmbedding().getIncomingEdges(vertex);
@@ -72,19 +67,8 @@ public class Coordinates {
         if(sizeOfIncomingEdges == 1){
 
             Vertex source = incomingEdgesOfVertex.get(0).getSource();
-            List<DirectedEdge> siblingEdges = GraphEmbedding.getEmbedding().getOutgoingEdges(source);
-            boolean placeLeft = true;
-            for(DirectedEdge siblingEdge : siblingEdges){
-                Vertex sibling = siblingEdge.getTarget();
-                if(sibling == vertex)
-                    break;
-                if(STOrdering.getSTOrdering().getSTOrderingMap().get(vertex) < STOrdering.getSTOrdering().getSTOrderingMap().get(sibling)){
-                    placeLeft = false;
-                    break;
-                }
-            }
 
-            if(placeLeft){
+            if(isLeftPlacementPossible.get(source).get(vertex)){
                 Vertex left = source.getLeft();
                 if(left != null){
                     left.setRight(vertex);
@@ -115,23 +99,27 @@ public class Coordinates {
         }
     }
 
-    private void calculateYCoordinates(){
 
-        List<Vertex> stOrdering = STOrdering.getSTOrdering().getSTOrderingList();
-        int counter = 0;
+    private void calculateIsLeftPlacementPossible(){
 
-        for(Vertex vertex : stOrdering)
-            yCoordinates.put(vertex, yDifference * counter++);
-    }
+        Map<Vertex, Integer> stOrdering = STOrdering.getSTOrdering().getSTOrderingMap();
 
+        for(Vertex vertex : stOrdering.keySet()){
+            isLeftPlacementPossible.put(vertex, new HashMap<>());
 
+            List<DirectedEdge> outgoingEdges = GraphEmbedding.getEmbedding().getOutgoingEdges(vertex);
+            int highestSTIndex = -1;
 
-
-    public Map<Vertex, Integer> getXCoordinates() {
-        return xCoordinates;
-    }
-
-    public Map<Vertex, Integer> getYCoordinates() {
-        return yCoordinates;
+            for(DirectedEdge outgoingEdge : outgoingEdges){
+                Vertex successor = outgoingEdge.getTarget();
+                int stIndex = stOrdering.get(successor);
+                if(stIndex > highestSTIndex){
+                    highestSTIndex = stIndex;
+                    isLeftPlacementPossible.get(vertex).put(successor, true);
+                }else{
+                    isLeftPlacementPossible.get(vertex).put(successor, false);
+                }
+            }
+        }
     }
 }

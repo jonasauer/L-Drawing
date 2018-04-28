@@ -8,6 +8,8 @@ import main.java.algorithm.typeDetermination.*;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.utils.*;
+import main.java.algorithm.utils.coordinates.XCoordinates;
+import main.java.algorithm.utils.coordinates.YCoordinates;
 import main.java.decomposition.graph.DirectedEdge;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
@@ -73,7 +75,8 @@ public class LDrawing {
         GraphEmbedding.getEmbedding().printEmbedding();
         STOrdering.createSTOrdering(convertedGraph, source);
         Augmentation.getAugmentation().removeAugmentedParts();
-        Coordinates.createCoordinates(convertedGraph);
+        XCoordinates.createCoordinates(convertedGraph);
+        YCoordinates.createCoordinates(convertedGraph);
     }
 
 

@@ -16,7 +16,8 @@ import main.java.algorithm.LDrawing;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.utils.GraphConverter;
-import main.java.algorithm.utils.Coordinates;
+import main.java.algorithm.utils.coordinates.XCoordinates;
+import main.java.algorithm.utils.coordinates.YCoordinates;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
 
@@ -190,8 +191,8 @@ public class GUIController {
 
     private void replaceVertices(){
 
-        Map<Vertex, Integer> xCoordinates = Coordinates.getCoordinates().getXCoordinates();
-        Map<Vertex, Integer> yCoordinates = Coordinates.getCoordinates().getYCoordinates();
+        Map<Vertex, Integer> xCoordinates = XCoordinates.getXCoordinates().getCoordinates();
+        Map<Vertex, Integer> yCoordinates = YCoordinates.getYCoordinates().getCoordinates();
         MultiDirectedGraph convertedGraph = GraphConverter.getGraphConverter().getConvertedGraph();
         Map<Vertex, INode> vertex2INode = GraphConverter.getGraphConverter().getConvV2OrigV();
 
