@@ -65,12 +65,14 @@ public class PPertinentGraph extends AbstractPertinentGraph{
         setRightmostVertex(rChildPert.getRightmostVertex());
         setSuccessorPathType(rChildPert.getSuccessorPathType());
         setTcTreeNodeType(TCTreeNodeType.TYPE_P);
+        augmentGraph();
 
+        /**
         LOGGER.debug(PrintColors.ANSI_BLUE + "-----------------------");
         LOGGER.debug(PrintColors.ANSI_BLUE + "    P-Node with source: " + getSource());
         LOGGER.debug(PrintColors.ANSI_BLUE + "      Skeleton: " + getTcTreeNode().getSkeleton());
-        augmentGraph();
         LOGGER.debug(PrintColors.ANSI_BLUE + "      " + getSuccessorPathType());
+        **/
     }
 
 
@@ -82,7 +84,7 @@ public class PPertinentGraph extends AbstractPertinentGraph{
             if(childPert1.getRightmostVertex() != childPert2.getLeftmostVertex()) {
                 DirectedEdge augmentedEdge = Augmentation.getAugmentation().getAugmentedGraph().addEdge(childPert1.getRightmostVertex(), childPert2.getLeftmostVertex());
                 Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                LOGGER.debug(PrintColors.ANSI_BLUE + "        Insert Edge: " + augmentedEdge);
+                //LOGGER.debug(PrintColors.ANSI_BLUE + "        Insert Edge: " + augmentedEdge);
             }
         }
     }

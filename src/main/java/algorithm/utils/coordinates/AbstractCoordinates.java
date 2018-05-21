@@ -8,7 +8,7 @@ import java.util.Map;
 
 public abstract class AbstractCoordinates {
 
-    protected static final int DISTANCE = 50;
+    public static int DISTANCE = 50;
 
     protected Map<Vertex, Integer> coordinates;
     protected MultiDirectedGraph graph;

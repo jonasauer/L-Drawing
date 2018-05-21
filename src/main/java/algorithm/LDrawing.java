@@ -30,29 +30,42 @@ public class LDrawing {
     private DirectedEdge backEdge;
     private Vertex source;
     private Vertex target;
+    private TCTree<DirectedEdge, Vertex> tcTree;
 
 
     public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
 
+
+        /**
         LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
         LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
         LOGGER.debug(PrintColors.ANSI_RESET + "---------------------------LDRAWING_LDRAWING-LDRAWING_LDRAWING-LDRAWING_LDRAWING--");
         LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
+        LOGGER.debug("Amount of nodes: " + graph.getNodes().size());
+        LOGGER.debug("Amount of edges: " + graph.getEdges().size());
+        **/
 
+
+        TimeMeasurement.reset();
+
+
+        TimeMeasurement.startMeasure(this);
         this.initialGraph = graph;
         this.checkIfLDrawingPossible(initialGraph);
         this.convertedGraph = GraphConverter.createGraphConverter(graph).getConvertedGraph();
-
         Augmentation.createAugmentation(convertedGraph);
         calculateSourceAndTarget();
-        this.augmentGraphWithNewSource();
+        double firstStepTime = TimeMeasurement.endMeasure(this);
 
-        TCTree<DirectedEdge, Vertex> tcTree = new TCTree<>(convertedGraph, backEdge);
+        TimeMeasurement.startMeasure(this);
+        this.augmentGraphWithNewSource();
+        this.tcTree = new TCTree<>(convertedGraph, backEdge);
         AbstractPertinentGraph.tcTree = tcTree;
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes = new HashMap<>();
-
         NodesPostOrder.createNodesPostOrder(tcTree);
+        double secondStepTime = TimeMeasurement.endMeasure(this);
 
+        TimeMeasurement.startMeasure(this);
         for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder()){
             switch (node.getType()){
                 case TYPE_Q:
@@ -69,13 +82,22 @@ public class LDrawing {
                     break;
             }
         }
+        double thirdStepTime = TimeMeasurement.endMeasure(this);
+
+        TimeMeasurement.startMeasure(this);
         GraphEmbedding.createEmbedding(convertedGraph);
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructOutgoingEmbedding();
         AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructIncomingEmbedding();
+        double fourthStepTime = TimeMeasurement.endMeasure(this);
+
+        TimeMeasurement.startMeasure(this);
         STOrdering.createSTOrdering(convertedGraph, source);
         Augmentation.getAugmentation().removeAugmentedParts();
         XCoordinates.createCoordinates(convertedGraph);
         YCoordinates.createCoordinates(convertedGraph);
+        double fifthStepTime = TimeMeasurement.endMeasure(this);
+
+        double totalTime = firstStepTime + secondStepTime + thirdStepTime + fourthStepTime + fifthStepTime;
     }
 
 

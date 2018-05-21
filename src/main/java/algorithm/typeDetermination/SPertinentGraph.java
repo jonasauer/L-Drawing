@@ -44,10 +44,12 @@ public class SPertinentGraph extends AbstractPertinentGraph{
         }
         setTcTreeNodeType(TCTreeNodeType.TYPE_S);
 
+        /**
         LOGGER.debug(PrintColors.ANSI_PURPLE + "-----------------------");
         LOGGER.debug(PrintColors.ANSI_PURPLE + "    S-Node with source: " + getSource());
         LOGGER.debug(PrintColors.ANSI_PURPLE + "      Skeleton: " + getTcTreeNode().getSkeleton());
         LOGGER.debug(PrintColors.ANSI_PURPLE + "      " + getSuccessorPathType());
+        **/
     }
 
 

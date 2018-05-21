@@ -51,9 +51,9 @@ public class XCoordinates extends AbstractCoordinates{
 
         //assign x-coordinates to the vertices
         Vertex currentVertex = leftmost;
-        int index = 0;
+        int index = stOrderingList.size()-1;
         while(currentVertex.getRight() != null){
-            coordinates.put(currentVertex, index++*DISTANCE);
+            coordinates.put(currentVertex, index--*DISTANCE);
             currentVertex = currentVertex.getRight();
         }
     }

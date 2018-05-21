@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
@@ -181,8 +182,8 @@
                                 <Insets left="2.0" />
                             </padding>
                         </Separator>
-                        <Button onAction="#handleResetIndex" styleClass="defaultButton" text="Reset Index"/>
-                        <Button onAction="#handleMaxIndex" styleClass="defaultButton" text="Max Index"/>
+                        <Button onAction="#handleResetIndex" styleClass="defaultButton" text="Reset Index" />
+                        <Button onAction="#handleMaxIndex" styleClass="defaultButton" text="Max Index" />
                         <Separator orientation="VERTICAL" prefWidth="10.0">
                             <padding>
                                 <Insets left="2.0" />
@@ -197,6 +198,12 @@
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
+                  <Separator orientation="VERTICAL" prefWidth="10.0">
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding>
+                  </Separator>
+                  <Slider fx:id="slider_coordDiff" onMouseReleased="#handleCordDiff" styleClass="defaultSlider" />
                     </items>
                 </ToolBar>
             </children>

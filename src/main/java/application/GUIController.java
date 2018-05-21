@@ -16,10 +16,14 @@ import main.java.algorithm.LDrawing;
 import main.java.algorithm.exception.GraphConditionsException;
 import main.java.algorithm.exception.LDrawingNotPossibleException;
 import main.java.algorithm.utils.GraphConverter;
+import main.java.algorithm.utils.PrintColors;
+import main.java.algorithm.utils.coordinates.AbstractCoordinates;
 import main.java.algorithm.utils.coordinates.XCoordinates;
 import main.java.algorithm.utils.coordinates.YCoordinates;
 import main.java.decomposition.graph.MultiDirectedGraph;
 import main.java.decomposition.hyperGraph.Vertex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -47,6 +51,8 @@ public class GUIController {
     private MenuItem menuItem_Undo;
     @FXML
     private MenuItem menuItem_Redo;
+    @FXML
+    private Slider slider_coordDiff;
 
     private IGraph graph;
 
@@ -56,6 +62,8 @@ public class GUIController {
 
     private static int NODES = 0;
     private static final int BEND_SIZE = 10;
+
+    private static Logger LOGGER = LoggerFactory.getLogger(GUIController.class);
 
 
     @FXML
@@ -73,11 +81,18 @@ public class GUIController {
         initializeIOInteractions();
         initializeStyle();
         updateUndoRedo();
+        initSlider();
     }
 
     void onLoaded(){
 
         graphControl.fitGraphBounds();
+    }
+
+    private void initSlider(){
+        slider_coordDiff.setMin(35);
+        slider_coordDiff.setMax(150);
+        slider_coordDiff.setValue(50);
     }
 
     private void initializeUserInteraction() {
@@ -389,5 +404,11 @@ public class GUIController {
     @FXML
     void handleMaxIndex(){
         NODES = graphControl.getGraph().getNodes().size();
+    }
+
+    @FXML
+    void handleCordDiff(){
+        AbstractCoordinates.DISTANCE = (int)slider_coordDiff.getValue();
+        System.out.println(slider_coordDiff.getValue());
     }
 }

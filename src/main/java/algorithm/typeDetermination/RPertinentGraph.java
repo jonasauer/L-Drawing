@@ -28,6 +28,9 @@ public class RPertinentGraph extends AbstractPertinentGraph{
     private Map<DirectedEdge, Face> rFaceOfEdge;
     private Map<Vertex, DirectedEdge> apexOfVertices;
 
+    private boolean containsL = false;
+    private boolean containsR = false;
+
 
     public RPertinentGraph(TCTreeNode<DirectedEdge, Vertex> tcTreeNode) throws LDrawingNotPossibleException {
         super(tcTreeNode);
@@ -89,12 +92,14 @@ public class RPertinentGraph extends AbstractPertinentGraph{
             setRightmostVertex(rPert.getRightmostVertex());
         }
 
+        augmentGraph();
 
+        /**
         LOGGER.debug(PrintColors.ANSI_GREEN + "-----------------------");
         LOGGER.debug(PrintColors.ANSI_GREEN + "    R-Node with source: " + getSource());
         LOGGER.debug(PrintColors.ANSI_GREEN + "      Skeleton: " + getTcTreeNode().getSkeleton());
-        augmentGraph();
         LOGGER.debug(PrintColors.ANSI_GREEN + "      " + getSuccessorPathType());
+        **/
     }
 
 
@@ -300,8 +305,6 @@ public class RPertinentGraph extends AbstractPertinentGraph{
             List<Face> outgoingFaces = outgoingFacesOfVertices.get(vertex);
             MultiDirectedGraph augmentedGraph = Augmentation.getAugmentation().getAugmentedGraph();
             boolean changedDirection = false;
-            boolean containsL = false;
-            boolean containsR = false;
 
             //all right faces
             for(Face face : outgoingFaces){
@@ -311,7 +314,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
                     DirectedEdge augmentedEdge = augmentedGraph.addEdge(lPert.getRightmostVertex(), rPert.getLeftmostVertex());
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
+                    //LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
             }
             //all left faces and undefined if they are after the first L-Face
@@ -322,7 +325,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                     AbstractPertinentGraph rPert = virtualEdges2PertinentGraphs.get(face.getREdge());
                     DirectedEdge augmentedEdge = augmentedGraph.addEdge(rPert.getRightmostVertex(), lPert.getLeftmostVertex());
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
+                    //LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
             }
 
@@ -352,7 +355,7 @@ public class RPertinentGraph extends AbstractPertinentGraph{
                         face.setFaceType(FaceType.TYPE_R);
                     }
                     Augmentation.getAugmentation().getAugmentedEdges().add(augmentedEdge);
-                    LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
+                    //LOGGER.debug(PrintColors.ANSI_GREEN + "        Insert Edge: " + augmentedEdge);
                 }
                 if(face.getFaceType() == FaceType.TYPE_L){
                     changedDirection = true;
