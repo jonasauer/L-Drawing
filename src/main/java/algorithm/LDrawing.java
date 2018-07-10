@@ -36,68 +36,94 @@ public class LDrawing {
     public void lDrawing(IGraph graph) throws GraphConditionsException, LDrawingNotPossibleException {
 
 
-        /**
-        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
-        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
-        LOGGER.debug(PrintColors.ANSI_RESET + "---------------------------LDRAWING_LDRAWING-LDRAWING_LDRAWING-LDRAWING_LDRAWING--");
-        LOGGER.debug(PrintColors.ANSI_RESET + "----------------------------------------------------------------------------------");
         LOGGER.debug("Amount of nodes: " + graph.getNodes().size());
         LOGGER.debug("Amount of edges: " + graph.getEdges().size());
-        **/
 
 
-        TimeMeasurement.reset();
+        int numberTimeSamples = 100;
+        double[] firstTimes = new double[numberTimeSamples];
+        double[] secondTimes = new double[numberTimeSamples];
+        double[] thirdTimes = new double[numberTimeSamples];
+        double[] fourthTimes = new double[numberTimeSamples];
+        double[] fifthTimes = new double[numberTimeSamples];
 
+        for(int i = 0; i < numberTimeSamples+1; i++) {
+            TimeMeasurement.reset();
 
-        TimeMeasurement.startMeasure(this);
-        this.initialGraph = graph;
-        this.checkIfLDrawingPossible(initialGraph);
-        this.convertedGraph = GraphConverter.createGraphConverter(graph).getConvertedGraph();
-        Augmentation.createAugmentation(convertedGraph);
-        calculateSourceAndTarget();
-        double firstStepTime = TimeMeasurement.endMeasure(this);
+            TimeMeasurement.startMeasure(this);
+            this.initialGraph = graph;
+            this.checkIfLDrawingPossible(initialGraph);
+            this.convertedGraph = GraphConverter.createGraphConverter(graph).getConvertedGraph();
+            Augmentation.createAugmentation(convertedGraph);
+            calculateSourceAndTarget();
+            firstTimes[i % numberTimeSamples] = TimeMeasurement.endMeasure(this);
 
-        TimeMeasurement.startMeasure(this);
-        this.augmentGraphWithNewSource();
-        this.tcTree = new TCTree<>(convertedGraph, backEdge);
-        AbstractPertinentGraph.tcTree = tcTree;
-        AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes = new HashMap<>();
-        NodesPostOrder.createNodesPostOrder(tcTree);
-        double secondStepTime = TimeMeasurement.endMeasure(this);
+            TimeMeasurement.startMeasure(this);
+            this.augmentGraphWithNewSource();
+            this.tcTree = new TCTree<>(convertedGraph, backEdge);
+            AbstractPertinentGraph.tcTree = tcTree;
+            AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes = new HashMap<>();
+            NodesPostOrder.createNodesPostOrder(tcTree);
+            secondTimes[i % numberTimeSamples] = TimeMeasurement.endMeasure(this);
 
-        TimeMeasurement.startMeasure(this);
-        for(TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder()){
-            switch (node.getType()){
-                case TYPE_Q:
-                    new QPertinentGraph(node);
-                    break;
-                case TYPE_S:
-                    new SPertinentGraph(node);
-                    break;
-                case TYPE_P:
-                    new PPertinentGraph(node);
-                    break;
-                case TYPE_R:
-                    new RPertinentGraph(node);
-                    break;
+            TimeMeasurement.startMeasure(this);
+            for (TCTreeNode<DirectedEdge, Vertex> node : NodesPostOrder.getNodesPostOrder()) {
+                switch (node.getType()) {
+                    case TYPE_Q:
+                        new QPertinentGraph(node);
+                        break;
+                    case TYPE_S:
+                        new SPertinentGraph(node);
+                        break;
+                    case TYPE_P:
+                        new PPertinentGraph(node);
+                        break;
+                    case TYPE_R:
+                        new RPertinentGraph(node);
+                        break;
+                }
             }
+            thirdTimes[i % numberTimeSamples] = TimeMeasurement.endMeasure(this);
+
+            TimeMeasurement.startMeasure(this);
+            GraphEmbedding.createEmbedding(convertedGraph);
+            AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructOutgoingEmbedding();
+            AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructIncomingEmbedding();
+            fourthTimes[i % numberTimeSamples] = TimeMeasurement.endMeasure(this);
+
+            TimeMeasurement.startMeasure(this);
+            STOrdering.createSTOrdering(convertedGraph, source);
+            Augmentation.getAugmentation().removeAugmentedParts();
+            XCoordinates.createCoordinates(convertedGraph);
+            YCoordinates.createCoordinates(convertedGraph);
+            fifthTimes[i % numberTimeSamples] = TimeMeasurement.endMeasure(this);
         }
-        double thirdStepTime = TimeMeasurement.endMeasure(this);
 
-        TimeMeasurement.startMeasure(this);
-        GraphEmbedding.createEmbedding(convertedGraph);
-        AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructOutgoingEmbedding();
-        AbstractPertinentGraph.pertinentGraphsOfTCTreeNodes.get(tcTree.getRoot()).reconstructIncomingEmbedding();
-        double fourthStepTime = TimeMeasurement.endMeasure(this);
+        double firstTime = 0;
+        double secondTime = 0;
+        double thirdTime = 0;
+        double fourthTime = 0;
+        double fifthTime = 0;
 
-        TimeMeasurement.startMeasure(this);
-        STOrdering.createSTOrdering(convertedGraph, source);
-        Augmentation.getAugmentation().removeAugmentedParts();
-        XCoordinates.createCoordinates(convertedGraph);
-        YCoordinates.createCoordinates(convertedGraph);
-        double fifthStepTime = TimeMeasurement.endMeasure(this);
+        for(int i = 0; i < numberTimeSamples; i++){
+            firstTime += firstTimes[i];
+            secondTime += secondTimes[i];
+            thirdTime += thirdTimes[i];
+            fourthTime += fourthTimes[i];
+            fifthTime += fifthTimes[i];
+        }
 
-        double totalTime = firstStepTime + secondStepTime + thirdStepTime + fourthStepTime + fifthStepTime;
+        firstTime /= (double) numberTimeSamples;
+        secondTime /= (double) numberTimeSamples;
+        thirdTime /= (double) numberTimeSamples;
+        fourthTime /= (double) numberTimeSamples;
+        fifthTime /= (double) numberTimeSamples;
+
+        LOGGER.debug("1. " + firstTime);
+        LOGGER.debug("2. " + secondTime);
+        LOGGER.debug("3. " + thirdTime);
+        LOGGER.debug("4. " + fourthTime);
+        LOGGER.debug("5. " + fifthTime);
     }
 
 
